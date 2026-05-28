@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements">
+    
+    <ui:Style src="project://database/Assets/UI/CyberMainMenuStyle.uss" />
+    
+    <ui:VisualElement class="container">
+        
+        <!-- Top HUD Area -->
+        <ui:VisualElement class="hud-top">
+            <ui:VisualElement class="hud-group">
+                <ui:VisualElement class="hud-box">
+                    <ui:Label text="[ SCORE ]" class="hud-label" />
+                    <ui:Label text="0" class="hud-value" />
+                </ui:VisualElement>
+                <ui:VisualElement class="hud-box">
+                    <ui:Label text="[ BEST ]" class="hud-label" />
+                    <ui:Label text="0" class="hud-value" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="hud-group">
+                <ui:VisualElement class="hud-box hud-accent">
+                    <ui:Label text="[ DATA PACKETS ]" class="hud-label-accent" />
+                    <ui:Label text="0" class="hud-value-accent" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Center Title Area -->
+        <ui:VisualElement class="title-area">
+            <ui:Label text="BALATITA" class="cyber-title" />
+            <ui:Label text="/// ANTI-GRAVITY RUNNER //" class="cyber-subtitle" />
+        </ui:VisualElement>
+
+        <!-- Bottom Interface Area -->
+        <ui:VisualElement class="bottom-area">
+            
+            <!-- Left Terminal Instructions -->
+            <ui:VisualElement class="terminal-box">
+                <ui:Label text="SYSTEM.INFO: 조작 방법 안내" class="terminal-header" />
+                <ui:VisualElement class="terminal-content">
+                    <ui:Label text="- 시스템 접근 대기 중..." class="terminal-text" />
+                    <ui:Label text="- 클릭 / 스페이스 : 중력 반전" class="terminal-highlight" />
+                    <ui:Label text="- 장애물을 피하고 데이터를 수집하라." class="terminal-text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Right Action Panel -->
+            <ui:VisualElement class="action-panel">
+                <ui:Button text="&gt; SYSTEM START &lt;" class="btn-start" name="BtnStart" />
+                
+                <ui:VisualElement class="sub-actions">
+                    <ui:Button text="[ MODULE: SHOP ]" class="btn-shop" name="BtnShop" />
+                    <ui:Button text="[ MODULE: RANKING ]" class="btn-rank" name="BtnRank" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
