@@ -181,3 +181,73 @@
 .btn-shop:hover, .btn-rank:hover {
     background-color: rgba(0, 136, 255, 0.5);
 }
+
+.popup-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.popup-box {
+    background-color: rgba(5, 5, 10, 0.95);
+    border-color: #00f3ff;
+    border-left-width: 4px;
+    border-right-width: 4px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    padding: 40px;
+    align-items: center;
+    width: 600px;
+}
+
+.popup-title {
+    color: #ff003c;
+    font-size: 24px;
+    -unity-font-style: bold;
+    margin-bottom: 30px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(255, 0, 60, 0.5);
+}
+
+.popup-input {
+    width: 100%;
+    height: 60px;
+    font-size: 32px;
+    color: #00f3ff;
+    -unity-font-style: bold;
+    background-color: rgba(0, 243, 255, 0.1);
+    margin-bottom: 30px;
+}
+
+.popup-input > .unity-text-field__input {
+    background-color: transparent;
+    border-color: #00f3ff;
+    border-width: 2px;
+    color: #00f3ff;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.popup-btn {
+    width: 250px;
+    height: 60px;
+    background-color: rgba(0, 51, 255, 0.3);
+    border-color: #0088ff;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    color: #ffffff;
+    font-size: 24px;
+    -unity-font-style: bold;
+}
+
+.popup-btn:hover {
+    background-color: rgba(0, 136, 255, 0.6);
+}
