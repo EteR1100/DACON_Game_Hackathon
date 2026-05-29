@@ -6,6 +6,7 @@
 /[B|b]uilds/
 /[L|l]ogs/
 /[U|u]nityConfiguration/
+/[U|u]ser[S|s]ettings/
 
 # IDE (VS Code, Visual Studio 등) 설정 파일
 .vs/
@@ -26,3 +27,6 @@
 # OS 생성 파일
 .DS_Store
 Thumbs.db
+UserSettings/Layouts/default-6000.dwlt
+UserSettings/EditorUserSettings.asset
+UserSettings/EditorUserSettings.asset
