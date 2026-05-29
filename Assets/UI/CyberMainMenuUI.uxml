@@ -11,6 +11,10 @@
         <ui:VisualElement class="hud-top">
             <ui:VisualElement class="hud-group">
                 <ui:VisualElement class="hud-box">
+                    <ui:Label text="[ USER ]" class="hud-label" />
+                    <ui:Label text="UNKNOWN" class="hud-value" name="LblNickname" />
+                </ui:VisualElement>
+                <ui:VisualElement class="hud-box">
                     <ui:Label text="[ SCORE ]" class="hud-label" />
                     <ui:Label text="0" class="hud-value" />
                 </ui:VisualElement>
@@ -58,5 +62,15 @@
             </ui:VisualElement>
 
         </ui:VisualElement>
+        
+        <!-- Nickname Input Popup Overlay -->
+        <ui:VisualElement class="popup-overlay" name="NicknamePopup">
+            <ui:VisualElement class="popup-box">
+                <ui:Label text="SYSTEM.LOGIN // ENTER IDENTIFIER" class="popup-title" />
+                <ui:TextField name="InputNickname" class="popup-input" text="" />
+                <ui:Button text="[ CONFIRM ]" name="BtnConfirmNickname" class="popup-btn" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
     </ui:VisualElement>
 </ui:UXML>
