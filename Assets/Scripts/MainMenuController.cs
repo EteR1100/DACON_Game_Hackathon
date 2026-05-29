@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class MainMenuController : MonoBehaviour
     private TextField _inputNickname;
     private Button _btnConfirmNickname;
     private Label _lblNickname;
+    
+    private Button _btnRank;
 
     void Start()
     {
@@ -27,6 +30,7 @@ public class MainMenuController : MonoBehaviour
         _inputNickname = root.Q<TextField>("InputNickname");
         _btnConfirmNickname = root.Q<Button>("BtnConfirmNickname");
         _lblNickname = root.Q<Label>("LblNickname");
+        _btnRank = root.Q<Button>("BtnRank");
 
         if (_nicknamePopup == null || _inputNickname == null || _btnConfirmNickname == null || _lblNickname == null)
         {
@@ -37,6 +41,11 @@ public class MainMenuController : MonoBehaviour
         // Register callbacks
         _btnConfirmNickname.clicked += OnConfirmNicknameClicked;
         _inputNickname.RegisterCallback<KeyDownEvent>(OnNicknameInputKeyDown);
+        
+        if (_btnRank != null)
+        {
+            _btnRank.clicked += OnRankButtonClicked;
+        }
 
         // Check if nickname exists
         string savedNickname = PlayerPrefs.GetString("Nickname", "");
@@ -80,5 +89,10 @@ public class MainMenuController : MonoBehaviour
         {
             OnConfirmNicknameClicked();
         }
+    }
+
+    private void OnRankButtonClicked()
+    {
+        SceneManager.LoadScene("Ranking Scene");
     }
 }

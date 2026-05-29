@@ -1,0 +1,133 @@
+.ranking-bg {
+    background-color: rgba(2, 2, 5, 0.98);
+}
+
+/* Header Adjustments */
+.top-hud {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.mini-hud {
+    margin-right: 10px;
+    margin-bottom: 0px;
+}
+
+.hud-center {
+    align-items: center;
+}
+
+.ranking-title-text {
+    font-size: 55px;
+    margin-bottom: -5px;
+}
+
+.ranking-subtitle-text {
+    font-size: 16px;
+    padding: 2px 10px;
+}
+
+.btn-home-cyber {
+    background-color: rgba(255, 0, 60, 0.15);
+    border-color: #ff003c;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    padding: 8px 20px;
+    margin-right: 15px;
+}
+
+.btn-home-cyber:hover {
+    background-color: rgba(255, 0, 60, 0.35);
+}
+
+.btn-home-text {
+    color: #ffffff;
+    font-size: 18px;
+    -unity-font-style: bold;
+}
+
+/* List Item Styles - Matching Screenshot but with Cyber Colors */
+.ranking-list-area {
+    flex-grow: 1;
+    margin-top: 10px;
+}
+
+.rank-card {
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(5, 5, 15, 0.9);
+    border-radius: 15px;
+    margin-bottom: 12px;
+    padding: 15px 25px;
+    border-width: 1px;
+    border-color: rgba(0, 243, 255, 0.2);
+}
+
+.rank-medal {
+    width: 35px;
+    height: 35px;
+    margin-right: 20px;
+    border-radius: 20px;
+}
+
+.gold { background-color: #ccff00; }
+.silver { background-color: #00f3ff; }
+.bronze { background-color: #ff003c; }
+
+.rank-num-simple {
+    width: 35px;
+    margin-right: 20px;
+    color: #a0aab5;
+    font-size: 20px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.rank-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    margin-right: 25px;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.avatar-rainbow { background-color: #ff00ff; }
+.avatar-yellow { background-color: #ccff00; }
+.avatar-purple { background-color: #8a2be2; }
+.avatar-cyan { background-color: #00f3ff; }
+
+.player-info-stack {
+    flex-direction: column;
+}
+
+.nickname-text {
+    font-size: 24px;
+    color: #ffffff;
+    -unity-font-style: bold;
+}
+
+.score-text {
+    color: #00f3ff;
+    font-size: 22px;
+    -unity-font-style: bold;
+}
+
+.rank-date-text {
+    color: #666e7a;
+    font-size: 13px;
+}
+
+.flex-spacer {
+    flex-grow: 1;
+}
+
+/* Rank-specific Borders (matching cyber theme) */
+.card-gold { border-color: #ccff00; border-width: 2px; background-color: rgba(204, 255, 0, 0.05); }
+.card-silver { border-color: #00f3ff; border-width: 2px; background-color: rgba(0, 243, 255, 0.05); }
+.card-bronze { border-color: #ff003c; border-width: 2px; background-color: rgba(255, 0, 60, 0.05); }
+
