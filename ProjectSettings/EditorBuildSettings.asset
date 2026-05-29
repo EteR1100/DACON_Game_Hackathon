@@ -7,16 +7,19 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
-    guid: 73f08bab24cca46a7bf769c492217936
+    guid: 019b70b995c23441aa5b6ab6771d1ec0
   - enabled: 1
     path: Assets/Scenes/GamePlayScene.unity
-    guid: 4507d7db5d5eb4789b3d54dcc5580453
+    guid: eb2980990a9c841f0b8e7f1460199205
   - enabled: 1
+    path: Assets/Scenes/Ranking Scene.unity
+    guid: 5920824473e4742ad9bba288f44db173
+  - enabled: 0
     path: Assets/Scenes/RankingScene.unity
     guid: 222dd03d52b5442508c7d9d7981b0520
   - enabled: 1
     path: Assets/Scenes/GameOverScene.unity
-    guid: 7d88dd31166be4ddfa7257ca37dd75d2
+    guid: 71aeb0a36d5004b1f90199003e42dbea
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
