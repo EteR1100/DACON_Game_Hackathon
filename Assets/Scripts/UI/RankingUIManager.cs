@@ -10,7 +10,7 @@ public class RankingUIManager : MonoBehaviour
     private VisualElement _listContainer;
     private Label _bestScoreLabel;
 
-    void OnEnable()
+    void Start()
     {
         _root = GetComponent<UIDocument>().rootVisualElement;
 
@@ -58,42 +58,52 @@ public class RankingUIManager : MonoBehaviour
             var data = rankings[i];
             int rankNum = i + 1;
 
-            // 카드 컨테이너 생성
+            // 카드 컨테이너 생성 (USS 클래스명: rank-card)
             VisualElement card = new VisualElement();
-            card.AddToClassList("rank-item-box"); 
+            card.AddToClassList("rank-card"); 
             
-            // 순위별 스타일 적용
-            if (rankNum == 1) card.AddToClassList("item-gold");
-            else if (rankNum == 2) card.AddToClassList("item-silver");
-            else if (rankNum == 3) card.AddToClassList("item-bronze");
+            // 순위별 스타일 적용 (card-gold, card-silver, card-bronze)
+            if (rankNum == 1) card.AddToClassList("card-gold");
+            else if (rankNum == 2) card.AddToClassList("card-silver");
+            else if (rankNum == 3) card.AddToClassList("card-bronze");
 
             // 1. 메달 또는 순위 번호
             if (rankNum <= 3)
             {
                 VisualElement medal = new VisualElement();
-                string medalClass = rankNum == 1 ? "medal-gold" : (rankNum == 2 ? "medal-silver" : "medal-bronze");
+                medal.AddToClassList("rank-medal");
+                string medalClass = rankNum == 1 ? "gold" : (rankNum == 2 ? "silver" : "bronze");
                 medal.AddToClassList(medalClass);
                 card.Add(medal);
             }
             else
             {
                 Label numLabel = new Label($"#{rankNum}");
-                numLabel.AddToClassList("rank-number-text");
+                numLabel.AddToClassList("rank-num-simple");
                 card.Add(numLabel);
             }
 
+            // 1.5 아바타 (디자인 일관성을 위해 추가)
+            VisualElement avatar = new VisualElement();
+            avatar.AddToClassList("rank-avatar");
+            if (rankNum == 1) avatar.AddToClassList("avatar-rainbow");
+            else if (rankNum == 2) avatar.AddToClassList("avatar-yellow");
+            else if (rankNum == 3) avatar.AddToClassList("avatar-purple");
+            else avatar.AddToClassList("avatar-cyan");
+            card.Add(avatar);
+
             // 2. 플레이어 정보 (이름, 점수, 날짜)
             VisualElement infoStack = new VisualElement();
-            infoStack.AddToClassList("player-info-stack");
+            infoStack.AddToClassList("rank-info");
 
             Label nameLabel = new Label(data.name);
-            nameLabel.AddToClassList("nickname-text");
+            nameLabel.AddToClassList("rank-name-text");
             
             Label scoreLabel = new Label(data.score.ToString("N0"));
-            scoreLabel.AddToClassList("score-text");
+            scoreLabel.AddToClassList("rank-score-text");
 
             Label dateLabel = new Label(data.date);
-            dateLabel.AddToClassList("date-text");
+            dateLabel.AddToClassList("rank-date-text");
 
             infoStack.Add(nameLabel);
             infoStack.Add(scoreLabel);
@@ -102,11 +112,18 @@ public class RankingUIManager : MonoBehaviour
 
             // 3. 스페이서
             VisualElement spacer = new VisualElement();
-            spacer.AddToClassList("spacer");
+            spacer.AddToClassList("flex-spacer");
             card.Add(spacer);
 
             // 리스트에 추가
             _listContainer.Add(card);
+        }
+
+        // 베스트 스코어 업데이트
+        if (_bestScoreLabel != null)
+        {
+            int best = PlayerPrefs.GetInt("BestScore", 0);
+            _bestScoreLabel.text = best.ToString("N0");
         }
     }
 
