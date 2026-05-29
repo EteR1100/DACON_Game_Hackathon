@@ -14,9 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Ranking Scene.unity
     guid: 5920824473e4742ad9bba288f44db173
-  - enabled: 0
-    path: Assets/Scenes/RankingScene.unity
-    guid: 222dd03d52b5442508c7d9d7981b0520
   - enabled: 1
     path: Assets/Scenes/GameOverScene.unity
     guid: 71aeb0a36d5004b1f90199003e42dbea
