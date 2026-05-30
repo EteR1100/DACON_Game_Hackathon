@@ -1,152 +1,203 @@
 .ranking-bg {
-    background-color: rgba(2, 2, 5, 0.98);
+    background-color: #02030a;
 }
 
-/* Header Adjustments */
 .top-hud {
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 20px;
 }
 
-.mini-hud {
-    margin-right: 10px;
-    margin-bottom: 0px;
+.hud-left,
+.hud-right {
+    flex-direction: column;
+    min-width: 190px;
+}
+
+.hud-right {
+    align-items: flex-end;
 }
 
 .hud-center {
     align-items: center;
+    flex-grow: 1;
+}
+
+.mini-hud {
+    margin-bottom: 12px;
 }
 
 .ranking-title-text {
-    font-size: 55px;
-    margin-bottom: -5px;
+    font-size: 60px;
+    margin-bottom: 4px;
+    -unity-text-outline-width: 2px;
 }
 
 .ranking-subtitle-text {
-    font-size: 16px;
-    padding: 2px 10px;
+    font-size: 18px;
+    padding: 4px 14px;
 }
 
 .btn-home-cyber {
-    background-color: rgba(255, 0, 60, 0.15);
-    border-color: #ff003c;
-    border-left-width: 3px;
-    border-right-width: 3px;
-    border-top-width: 3px;
-    border-bottom-width: 3px;
-    padding: 8px 20px;
-    margin-right: 15px;
+    height: 52px;
+    min-width: 132px;
+    background-color: rgba(4, 7, 18, 0.9);
+    border-width: 2px;
+    border-color: #ff006e;
+    padding: 8px 22px;
+    margin-bottom: 12px;
 }
 
 .btn-home-cyber:hover {
-    background-color: rgba(255, 0, 60, 0.35);
+    background-color: rgba(255, 0, 110, 0.12);
 }
 
 .btn-home-text {
-    color: #ffffff;
+    color: #ff006e;
     font-size: 18px;
     -unity-font-style: bold;
 }
 
-/* List Item Styles - Matching Screenshot but with Cyber Colors */
 .ranking-list-area {
     flex-grow: 1;
-    margin-top: 10px;
+    align-items: center;
+    margin-top: 8px;
 }
 
-/* --- New Layout Styles --- */
+.ranking-scroll {
+    width: 860px;
+    flex-grow: 1;
+}
+
+.list-container {
+    padding: 4px 10px 20px 4px;
+}
 
 .rank-card {
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    background-color: rgba(5, 5, 15, 0.9);
-    border-radius: 15px;
-    margin-bottom: 12px;
-    padding: 15px 25px;
-    border-width: 1px;
-    border-color: rgba(0, 243, 255, 0.2);
+    min-height: 116px;
+    background-color: rgba(4, 7, 18, 0.82);
+    border-width: 2px;
+    border-color: #0080ff;
+    margin-bottom: 16px;
+    padding: 22px 28px;
 }
 
-/* 지브라 패턴 (교차 배경색) */
+.rank-card:hover {
+    background-color: rgba(0, 255, 255, 0.08);
+}
+
 .rank-card-alt {
-    background-color: rgba(15, 15, 30, 0.95);
+    background-color: rgba(2, 3, 10, 0.82);
 }
 
-/* 컬럼 정렬 및 위계 - 원래 디자인의 여백을 고려하여 flex 조정 */
-.rank-name-section {
-    flex: 2;
-    -unity-text-align: middle-left;
-    font-size: 26px;
-    color: #ffffff;
-    -unity-font-style: bold;
+.card-gold {
+    border-color: #39ff14;
 }
 
-.rank-score-section {
-    flex: 1.5;
-    -unity-text-align: middle-center;
-    font-size: 32px;
-    color: #00f3ff;
-    -unity-font-style: bold;
-    text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+.card-silver {
+    border-color: #00ffff;
 }
 
-.rank-date-section {
-    flex: 1;
-    -unity-text-align: middle-right;
-    font-size: 14px;
-    color: #666e7a;
+.card-bronze {
+    border-color: #ff006e;
 }
 
-/* 헤더 스타일 - 메달/아바타 영역만큼 띄우기 */
-.rank-header {
+.rank-left-group {
     flex-direction: row;
-    padding: 10px 25px;
-    border-bottom-width: 1px;
-    border-bottom-color: rgba(0, 243, 255, 0.3);
-    margin-bottom: 10px;
+    align-items: center;
+    flex-grow: 1;
 }
 
-.header-text {
-    color: #00f3ff;
-    font-size: 13px;
+.rank-number {
+    width: 72px;
+    font-size: 32px;
     -unity-font-style: bold;
-    opacity: 0.6;
-}
-
-/* --- 왼쪽 디자인 요소 복구 (원래 크기) --- */
-.rank-medal {
-    width: 35px;
-    height: 35px;
-    margin-right: 20px;
-    border-radius: 20px;
-}
-
-.gold { background-color: #ccff00; }
-.silver { background-color: #00f3ff; }
-.bronze { background-color: #ff003c; }
-
-.rank-num-simple {
-    width: 35px;
-    margin-right: 20px;
-    color: #a0aab5;
-    font-size: 20px;
-    -unity-font-style: bold;
-    -unity-text-align: middle-center;
+    -unity-text-align: middle-left;
 }
 
 .rank-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    margin-right: 25px;
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    margin-right: 22px;
     border-width: 2px;
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: #0080ff;
+    background-color: rgba(0, 128, 255, 0.08);
 }
 
-/* Rank-specific Borders (matching cyber theme) */
-.card-gold { border-color: #ccff00; border-width: 2px; background-color: rgba(204, 255, 0, 0.05); }
-.card-silver { border-color: #00f3ff; border-width: 2px; background-color: rgba(0, 243, 255, 0.05); }
-.card-bronze { border-color: #ff003c; border-width: 2px; background-color: rgba(255, 0, 60, 0.05); }
+.avatar-rainbow {
+    border-color: #39ff14;
+    background-color: rgba(57, 255, 20, 0.12);
+}
 
+.avatar-yellow {
+    border-color: #00ffff;
+    background-color: rgba(0, 255, 255, 0.12);
+}
+
+.avatar-purple {
+    border-color: #ff006e;
+    background-color: rgba(255, 0, 110, 0.12);
+}
+
+.avatar-cyan {
+    border-color: #0080ff;
+    background-color: rgba(0, 128, 255, 0.12);
+}
+
+.rank-info {
+    flex-direction: column;
+}
+
+.rank-name-text {
+    font-size: 26px;
+    -unity-font-style: bold;
+    margin-bottom: 4px;
+}
+
+.rank-date-text {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+}
+
+.rank-score-group {
+    align-items: flex-end;
+    min-width: 190px;
+}
+
+.rank-score-caption {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.rank-score-text {
+    font-size: 34px;
+    -unity-font-style: bold;
+}
+
+.rank-coin-text {
+    color: #39ff14;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.rank-tone-gold {
+    color: #39ff14;
+}
+
+.rank-tone-silver {
+    color: #00ffff;
+}
+
+.rank-tone-bronze {
+    color: #ff006e;
+}
+
+.rank-tone-blue {
+    color: #0080ff;
+}

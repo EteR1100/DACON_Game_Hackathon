@@ -11,6 +11,7 @@ public class MainMenuController : MonoBehaviour
     private TextField _inputNickname;
     private Button _btnConfirmNickname;
     private Label _lblNickname;
+    private Label _nicknameCounter;
     
     private Button _btnRank;
 
@@ -30,6 +31,7 @@ public class MainMenuController : MonoBehaviour
         _inputNickname = root.Q<TextField>("InputNickname");
         _btnConfirmNickname = root.Q<Button>("BtnConfirmNickname");
         _lblNickname = root.Q<Label>("LblNickname");
+        _nicknameCounter = root.Q<Label>("NicknameCounter");
         _btnRank = root.Q<Button>("BtnRank");
 
         if (_nicknamePopup == null || _inputNickname == null || _btnConfirmNickname == null || _lblNickname == null)
@@ -39,8 +41,11 @@ public class MainMenuController : MonoBehaviour
         }
 
         // Register callbacks
+        _inputNickname.maxLength = 12;
         _btnConfirmNickname.clicked += OnConfirmNicknameClicked;
         _inputNickname.RegisterCallback<KeyDownEvent>(OnNicknameInputKeyDown);
+        _inputNickname.RegisterValueChangedCallback(evt => UpdateNicknameCounter(evt.newValue));
+        UpdateNicknameCounter(_inputNickname.value);
         
         if (_btnRank != null)
         {
@@ -89,6 +94,17 @@ public class MainMenuController : MonoBehaviour
         {
             OnConfirmNicknameClicked();
         }
+    }
+
+    private void UpdateNicknameCounter(string value)
+    {
+        if (_nicknameCounter == null)
+        {
+            return;
+        }
+
+        int length = string.IsNullOrEmpty(value) ? 0 : value.Length;
+        _nicknameCounter.text = $"2-12자 / {length}/12";
     }
 
     private void OnRankButtonClicked()

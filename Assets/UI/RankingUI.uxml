@@ -2,116 +2,63 @@
 <ui:UXML
     xmlns:ui="UnityEngine.UIElements"
     xmlns:editor="UnityEditor.UIElements">
-    
+
     <ui:Style src="project://database/Assets/UI/CyberMainMenuStyle.uss" />
     <ui:Style src="project://database/Assets/UI/RankingUIStyle.uss" />
-    
+
     <ui:VisualElement class="container ranking-bg">
-        
-        <!-- Top HUD Area -->
+        <ui:VisualElement class="bg-grid" />
+        <ui:VisualElement class="bg-vignette" />
+        <ui:VisualElement class="bg-scanlines" />
+
         <ui:VisualElement class="top-hud">
-            <!-- Left: Stats -->
             <ui:VisualElement class="hud-left">
                 <ui:VisualElement class="hud-box mini-hud">
-                    <ui:Label text="[ 점수 ]" class="hud-label" />
+                    <ui:Label text="SCORE" class="hud-label" />
                     <ui:Label text="0" class="hud-value" />
                 </ui:VisualElement>
                 <ui:VisualElement class="hud-box mini-hud">
-                    <ui:Label text="[ BEST ]" class="hud-label" />
+                    <ui:Label text="BEST" class="hud-label" />
                     <ui:Label name="BestScoreLabel" text="0" class="hud-value" />
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <!-- Center: Title -->
             <ui:VisualElement class="hud-center">
-                <ui:Label text="명예의 전당" class="cyber-title ranking-title-text" />
+                <ui:Label text="HALL OF FAME" class="cyber-title ranking-title-text" />
                 <ui:Label text="/// HALL OF FAME ///" class="cyber-subtitle ranking-subtitle-text" />
             </ui:VisualElement>
 
-            <!-- Right: Home & Coins -->
             <ui:VisualElement class="hud-right">
                 <ui:Button name="BtnHome" class="btn-home-cyber">
                     <ui:Label text="HOME" class="btn-home-text" />
                 </ui:Button>
                 <ui:VisualElement class="hud-box hud-accent mini-hud">
-                    <ui:Label text="[ COINS ]" class="hud-label-accent" />
+                    <ui:Label text="COINS" class="hud-label-accent" />
                     <ui:Label text="0" class="hud-value-accent" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- Ranking List Area -->
         <ui:VisualElement class="ranking-list-area">
             <ui:ScrollView class="ranking-scroll">
                 <ui:VisualElement name="RankingListContainer" class="list-container">
-                    
-                    <!-- 1st Rank Item -->
                     <ui:VisualElement class="rank-card card-gold">
-                        <ui:VisualElement class="rank-medal gold" />
-                        <ui:VisualElement class="rank-avatar avatar-rainbow" />
-                        <ui:VisualElement class="rank-info">
-                            <ui:Label text="프로게이머" class="rank-name-text" />
-                            <ui:Label text="15,420" class="rank-score-text" />
-                            <ui:Label text="2026-05-25 14:30" class="rank-date-text" />
+                        <ui:VisualElement class="rank-left-group">
+                            <ui:Label text="#1" class="rank-number rank-tone-gold" />
+                            <ui:VisualElement class="rank-avatar avatar-rainbow" />
+                            <ui:VisualElement class="rank-info">
+                                <ui:Label text="CyberNinja" class="rank-name-text rank-tone-gold" />
+                                <ui:Label text="2026-05-30 10:45" class="rank-date-text" />
+                            </ui:VisualElement>
                         </ui:VisualElement>
-                        <ui:VisualElement class="flex-spacer" />
-                        <ui:VisualElement class="rank-skin">
-                            <ui:Label text="사용 스킨" class="skin-label" />
-                            <ui:Label text="무지개 공" class="skin-name-val" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    
-                    <!-- 2nd Rank Item -->
-                    <ui:VisualElement class="rank-card card-silver">
-                        <ui:VisualElement class="rank-medal silver" />
-                        <ui:VisualElement class="rank-avatar avatar-yellow" />
-                        <ui:VisualElement class="rank-info">
-                            <ui:Label text="중력마스터" class="rank-name-text" />
-                            <ui:Label text="12,850" class="rank-score-text" />
-                            <ui:Label text="2026-05-25 13:15" class="rank-date-text" />
-                        </ui:VisualElement>
-                        <ui:VisualElement class="flex-spacer" />
-                        <ui:VisualElement class="rank-skin">
-                            <ui:Label text="사용 스킨" class="skin-label" />
-                            <ui:Label text="황금 공" class="skin-name-val" />
+                        <ui:VisualElement class="rank-score-group">
+                            <ui:Label text="RUN SCORE" class="rank-score-caption" />
+                            <ui:Label text="15,420" class="rank-score-text rank-tone-gold" />
+                            <ui:Label text="DATA +580" class="rank-coin-text" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-
-                    <!-- 3rd Rank Item -->
-                    <ui:VisualElement class="rank-card card-bronze">
-                        <ui:VisualElement class="rank-medal bronze" />
-                        <ui:VisualElement class="rank-avatar avatar-purple" />
-                        <ui:VisualElement class="rank-info">
-                            <ui:Label text="플립킹" class="rank-name-text" />
-                            <ui:Label text="10,230" class="rank-score-text" />
-                            <ui:Label text="2026-05-24 18:45" class="rank-date-text" />
-                        </ui:VisualElement>
-                        <ui:VisualElement class="flex-spacer" />
-                        <ui:VisualElement class="rank-skin">
-                            <ui:Label text="사용 스킨" class="skin-label" />
-                            <ui:Label text="은하수 공" class="skin-name-val" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-
-                    <!-- 4th Rank Item -->
-                    <ui:VisualElement class="rank-card">
-                        <ui:Label text="#4" class="rank-num-simple" />
-                        <ui:VisualElement class="rank-avatar avatar-cyan" />
-                        <ui:VisualElement class="rank-info">
-                            <ui:Label text="닉네임123" class="rank-name-text" />
-                            <ui:Label text="8,940" class="rank-score-text" />
-                            <ui:Label text="2026-05-24 12:00" class="rank-date-text" />
-                        </ui:VisualElement>
-                        <ui:VisualElement class="flex-spacer" />
-                        <ui:VisualElement class="rank-skin">
-                            <ui:Label text="사용 스킨" class="skin-label" />
-                            <ui:Label text="기본 공" class="skin-name-val" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-
                 </ui:VisualElement>
             </ui:ScrollView>
         </ui:VisualElement>
-
     </ui:VisualElement>
 </ui:UXML>

@@ -1,39 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML
     xmlns:ui="UnityEngine.UIElements"
-    xmlns:editor="UnityEditor.UIElements"
-    xsi:schemaLocation="UnityEngine.UIElements ../../UIElementsSchema/UnityEngine.UIElements.xsd"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    
+    xmlns:editor="UnityEditor.UIElements">
+
     <ui:Style src="project://database/Assets/UI/ShopUIStyle.uss" />
-    
+
     <ui:VisualElement name="ShopRoot" class="shop-root">
-        <!-- Semi-transparent background when shop is open -->
         <ui:VisualElement name="ShopOverlay" class="shop-overlay" />
-        
-        <!-- Sliding Shop Panel -->
+
         <ui:VisualElement name="ShopPanel" class="shop-panel">
-            
-            <!-- Header -->
             <ui:VisualElement class="shop-header">
-                <ui:Button text="[ BACK TO MAIN ]" name="BtnCloseShop" class="shop-header-btn" />
-                <ui:Label text="MODULE: CUSTOMIZATION_SHOP" class="shop-title" />
+                <ui:Button text="BACK" name="BtnCloseShop" class="shop-header-btn" />
+                <ui:VisualElement class="shop-title-group">
+                    <ui:Label text="CUSTOMIZATION" class="shop-kicker" />
+                    <ui:Label text="DATA SHOP" class="shop-title" />
+                </ui:VisualElement>
                 <ui:VisualElement class="shop-coin-box">
-                    <ui:Label text="DATA PACKETS:" class="shop-coin-label" />
+                    <ui:Label text="DATA PACKETS" class="shop-coin-label" />
                     <ui:Label text="999" name="ShopCoinValue" class="shop-coin-value" />
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <!-- Divider -->
             <ui:VisualElement class="shop-divider" />
 
-            <!-- Item List -->
             <ui:ScrollView class="shop-item-scroll">
-                <ui:VisualElement name="ItemContainer" class="item-container">
-                    <!-- Items will be populated here via script -->
-                </ui:VisualElement>
+                <ui:VisualElement name="ItemContainer" class="item-container" />
             </ui:ScrollView>
-
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

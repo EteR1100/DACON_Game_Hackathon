@@ -4,9 +4,9 @@
     top: 0;
     right: 0;
     bottom: 0;
-    justify-content: flex-end; /* Align panel to bottom */
+    justify-content: flex-end;
     pointer-events: none;
-    display: none; /* 기본적으로 숨김 */
+    display: none;
 }
 
 .shop-overlay {
@@ -15,28 +15,26 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.84);
     opacity: 0;
     transition-property: opacity;
-    transition-duration: 0.5s;
+    transition-duration: 0.35s;
 }
 
 .shop-panel {
     width: 100%;
     height: 80%;
-    background-color: rgba(5, 5, 15, 0.95);
+    background-color: rgba(2, 3, 10, 0.98);
     border-top-width: 4px;
-    border-color: #00f3ff;
-    padding: 30px;
-    /* Slide down initially */
+    border-color: #00ffff;
+    padding: 28px 32px;
     translate: 0 100%;
     transition-property: translate;
-    transition-duration: 0.5s;
-    transition-timing-function: ease-out-back;
+    transition-duration: 0.35s;
+    transition-timing-function: ease-out;
     pointer-events: auto;
 }
 
-/* State when open */
 .shop-root--open {
     display: flex;
     pointer-events: auto;
@@ -55,56 +53,72 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .shop-header-btn {
-    background-color: rgba(255, 0, 60, 0.2);
-    border-color: #ff003c;
+    width: 120px;
+    height: 46px;
+    background-color: rgba(255, 0, 110, 0.18);
     border-width: 2px;
-    color: #ffffff;
-    font-size: 16px;
+    border-color: #ff006e;
+    color: #ff006e;
+    font-size: 15px;
     -unity-font-style: bold;
-    padding: 10px 20px;
 }
 
 .shop-header-btn:hover {
-    background-color: rgba(255, 0, 60, 0.4);
+    background-color: rgba(255, 0, 110, 0.24);
+    border-color: #ffffff;
+}
+
+.shop-title-group {
+    align-items: center;
+}
+
+.shop-kicker {
+    color: #39ff14;
+    font-size: 12px;
+    -unity-font-style: bold;
+    margin-bottom: 3px;
 }
 
 .shop-title {
-    color: #00f3ff;
-    font-size: 32px;
+    color: #ffffff;
+    font-size: 34px;
     -unity-font-style: bold;
-    -unity-text-outline-width: 1px;
-    -unity-text-outline-color: rgba(0, 150, 255, 0.5);
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: #00ffff;
 }
 
 .shop-coin-box {
-    flex-direction: row;
-    align-items: center;
-    background-color: rgba(204, 255, 0, 0.1);
-    border-width: 1px;
-    border-color: #ccff00;
-    padding: 5px 15px;
+    min-width: 170px;
+    background-color: rgba(57, 255, 20, 0.09);
+    border-left-width: 3px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: #39ff14;
+    padding: 8px 14px;
 }
 
 .shop-coin-label {
-    color: #a0aab5;
-    font-size: 14px;
-    margin-right: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 11px;
+    -unity-font-style: bold;
+    margin-bottom: 3px;
 }
 
 .shop-coin-value {
-    color: #ccff00;
+    color: #39ff14;
     font-size: 24px;
     -unity-font-style: bold;
 }
 
 .shop-divider {
     height: 2px;
-    background-color: rgba(0, 243, 255, 0.3);
-    margin-bottom: 30px;
+    background-color: rgba(0, 255, 255, 0.35);
+    margin-bottom: 24px;
 }
 
 .shop-item-scroll {
@@ -117,37 +131,39 @@
     justify-content: flex-start;
 }
 
-/* Shop Item Card */
 .shop-item-card {
     width: 23%;
+    min-height: 220px;
     margin: 1%;
-    background-color: rgba(10, 10, 25, 0.8);
-    border-width: 2px;
-    border-color: rgba(0, 243, 255, 0.3);
-    padding: 15px;
+    background-color: rgba(4, 7, 18, 0.92);
+    border-left-width: 4px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: rgba(0, 255, 255, 0.35);
+    padding: 16px;
     align-items: center;
     transition-property: border-color, background-color;
-    transition-duration: 0.2s;
+    transition-duration: 0.18s;
 }
 
 .shop-item-card:hover {
-    border-color: #00f3ff;
-    background-color: rgba(0, 243, 255, 0.1);
+    border-color: #00ffff;
+    background-color: rgba(0, 255, 255, 0.1);
 }
 
 .shop-item-card--equipped {
-    border-color: #ccff00;
-    background-color: rgba(204, 255, 0, 0.05);
+    border-color: #39ff14;
+    background-color: rgba(57, 255, 20, 0.07);
 }
 
 .item-preview {
-    width: 100px;
-    height: 100px;
-    background-color: #00f3ff;
-    border-radius: 50px;
+    width: 96px;
+    height: 96px;
+    border-radius: 48px;
     margin-bottom: 15px;
-    /* Add a glow effect if possible */
-    -unity-background-image-tint-color: white;
+    border-width: 3px;
+    border-color: rgba(255, 255, 255, 0.35);
 }
 
 .item-name {
@@ -155,10 +171,11 @@
     font-size: 18px;
     -unity-font-style: bold;
     margin-bottom: 10px;
+    -unity-text-align: middle-center;
 }
 
 .item-status {
-    color: #00f3ff;
+    color: #39ff14;
     font-size: 14px;
     -unity-font-style: bold;
 }
@@ -166,19 +183,21 @@
 .item-price-box {
     flex-direction: row;
     align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
 }
 
 .item-price-value {
-    color: #ccff00;
+    color: #39ff14;
     font-size: 16px;
     -unity-font-style: bold;
 }
 
 .btn-buy {
-    width: 80%;
+    width: 82%;
     height: 40px;
-    margin-top: 10px;
-    background-color: rgba(0, 136, 255, 0.3);
+    margin-top: 8px;
+    background-color: rgba(0, 136, 255, 0.22);
     border-color: #0088ff;
     border-width: 1px;
     color: #ffffff;
@@ -187,5 +206,6 @@
 }
 
 .btn-buy:hover {
-    background-color: rgba(0, 136, 255, 0.6);
+    background-color: rgba(0, 255, 255, 0.26);
+    border-color: #00ffff;
 }
