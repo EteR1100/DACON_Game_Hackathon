@@ -1,0 +1,293 @@
+/* =============================================
+   GamePlayStyle.uss  —  Balatita Cyberpunk HUD
+   색상 팔레트:
+     네온 시안  #00f3ff
+     핫핑크    #ff003c
+     일렉트릭블루 #0088ff
+     라임       #ccff00
+     배경       rgba(5,5,10,…)
+   ============================================= */
+
+/* ─── 루트 컨테이너 ─── */
+.gp-container {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* ─── 상단 HUD 바 ─── */
+.gp-hud-top {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px 20px 0px 20px;
+    background-color: rgba(0, 0, 0, 0.55);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(0, 243, 255, 0.25);
+}
+
+.gp-hud-left {
+    flex-direction: row;
+    align-items: center;
+}
+
+.gp-hud-right {
+    flex-direction: row;
+    align-items: center;
+}
+
+.gp-hud-box {
+    background-color: rgba(5, 5, 10, 0.85);
+    border-color: #00f3ff;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    padding: 6px 14px;
+    margin-right: 12px;
+    flex-direction: row;
+    align-items: center;
+}
+
+.gp-hud-box-coin {
+    border-color: #ccff00;
+    margin-right: 0px;
+}
+
+.gp-hud-label {
+    color: rgba(160, 170, 181, 0.9);
+    font-size: 13px;
+    -unity-font-style: bold;
+    margin-right: 8px;
+}
+
+.gp-hud-value {
+    color: #00f3ff;
+    font-size: 26px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(0, 243, 255, 0.5);
+}
+
+.gp-hud-value-best {
+    color: #ff003c;
+    -unity-text-outline-color: rgba(255, 0, 60, 0.5);
+}
+
+.gp-hud-value-coin {
+    color: #ccff00;
+    -unity-text-outline-color: rgba(204, 255, 0, 0.5);
+}
+
+/* ─── 센터 타이틀 뱃지 ─── */
+.gp-title-badge {
+    align-items: center;
+    justify-content: center;
+    padding: 4px 20px;
+    background-color: rgba(0, 243, 255, 0.08);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-color: #00f3ff;
+}
+
+.gp-title-badge-text {
+    color: rgba(0, 243, 255, 0.55);
+    font-size: 18px;
+    -unity-font-style: bold-and-italic;
+}
+
+/* ─── 게임 영역 (투명 — 실제 게임 렌더링 공간) ─── */
+.gp-game-area {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/* ─── 하단 바 ─── */
+.gp-bottom-bar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px;
+    background-color: rgba(0, 0, 0, 0.55);
+    border-top-width: 1px;
+    border-top-color: rgba(0, 243, 255, 0.25);
+}
+
+/* ─── 피버 게이지 ─── */
+.gp-fever-block {
+    flex-direction: row;
+    align-items: center;
+}
+
+.gp-fever-label {
+    color: #ff003c;
+    font-size: 18px;
+    -unity-font-style: bold;
+    margin-right: 16px;
+    width: 60px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(255, 0, 60, 0.5);
+}
+
+.gp-fever-track {
+    width: 440px;
+    height: 22px;
+    background-color: rgba(255, 0, 60, 0.15);
+    border-color: #ff003c;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+
+.gp-fever-fill {
+    height: 100%;
+    width: 0%;
+    background-color: #ff003c;
+}
+
+.gp-fever-pct {
+    color: #ff003c;
+    font-size: 16px;
+    -unity-font-style: bold;
+    margin-left: 12px;
+    width: 44px;
+}
+
+/* ─── 속도 표시 ─── */
+.gp-speed-spacer {
+    visibility: hidden;
+}
+.gp-speed-block {
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(5, 5, 10, 0.85);
+    border-color: #0088ff;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    padding: 6px 14px;
+}
+
+.gp-speed-label {
+    color: rgba(160, 170, 181, 0.9);
+    font-size: 13px;
+    -unity-font-style: bold;
+    margin-right: 8px;
+}
+
+.gp-speed-value {
+    color: #0088ff;
+    font-size: 22px;
+    -unity-font-style: bold;
+}
+
+/* ─── 일시정지 버튼 (DATA PKT 옆 인라인) ─── */
+.gp-btn-pause {
+    width: 44px;
+    height: 44px;
+    background-color: rgba(5, 5, 10, 0.8);
+    border-color: #0088ff;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    color: #0088ff;
+    font-size: 18px;
+    -unity-font-style: bold;
+    margin-left: 12px;
+}
+
+.gp-btn-pause:hover {
+    background-color: rgba(0, 136, 255, 0.3);
+}
+
+/* ─── 피버 모드 풀스크린 플래시 ─── */
+.gp-fever-flash {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 0, 60, 0.0);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.gp-fever-flash-text {
+    color: #ffffff;
+    font-size: 72px;
+    -unity-font-style: bold-and-italic;
+    -unity-text-outline-width: 3px;
+    -unity-text-outline-color: #ff003c;
+}
+
+/* ─── 공통 오버레이 (일시정지) ─── */
+.gp-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.80);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.gp-overlay-box {
+    background-color: rgba(5, 5, 10, 0.95);
+    border-color: #00f3ff;
+    border-left-width: 4px;
+    border-right-width: 4px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    padding: 50px 60px;
+    align-items: center;
+    min-width: 500px;
+}
+
+.gp-overlay-title {
+    color: #00f3ff;
+    font-size: 32px;
+    -unity-font-style: bold;
+    margin-bottom: 40px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(0, 243, 255, 0.5);
+}
+
+.gp-overlay-btn {
+    width: 320px;
+    height: 60px;
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: #ffffff;
+    margin-bottom: 16px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+}
+
+.gp-btn-resume {
+    background-color: rgba(0, 243, 255, 0.15);
+    border-color: #00f3ff;
+}
+
+.gp-btn-resume:hover {
+    background-color: rgba(0, 243, 255, 0.35);
+}
+
+.gp-btn-main {
+    background-color: rgba(255, 0, 60, 0.15);
+    border-color: #ff003c;
+}
+
+.gp-btn-main:hover {
+    background-color: rgba(255, 0, 60, 0.35);
+}
