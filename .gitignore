@@ -29,3 +29,8 @@
 Thumbs.db
 UserSettings/Layouts/default-6000.dwlt
 UserSettings/EditorUserSettings.asset
+
+# Server 설정 (Node.js 관련)
+Server/node_modules/
+Server/rankings.json
+
