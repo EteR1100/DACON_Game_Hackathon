@@ -928,6 +928,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901f7cb457b3a5949bd5d6ebdc25bd35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
+  rankButton: {fileID: 0}
+  mainButton: {fileID: 0}
+  restartButton: {fileID: 0}
 --- !u!1 &1272389847
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,7 +945,7 @@ GameObject:
   - component: {fileID: 1272389850}
   - component: {fileID: 1272389849}
   m_Layer: 5
-  m_Name: MAIN_box
+  m_Name: MAIN_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1180,6 +1183,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901f7cb457b3a5949bd5d6ebdc25bd35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
+  rankButton: {fileID: 0}
+  mainButton: {fileID: 0}
+  restartButton: {fileID: 0}
 --- !u!1 &1472430586
 GameObject:
   m_ObjectHideFlags: 0
