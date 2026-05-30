@@ -22,10 +22,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
 
-            <!-- Center: Title Badge -->
-            <ui:VisualElement class="gp-title-badge">
-                <ui:Label text="BALATITA" class="gp-title-badge-text" />
-            </ui:VisualElement>
+
 
             <!-- Right: Coin + Pause button -->
             <ui:VisualElement class="gp-hud-right">

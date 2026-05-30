@@ -23,8 +23,6 @@
     align-items: flex-start;
     padding: 16px 20px 0px 20px;
     background-color: rgba(0, 0, 0, 0.55);
-    border-bottom-width: 1px;
-    border-bottom-color: rgba(0, 243, 255, 0.25);
 }
 
 .gp-hud-left {
@@ -112,8 +110,6 @@
     align-items: center;
     padding: 14px 24px;
     background-color: rgba(0, 0, 0, 0.55);
-    border-top-width: 1px;
-    border-top-color: rgba(0, 243, 255, 0.25);
 }
 
 /* ─── 피버 게이지 ─── */
