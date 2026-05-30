@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements">
+
+    <ui:Style src="project://database/Assets/UI/GamePlayStyle.uss" />
+
+    <ui:VisualElement class="gp-container">
+
+        <!-- ====== TOP HUD BAR ====== -->
+        <ui:VisualElement class="gp-hud-top">
+
+            <!-- Left: Score + Best -->
+            <ui:VisualElement class="gp-hud-left">
+                <ui:VisualElement class="gp-hud-box">
+                    <ui:Label text="[ SCORE ]" class="gp-hud-label" />
+                    <ui:Label text="0" class="gp-hud-value" name="LblScore" />
+                </ui:VisualElement>
+                <ui:VisualElement class="gp-hud-box">
+                    <ui:Label text="[ BEST ]" class="gp-hud-label" />
+                    <ui:Label text="0" class="gp-hud-value gp-hud-value-best" name="LblBest" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Center: Title Badge -->
+            <ui:VisualElement class="gp-title-badge">
+                <ui:Label text="BALATITA" class="gp-title-badge-text" />
+            </ui:VisualElement>
+
+            <!-- Right: Coin + Pause button -->
+            <ui:VisualElement class="gp-hud-right">
+                <ui:VisualElement class="gp-hud-box gp-hud-box-coin">
+                    <ui:Label text="[ DATA PKT ]" class="gp-hud-label" />
+                    <ui:Label text="0" class="gp-hud-value gp-hud-value-coin" name="LblCoin" />
+                </ui:VisualElement>
+                <ui:Button text="II" class="gp-btn-pause" name="BtnPause" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+        <!-- ====== GAME AREA (transparent — actual game renders here) ====== -->
+        <ui:VisualElement class="gp-game-area" name="GameArea" />
+
+        <!-- ====== BOTTOM: FEVER GAUGE (centered) ====== -->
+        <ui:VisualElement class="gp-bottom-bar">
+
+            <!-- Speed (left side) -->
+            <ui:VisualElement class="gp-speed-block">
+                <ui:Label text="SPD" class="gp-speed-label" />
+                <ui:Label text="x1.0" class="gp-speed-value" name="LblSpeed" />
+            </ui:VisualElement>
+
+            <!-- Center: Fever Gauge -->
+            <ui:VisualElement class="gp-fever-block">
+                <ui:Label text="FEVER" class="gp-fever-label" name="LblFeverStatus" />
+                <ui:VisualElement class="gp-fever-track">
+                    <ui:VisualElement class="gp-fever-fill" name="FeverFill" />
+                </ui:VisualElement>
+                <ui:Label text="0%" class="gp-fever-pct" name="LblFeverPct" />
+            </ui:VisualElement>
+
+            <!-- Right: spacer to balance layout -->
+            <ui:VisualElement class="gp-speed-block gp-speed-spacer">
+                <ui:Label text="SPD" class="gp-speed-label" />
+                <ui:Label text="x1.0" class="gp-speed-value" name="LblSpeedDummy" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+
+
+        <!-- ====== FEVER MODE FLASH (fullscreen, hidden by default) ====== -->
+        <ui:VisualElement class="gp-fever-flash" name="FeverFlash">
+            <ui:Label text="⚡ FEVER MODE ⚡" class="gp-fever-flash-text" />
+        </ui:VisualElement>
+
+        <!-- ====== PAUSE OVERLAY (hidden by default) ====== -->
+        <ui:VisualElement class="gp-overlay" name="PauseOverlay">
+            <ui:VisualElement class="gp-overlay-box">
+                <ui:Label text="// SYSTEM PAUSED //" class="gp-overlay-title" />
+                <ui:Button text="[ RESUME ]" class="gp-overlay-btn gp-btn-resume" name="BtnResume" />
+                <ui:Button text="[ MAIN MENU ]" class="gp-overlay-btn gp-btn-main" name="BtnMainMenu" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>
