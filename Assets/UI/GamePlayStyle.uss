@@ -287,3 +287,12 @@
 .gp-btn-main:hover {
     background-color: rgba(255, 0, 60, 0.35);
 }
+
+.gp-btn-restart {
+    background-color: rgba(204, 255, 0, 0.1);
+    border-color: #ccff00;
+}
+
+.gp-btn-restart:hover {
+    background-color: rgba(204, 255, 0, 0.3);
+}
