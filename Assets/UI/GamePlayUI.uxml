@@ -75,8 +75,9 @@
         <ui:VisualElement class="gp-overlay" name="PauseOverlay">
             <ui:VisualElement class="gp-overlay-box">
                 <ui:Label text="// SYSTEM PAUSED //" class="gp-overlay-title" />
-                <ui:Button text="[ RESUME ]" class="gp-overlay-btn gp-btn-resume" name="BtnResume" />
-                <ui:Button text="[ MAIN MENU ]" class="gp-overlay-btn gp-btn-main" name="BtnMainMenu" />
+                <ui:Button text="[ 게임 계속하기 ]" class="gp-overlay-btn gp-btn-resume" name="BtnResume" />
+                <ui:Button text="[ 처음부터 시작하기 ]" class="gp-overlay-btn gp-btn-restart" name="BtnRestart" />
+                <ui:Button text="[ 메인 메뉴 ]" class="gp-overlay-btn gp-btn-main" name="BtnMainMenu" />
             </ui:VisualElement>
         </ui:VisualElement>
 

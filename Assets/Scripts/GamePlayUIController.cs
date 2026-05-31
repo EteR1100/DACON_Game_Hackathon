@@ -24,6 +24,7 @@ public class GamePlayUIController : MonoBehaviour
     // 버튼
     private Button _btnPause;
     private Button _btnResume;
+    private Button _btnRestart;
     private Button _btnMainMenu;
 
     // 오버레이
@@ -115,10 +116,12 @@ public class GamePlayUIController : MonoBehaviour
         // 버튼
         _btnPause    = root.Q<Button>("BtnPause");
         _btnResume   = root.Q<Button>("BtnResume");
+        _btnRestart  = root.Q<Button>("BtnRestart");
         _btnMainMenu = root.Q<Button>("BtnMainMenu");
 
         if (_btnPause    != null) _btnPause.clicked    += TogglePause;
         if (_btnResume   != null) _btnResume.clicked   += TogglePause;
+        if (_btnRestart  != null) _btnRestart.clicked  += RestartGame;
         if (_btnMainMenu != null) _btnMainMenu.clicked += GoToMainMenu;
 
         // 저장된 최고 점수 표시
@@ -133,15 +136,35 @@ public class GamePlayUIController : MonoBehaviour
     private void TogglePause()
     {
         _isPaused = !_isPaused;
-        Time.timeScale = _isPaused ? 0f : 1f;
+        if (GameManager.Instance != null)
+            GameManager.Instance.SetPaused(_isPaused);
+        else
+            Time.timeScale = _isPaused ? 0f : 1f;
 
         if (_pauseOverlay != null)
             _pauseOverlay.style.display = _isPaused ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
+    private void RestartGame()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.RestartGame();
+        else
+        {
+            Time.timeScale = 1f;
+            UnityEngine.SceneManagement.SceneManager.LoadScene(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        }
+    }
+
     private void GoToMainMenu()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainScene");
+        if (GameManager.Instance != null)
+            GameManager.Instance.GoToMainMenu();
+        else
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("MainScene");
+        }
     }
 }
