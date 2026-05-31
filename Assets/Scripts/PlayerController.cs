@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed       = 15f;
     public float boundaryY      = 2.2f;
 
+    [Header("=== 오디오 설정 ===")]
+    public AudioClip gravityFlipSound;
+    private AudioSource _audioSource;
+
     private float _vy        = 0f;
     private int   _dir       = -1;   // -1 아래, +1 위
     private bool  _grounded  = true;
@@ -27,6 +31,18 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 0f;
             rb.linearVelocity = Vector2.zero;
         }
+
+        // 오디오 소스 설정
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            _audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        _audioSource.playOnAwake = false;
+        
+        // 볼륨 설정 적용
+        float savedSFX = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
+        _audioSource.volume = savedSFX;
 
         // 아래 난간에서 시작
         var p = transform.position;
@@ -59,6 +75,12 @@ public class PlayerController : MonoBehaviour
                 _vy       = 0f;
                 _grounded = false;
                 Debug.Log("[Player] Gravity flipped to dir=" + _dir);
+
+                // 중력 반전 소리 재생
+                if (_audioSource != null && gravityFlipSound != null)
+                {
+                    _audioSource.PlayOneShot(gravityFlipSound);
+                }
             }
         }
     }

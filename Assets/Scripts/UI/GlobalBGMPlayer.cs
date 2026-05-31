@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class GlobalBGMPlayer : MonoBehaviour
 {
     private static GlobalBGMPlayer _instance;
+    public static GlobalBGMPlayer Instance => _instance;
+
     private AudioSource _audioSource;
     private AudioClip _menuBGM;
     
@@ -24,9 +26,19 @@ public class GlobalBGMPlayer : MonoBehaviour
 
     private void Awake()
     {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+
         _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.loop = true;
         _audioSource.playOnAwake = false;
+        
+        // 초기 볼륨 설정
+        _audioSource.volume = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
         
         // Load the sound from Resources
         _menuBGM = Resources.Load<AudioClip>("BGM/배경음악_1");

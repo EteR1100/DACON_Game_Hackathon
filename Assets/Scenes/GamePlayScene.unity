@@ -818,6 +818,7 @@ MonoBehaviour:
   gravityStrength: 28
   maxSpeed: 15
   boundaryY: 2.3
+  gravityFlipSound: {fileID: 8300000, guid: 130a177e727814a2ea78a886ab72213d, type: 3}
 --- !u!115 &1423779309
 MonoScript:
   m_ObjectHideFlags: 0

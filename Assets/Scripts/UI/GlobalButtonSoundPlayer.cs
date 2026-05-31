@@ -111,7 +111,8 @@ public class GlobalButtonSoundPlayer : MonoBehaviour
     {
         if (_audioSource != null && _buttonClickSound != null)
         {
-            _audioSource.PlayOneShot(_buttonClickSound);
+            float savedSFX = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
+            _audioSource.PlayOneShot(_buttonClickSound, savedSFX);
         }
     }
 

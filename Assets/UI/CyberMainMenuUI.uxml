@@ -50,10 +50,6 @@
                     <ui:Label text="BEST" class="hud-label" />
                     <ui:Label text="0" class="hud-value" />
                 </ui:VisualElement>
-                <ui:VisualElement class="hud-box volume-box">
-                    <ui:Label text="VOL" class="hud-label" />
-                    <ui:Slider name="SliderVolume" low-value="0" high-value="1" value="0.5" class="hud-slider" />
-                </ui:VisualElement>
             </ui:VisualElement>
 
             <ui:VisualElement class="hud-group">
@@ -64,7 +60,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <ui:VisualElement class="main-stage">
+        <ui:VisualElement class="main-stage" picking-mode="Ignore">
             <ui:VisualElement class="title-area">
                 <ui:VisualElement class="title-stack">
                     <ui:Label text="BALATITA" class="cyber-title cyber-title-glow-wide" />
@@ -93,10 +89,21 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <ui:VisualElement class="corner corner-top-left" />
-        <ui:VisualElement class="corner corner-top-right" />
-        <ui:VisualElement class="corner corner-bottom-left" />
-        <ui:VisualElement class="corner corner-bottom-right" />
+        <ui:VisualElement class="corner corner-top-left" picking-mode="Ignore" />
+        <ui:VisualElement class="corner corner-top-right" picking-mode="Ignore" />
+        <ui:VisualElement class="corner corner-bottom-left" picking-mode="Ignore" />
+        <ui:VisualElement class="corner corner-bottom-right" picking-mode="Ignore" />
+
+        <ui:VisualElement class="volume-panel-left" picking-mode="Ignore">
+            <ui:VisualElement class="volume-row" picking-mode="Ignore">
+                <ui:Label text="BGM" class="volume-label" />
+                <ui:Slider name="SliderBGM" low-value="0" high-value="1" value="0.5" class="horizontal-slider" picking-mode="Position" />
+            </ui:VisualElement>
+            <ui:VisualElement class="volume-row" picking-mode="Ignore">
+                <ui:Label text="SFX" class="volume-label" />
+                <ui:Slider name="SliderSFX" low-value="0" high-value="1" value="0.5" class="horizontal-slider" picking-mode="Position" />
+            </ui:VisualElement>
+        </ui:VisualElement>
 
         <ui:VisualElement class="popup-overlay" name="NicknamePopup">
             <ui:VisualElement class="bg-grid popup-bg-grid" />

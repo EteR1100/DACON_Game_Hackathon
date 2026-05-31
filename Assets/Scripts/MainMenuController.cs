@@ -16,7 +16,8 @@ public class MainMenuController : MonoBehaviour
     private Button _btnStart;
     private Button _btnShop;
     private Button _btnRank;
-    private Slider _sliderVolume;
+    private Slider _sliderBGM;
+    private Slider _sliderSFX;
 
     void Start()
     {
@@ -39,13 +40,17 @@ public class MainMenuController : MonoBehaviour
         _btnStart = root.Q<Button>("BtnStart");
         _btnShop = root.Q<Button>("BtnShop");
         _btnRank = root.Q<Button>("BtnRank");
-        _sliderVolume = root.Q<Slider>("SliderVolume");
+        _sliderBGM = root.Q<Slider>("SliderBGM");
+        _sliderSFX = root.Q<Slider>("SliderSFX");
 
         if (_nicknamePopup == null || _inputNickname == null || _btnConfirmNickname == null || _lblNickname == null)
         {
-            Debug.LogError("MainMenuController: Could not find one or more UI elements.");
+            Debug.LogError("MainMenuController: Could not find one or more essential UI elements.");
             return;
         }
+        
+        if (_sliderBGM == null) Debug.LogWarning("MainMenuController: SliderBGM not found in UXML.");
+        if (_sliderSFX == null) Debug.LogWarning("MainMenuController: SliderSFX not found in UXML.");
 
         // Register callbacks
         _inputNickname.maxLength = 12;
@@ -69,16 +74,25 @@ public class MainMenuController : MonoBehaviour
             _btnRank.clicked += OnRankButtonClicked;
         }
 
-        if (_sliderVolume != null)
+        // BGM Volume Setup
+        if (_sliderBGM != null)
         {
-            float savedVolume = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
-            _sliderVolume.value = savedVolume;
+            float savedBGM = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
+            _sliderBGM.value = savedBGM;
             
-            // Apply saved volume to GlobalBGMPlayer
-            var bgmPlayer = FindFirstObjectByType<GlobalBGMPlayer>();
-            if (bgmPlayer != null) bgmPlayer.SetVolume(savedVolume);
+            // Sync initial volume
+            if (GlobalBGMPlayer.Instance != null) 
+                GlobalBGMPlayer.Instance.SetVolume(savedBGM);
 
-            _sliderVolume.RegisterValueChangedCallback(evt => OnVolumeChanged(evt.newValue));
+            _sliderBGM.RegisterValueChangedCallback(evt => OnBGMVolumeChanged(evt.newValue));
+        }
+
+        // SFX Volume Setup
+        if (_sliderSFX != null)
+        {
+            float savedSFX = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
+            _sliderSFX.value = savedSFX;
+            _sliderSFX.RegisterValueChangedCallback(evt => OnSFXVolumeChanged(evt.newValue));
         }
 
         // Check if nickname exists
@@ -97,14 +111,26 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
-    private void OnVolumeChanged(float newValue)
+    private void OnBGMVolumeChanged(float newValue)
     {
-        var bgmPlayer = FindFirstObjectByType<GlobalBGMPlayer>();
-        if (bgmPlayer != null)
+        if (GlobalBGMPlayer.Instance != null)
         {
-            bgmPlayer.SetVolume(newValue);
+            GlobalBGMPlayer.Instance.SetVolume(newValue);
+            Debug.Log($"[MainMenu] BGM Volume updated to: {newValue}");
+        }
+        else
+        {
+            Debug.LogWarning("[MainMenu] GlobalBGMPlayer.Instance is null!");
         }
         PlayerPrefs.SetFloat("BGMVolume", newValue);
+        PlayerPrefs.Save();
+    }
+
+    private void OnSFXVolumeChanged(float newValue)
+    {
+        PlayerPrefs.SetFloat("SFXVolume", newValue);
+        PlayerPrefs.Save();
+        Debug.Log($"[MainMenu] SFX Volume updated to: {newValue}");
     }
 
     private void OnConfirmNicknameClicked()
