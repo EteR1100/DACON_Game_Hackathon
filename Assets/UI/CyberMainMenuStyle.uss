@@ -144,6 +144,30 @@
     -unity-text-outline-color: rgba(57, 255, 20, 0.7);
 }
 
+.volume-box {
+    min-width: 180px;
+}
+
+.hud-slider {
+    flex-grow: 1;
+    margin-left: 5px;
+}
+
+.hud-slider #unity-tracker {
+    background-color: rgba(0, 255, 255, 0.2);
+    border-color: #00ffff;
+    border-width: 1px;
+}
+
+.hud-slider #unity-dragger {
+    background-color: #00ffff;
+    border-radius: 0;
+    width: 10px;
+    height: 18px;
+    top: 50%;
+    margin-top: -9px;
+}
+
 .main-stage {
     flex-grow: 1;
     justify-content: center;

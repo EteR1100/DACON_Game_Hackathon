@@ -50,6 +50,10 @@
                     <ui:Label text="BEST" class="hud-label" />
                     <ui:Label text="0" class="hud-value" />
                 </ui:VisualElement>
+                <ui:VisualElement class="hud-box volume-box">
+                    <ui:Label text="VOL" class="hud-label" />
+                    <ui:Slider name="SliderVolume" low-value="0" high-value="1" value="0.5" class="hud-slider" />
+                </ui:VisualElement>
             </ui:VisualElement>
 
             <ui:VisualElement class="hud-group">

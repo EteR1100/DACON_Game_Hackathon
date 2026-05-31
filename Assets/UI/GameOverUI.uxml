@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements">
+    <ui:Style src="project://database/Assets/UI/GameOverStyle.uss" />
+    <ui:VisualElement class="gameover-container">
+        <ui:VisualElement class="gameover-bg-grid" />
+        <ui:VisualElement class="gameover-vignette" />
+        
+        <ui:VisualElement class="gameover-corner corner-tl" />
+        <ui:VisualElement class="gameover-corner corner-tr" />
+        <ui:VisualElement class="gameover-corner corner-bl" />
+        <ui:VisualElement class="gameover-corner corner-br" />
+
+        <ui:VisualElement class="score-hud">
+            <ui:VisualElement class="hud-box">
+                <ui:Label text="SCORE" class="hud-label" />
+                <ui:Label name="CurrentScoreLabel" text="0" class="hud-value" />
+            </ui:VisualElement>
+            <ui:VisualElement class="hud-box hud-accent">
+                <ui:Label text="BEST" class="hud-label" />
+                <ui:Label name="BestScoreLabel" text="0" class="hud-value hud-value-accent" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement class="coin-hud">
+            <ui:VisualElement class="hud-box hud-coin">
+                <ui:Label text="COINS" class="hud-label" />
+                <ui:Label name="CoinLabel" text="0" class="hud-value hud-value-coin" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement class="gameover-title-area">
+            <ui:Label text="GAME OVER" class="gameover-title-text" />
+            <ui:Label text="/// SYSTEM FAILURE ///" class="gameover-subtitle-text" />
+        </ui:VisualElement>
+
+        <ui:VisualElement class="gameover-button-group">
+            <ui:Button name="RESTART_button" class="gameover-btn btn-restart" text="RESTART" />
+            <ui:Button name="RANK_button" class="gameover-btn btn-rank" text="RANKING" />
+            <ui:Button name="MAIN_button" class="gameover-btn btn-main" text="MAIN MENU" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
