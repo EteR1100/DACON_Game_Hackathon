@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private float _vy        = 0f;
     private int   _dir       = -1;   // -1 아래, +1 위
     private bool  _grounded  = true;
+    private bool  _wasPaused = false;
 
     void Start()
     {
@@ -58,13 +59,50 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Time.timeScale == 0f) return;
+        if (Time.timeScale == 0f)
+        {
+            _wasPaused = true;
+            return;
+        }
 
-        bool pressed = (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
-                   || (Mouse.current    != null && Mouse.current.leftButton.wasPressedThisFrame);
+        if (_wasPaused)
+        {
+            // 일시정지가 풀린 직후 프레임에는 입력을 무시 (재시작 시 점프 방지)
+            _wasPaused = false;
+            return;
+        }
+
+        bool pressed = false;
+        
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+            pressed = true;
+
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            var ui = UnityEngine.Object.FindFirstObjectByType<GamePlayUIController>();
+            if (ui != null && ui.IsPointerOverPauseButton(Mouse.current.position.ReadValue()))
+            {
+                // Ignore
+            }
+            else
+            {
+                pressed = true;
+            }
+        }
+
         // 터치 스크린 지원
         if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
-            pressed = true;
+        {
+            var ui = UnityEngine.Object.FindFirstObjectByType<GamePlayUIController>();
+            if (ui != null && ui.IsPointerOverPauseButton(Touchscreen.current.primaryTouch.position.ReadValue()))
+            {
+                // Ignore
+            }
+            else
+            {
+                pressed = true;
+            }
+        }
 
         if (pressed)
         {

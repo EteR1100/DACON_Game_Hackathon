@@ -133,7 +133,16 @@ public class GamePlayUIController : MonoBehaviour
         if (_feverFlash   != null) _feverFlash.style.display   = DisplayStyle.None;
     }
 
-    private void TogglePause()
+    void Update()
+    {
+        if (UnityEngine.InputSystem.Keyboard.current != null && 
+            UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            TogglePause();
+        }
+    }
+
+    public void TogglePause()
     {
         _isPaused = !_isPaused;
         if (GameManager.Instance != null)
@@ -143,6 +152,24 @@ public class GamePlayUIController : MonoBehaviour
 
         if (_pauseOverlay != null)
             _pauseOverlay.style.display = _isPaused ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
+    public bool IsPointerOverPauseButton(Vector2 screenPos)
+    {
+        if (_uiDocument == null || _uiDocument.rootVisualElement == null) return false;
+        var panel = _uiDocument.rootVisualElement.panel;
+        if (panel == null) return false;
+
+        Vector2 screenTopLeft = new Vector2(screenPos.x, Screen.height - screenPos.y);
+        Vector2 panelPos = RuntimePanelUtils.ScreenToPanel(panel, screenTopLeft);
+
+        if (_btnPause != null && _btnPause.style.display != DisplayStyle.None && _btnPause.worldBound.Contains(panelPos))
+            return true;
+
+        if (_pauseOverlay != null && _pauseOverlay.style.display == DisplayStyle.Flex)
+            return true;
+
+        return false;
     }
 
     private void RestartGame()
