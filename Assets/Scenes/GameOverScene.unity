@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.05882353, g: 0.05882353, b: 0.09803922, a: 0}
+  m_Color: {r: 0.05882353, g: 0.05882353, b: 0.09803922, a: 0.6509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -931,6 +931,7 @@ MonoBehaviour:
   rankButton: {fileID: 0}
   mainButton: {fileID: 0}
   restartButton: {fileID: 0}
+  gameOverUXML: {fileID: 0}
 --- !u!1 &1272389847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,6 +1082,7 @@ GameObject:
   - component: {fileID: 1382634406}
   - component: {fileID: 1382634405}
   - component: {fileID: 1382634409}
+  - component: {fileID: 1382634410}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1186,6 +1188,30 @@ MonoBehaviour:
   rankButton: {fileID: 0}
   mainButton: {fileID: 0}
   restartButton: {fileID: 0}
+  gameOverUXML: {fileID: 0}
+--- !u!114 &1382634410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382634404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: 54f128a54caf34666a51401067c603c8, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 0c86ad7aa2e0a7a4a8a0cbe9d0cb0e51, type: 3}
+  m_SortingOrder: 0
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
 --- !u!1 &1472430586
 GameObject:
   m_ObjectHideFlags: 0

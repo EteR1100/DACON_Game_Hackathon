@@ -13,7 +13,10 @@ public class MainMenuController : MonoBehaviour
     private Label _lblNickname;
     private Label _nicknameCounter;
     
+    private Button _btnStart;
+    private Button _btnShop;
     private Button _btnRank;
+    private Slider _sliderVolume;
 
     void Start()
     {
@@ -32,7 +35,11 @@ public class MainMenuController : MonoBehaviour
         _btnConfirmNickname = root.Q<Button>("BtnConfirmNickname");
         _lblNickname = root.Q<Label>("LblNickname");
         _nicknameCounter = root.Q<Label>("NicknameCounter");
+        
+        _btnStart = root.Q<Button>("BtnStart");
+        _btnShop = root.Q<Button>("BtnShop");
         _btnRank = root.Q<Button>("BtnRank");
+        _sliderVolume = root.Q<Slider>("SliderVolume");
 
         if (_nicknamePopup == null || _inputNickname == null || _btnConfirmNickname == null || _lblNickname == null)
         {
@@ -47,9 +54,31 @@ public class MainMenuController : MonoBehaviour
         _inputNickname.RegisterValueChangedCallback(evt => UpdateNicknameCounter(evt.newValue));
         UpdateNicknameCounter(_inputNickname.value);
         
+        if (_btnStart != null)
+        {
+            _btnStart.clicked += OnStartButtonClicked;
+        }
+
+        if (_btnShop != null)
+        {
+            _btnShop.clicked += OnShopButtonClicked;
+        }
+        
         if (_btnRank != null)
         {
             _btnRank.clicked += OnRankButtonClicked;
+        }
+
+        if (_sliderVolume != null)
+        {
+            float savedVolume = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
+            _sliderVolume.value = savedVolume;
+            
+            // Apply saved volume to GlobalBGMPlayer
+            var bgmPlayer = FindFirstObjectByType<GlobalBGMPlayer>();
+            if (bgmPlayer != null) bgmPlayer.SetVolume(savedVolume);
+
+            _sliderVolume.RegisterValueChangedCallback(evt => OnVolumeChanged(evt.newValue));
         }
 
         // Check if nickname exists
@@ -68,6 +97,16 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
+    private void OnVolumeChanged(float newValue)
+    {
+        var bgmPlayer = FindFirstObjectByType<GlobalBGMPlayer>();
+        if (bgmPlayer != null)
+        {
+            bgmPlayer.SetVolume(newValue);
+        }
+        PlayerPrefs.SetFloat("BGMVolume", newValue);
+    }
+
     private void OnConfirmNicknameClicked()
     {
         string newNickname = _inputNickname.value.Trim();
@@ -76,10 +115,10 @@ public class MainMenuController : MonoBehaviour
             // Save and apply
             PlayerPrefs.SetString("Nickname", newNickname);
             PlayerPrefs.Save();
-            
+
             _lblNickname.text = newNickname;
             _nicknamePopup.style.display = DisplayStyle.None;
-            
+
             Debug.Log("Nickname saved: " + newNickname);
         }
         else
@@ -105,6 +144,23 @@ public class MainMenuController : MonoBehaviour
 
         int length = string.IsNullOrEmpty(value) ? 0 : value.Length;
         _nicknameCounter.text = $"2-12자 / {length}/12";
+    }
+
+    private void OnStartButtonClicked()
+    {
+        SceneManager.LoadScene("GamePlayScene");
+    }
+
+    private void OnShopButtonClicked()
+    {
+        if (ShopManager.Instance != null)
+        {
+            ShopManager.Instance.OpenShop();
+        }
+        else
+        {
+            Debug.LogWarning("ShopManager instance not found in scene.");
+        }
     }
 
     private void OnRankButtonClicked()
