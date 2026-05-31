@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 45497236}
   - component: {fileID: 45497235}
   - component: {fileID: 45497234}
+  - component: {fileID: 45497239}
   m_Layer: 0
   m_Name: BG_City
   m_TagString: Untagged
@@ -250,6 +251,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &45497239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45497233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7a12886db38442f990a86822e37b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BgScaler
+  paddingMultiplier: 1.02
 --- !u!1 &111991917
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,6 +277,7 @@ GameObject:
   - component: {fileID: 111991920}
   - component: {fileID: 111991919}
   - component: {fileID: 111991918}
+  - component: {fileID: 111991923}
   m_Layer: 0
   m_Name: BG_Foreground
   m_TagString: Untagged
@@ -381,6 +396,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &111991923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111991917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7a12886db38442f990a86822e37b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BgScaler
+  paddingMultiplier: 1.02
 --- !u!1 &332382624
 GameObject:
   m_ObjectHideFlags: 0
