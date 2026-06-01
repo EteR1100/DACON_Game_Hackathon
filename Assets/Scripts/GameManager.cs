@@ -3,8 +3,9 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 게임 전체 흐름을 제어합니다.
-/// - 시간에 따른 점수 증가
+/// - 시간에 따른 점수 증가 (피버 중 2배)
 /// - 시간에 따른 속도 증가
+/// - 피버 게이지 자동 충전 → 피버 모드 자동 발동
 /// - 일시정지 / 재시작
 /// </summary>
 public class GameManager : MonoBehaviour
@@ -23,18 +24,28 @@ public class GameManager : MonoBehaviour
     [Tooltip("속도가 최대에 도달하는 데 걸리는 시간(초)")]
     public float timeToMaxSpeed = 120f;
 
+    [Header("=== 피버 설정 ===")]
+    [Tooltip("피버 게이지가 100%까지 차는 시간(초)")]
+    public float feverChargeTime = 30f;
+    [Tooltip("피버 모드 지속 시간(초)")]
+    public float feverDuration = 5f;
+
     // ── 내부 상태 ──
-    private float _elapsedTime  = 0f;
-    private float _score        = 0f;
-    private int   _coin         = 0;
-    private float _feverGauge   = 0f;   // 0~1
-    private bool  _isPaused     = false;
-    private bool  _isGameOver   = false;
+    private float _elapsedTime   = 0f;
+    private float _score         = 0f;
+    private int   _coin          = 0;
+    private float _feverGauge    = 0f;   // 0~1
+    private bool  _isPaused      = false;
+    private bool  _isGameOver    = false;
+    private bool  _isFeverActive = false;
+    private float _feverTimer    = 0f;
 
     private GamePlayUIController _ui;
 
-    // ── 현재 속도 배율 (외부에서 읽기 가능) ──
+    // ── 외부 읽기용 프로퍼티 ──
     public float CurrentSpeedMultiplier { get; private set; }
+    public bool  IsFeverActive => _isFeverActive;
+    public int   CurrentScore  => Mathf.FloorToInt(_score);
 
     // ────────────────────────────────────────────────────────────────
 
@@ -50,6 +61,10 @@ public class GameManager : MonoBehaviour
         CurrentSpeedMultiplier = initialSpeedMultiplier;
         GameSpeedProvider.CurrentMultiplier = CurrentSpeedMultiplier;
         Time.timeScale = 1f;
+
+        // 누적 데이터 패킷 불러오기
+        _coin = PlayerPrefs.GetInt("DataPacket", 0);
+        _ui?.SetCoin(_coin);
     }
 
     void Update()
@@ -61,10 +76,42 @@ public class GameManager : MonoBehaviour
         // ── 속도 증가 (선형 보간) ──
         float t = Mathf.Clamp01(_elapsedTime / timeToMaxSpeed);
         CurrentSpeedMultiplier = Mathf.Lerp(initialSpeedMultiplier, maxSpeedMultiplier, t);
-        GameSpeedProvider.CurrentMultiplier = CurrentSpeedMultiplier;
+        
+        float actualSpeed = _isFeverActive ? CurrentSpeedMultiplier * 3.0f : CurrentSpeedMultiplier;
+        GameSpeedProvider.CurrentMultiplier = actualSpeed;
 
-        // ── 점수 증가 (속도에 비례) ──
-        _score += baseScorePerSecond * CurrentSpeedMultiplier * Time.deltaTime;
+        // ── 피버 모드 처리 ──
+        if (_isFeverActive)
+        {
+            _feverTimer -= Time.deltaTime;
+            if (_feverTimer <= 0f)
+            {
+                _isFeverActive = false;
+                _feverGauge    = 0f;
+                _ui?.SetFever(0f);
+            }
+        }
+        else
+        {
+            // ── 피버 게이지 자동 충전 ──
+            _feverGauge += Time.deltaTime / feverChargeTime;
+            if (_feverGauge >= 1f)
+            {
+                // 피버 발동!
+                _feverGauge    = 1f;
+                _isFeverActive = true;
+                _feverTimer    = feverDuration;
+                _ui?.SetFever(1f);
+            }
+            else
+            {
+                _ui?.SetFever(_feverGauge);
+            }
+        }
+
+        // ── 점수 증가 (속도 × 피버 보너스) ──
+        float scoreMultiplier = _isFeverActive ? 2f : 1f;
+        _score += baseScorePerSecond * CurrentSpeedMultiplier * scoreMultiplier * Time.deltaTime;
 
         // ── UI 갱신 ──
         if (_ui != null)
@@ -80,10 +127,13 @@ public class GameManager : MonoBehaviour
     {
         _coin += amount;
         _ui?.SetCoin(_coin);
+        PlayerPrefs.SetInt("DataPacket", _coin);
+        PlayerPrefs.Save();
     }
 
     public void AddFever(float amount)
     {
+        if (_isFeverActive) return;
         _feverGauge = Mathf.Clamp01(_feverGauge + amount);
         _ui?.SetFever(_feverGauge);
     }
@@ -111,7 +161,10 @@ public class GameManager : MonoBehaviour
     {
         if (_isGameOver) return;
         _isGameOver = true;
-        // 추후 GameOver씬 연동
-        Debug.Log("Game Over! Score: " + Mathf.FloorToInt(_score));
+        // 최고 점수 저장
+        int finalScore = Mathf.FloorToInt(_score);
+        int best = PlayerPrefs.GetInt("BestScore", 0);
+        if (finalScore > best) PlayerPrefs.SetInt("BestScore", finalScore);
+        Debug.Log("Game Over! Score: " + finalScore);
     }
 }

@@ -2,16 +2,29 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// 플레이어(공) 제어 - 단순 버전
-/// 클릭 or 스페이스 → 중력 반전 → 반대편 난간으로 이동
-/// (난간에 닿아 있을 때만 반전 가능)
+/// 플레이어(공) 제어
+/// - 클릭/스페이스 → 중력 반전 (난간에 닿아 있을 때만)
+/// - 천장/바닥에 정확히 붙음
+/// - 이동 방향에 따라 공이 회전
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
     [Header("=== 물리 설정 ===")]
     public float gravityStrength = 28f;
-    public float maxSpeed       = 15f;
-    public float boundaryY      = 2.2f;
+    public float maxSpeed        = 15f;
+    [Tooltip("바닥/천장 경계 Y 좌표 (절대값)")]
+    public float boundaryY       = 2.2f;
+    [Tooltip("천장에 붙을 때 오프셋 (천장 스프라이트에 밀착)")]
+    public float ceilSnapOffset  = 0.0f;
+    [Tooltip("바닥에 붙을 때 오프셋")]
+    public float floorSnapOffset = 0.0f;
+
+    [Header("=== 회전 설정 ===")]
+    [Tooltip("공이 회전하는 속도 (deg/s)")]
+    public float rotateSpeed = 180f;
+
+    [Header("=== VFX 설정 ===")]
+    public GameObject shieldBreakPrefab;
 
     [Header("=== 오디오 설정 ===")]
     public AudioClip gravityFlipSound;
@@ -21,44 +34,106 @@ public class PlayerController : MonoBehaviour
     private int   _dir       = -1;   // -1 아래, +1 위
     private bool  _grounded  = true;
     private bool  _wasPaused = false;
+    private bool  _isDead    = false;
+
+    // ── 아이템 효과 상태 ──
+    public bool IsMagnetActive { get; private set; }
+    public bool HasShield { get; private set; }
+    public bool IsGiantActive { get; private set; }
+
+    private float _magnetTimer = 0f;
+    private float _giantTimer  = 0f;
+    private Vector3 _normalScale;
+
+    private GameObject _vfxShield;
+    private GameObject _vfxMagnet;
 
     void Start()
     {
-        // Rigidbody2D 완전 비활성화
+        // Rigidbody2D 물리 간섭 제거
         var rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.bodyType     = RigidbodyType2D.Kinematic;
-            rb.gravityScale = 0f;
+            rb.bodyType       = RigidbodyType2D.Kinematic;
+            rb.gravityScale   = 0f;
             rb.linearVelocity = Vector2.zero;
         }
 
-        // 오디오 소스 설정
+        // 오디오
         _audioSource = GetComponent<AudioSource>();
-        if (_audioSource == null)
-        {
-            _audioSource = gameObject.AddComponent<AudioSource>();
-        }
+        if (_audioSource == null) _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.playOnAwake = false;
+        _audioSource.volume = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
+
+        // VFX 캐싱
+        var childS = transform.Find("VFX_Shield");
+        if (childS != null) _vfxShield = childS.gameObject;
         
-        // 볼륨 설정 적용
-        float savedSFX = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
-        _audioSource.volume = savedSFX;
+        var childM = transform.Find("VFX_Magnet");
+        if (childM != null) _vfxMagnet = childM.gameObject;
 
         // 아래 난간에서 시작
         var p = transform.position;
-        p.y = -boundaryY;
+        p.y = -boundaryY + floorSnapOffset;
         transform.position = p;
 
-        _vy       = 0f;
-        _dir      = -1;
+        _vy      = 0f;
+        _dir     = -1;
         _grounded = true;
+        _normalScale = transform.localScale;
+    }
 
-        Debug.Log("[Player] Start OK - pos=" + transform.position + " grounded=" + _grounded);
+    public void Die()
+    {
+        if (IsGiantActive)
+            return; // 거대화 상태면 무적이므로 방어막도 소모되지 않음
+
+        if (HasShield)
+        {
+            HasShield = false;
+            if (_vfxShield != null) _vfxShield.SetActive(false);
+            if (shieldBreakPrefab != null) Instantiate(shieldBreakPrefab, transform.position, Quaternion.identity);
+            return; // 방어막이 있으면 죽지 않음
+        }
+
+        _isDead = true;
+        
+        // (요청에 따라 임시로 떨어지지 않게 주석 처리)
+        // var rb = GetComponent<Rigidbody2D>();
+        // if (rb != null)
+        // {
+        //     rb.bodyType = RigidbodyType2D.Dynamic;
+        //     rb.gravityScale = 3f;
+        // }
+        // GameSpeedProvider.CurrentMultiplier = 0f;
+        
+        this.enabled = false;
+    }
+
+    public void ActivateMagnet(float duration)
+    {
+        IsMagnetActive = true;
+        _magnetTimer = duration;
+        if (_vfxMagnet != null) _vfxMagnet.SetActive(true);
+    }
+
+    public void ActivateShield()
+    {
+        HasShield = true;
+        if (_vfxShield != null) _vfxShield.SetActive(true);
+    }
+
+    public void ActivateGiant(float duration)
+    {
+        IsGiantActive = true;
+        _giantTimer = duration;
+        transform.localScale = _normalScale * 2f; // 2배 거대화
     }
 
     void Update()
     {
+        if (_isDead) return;
+
         if (Time.timeScale == 0f)
         {
             _wasPaused = true;
@@ -67,82 +142,90 @@ public class PlayerController : MonoBehaviour
 
         if (_wasPaused)
         {
-            // 일시정지가 풀린 직후 프레임에는 입력을 무시 (재시작 시 점프 방지)
             _wasPaused = false;
             return;
         }
 
+        // 아이템 타이머 갱신
+        if (IsMagnetActive)
+        {
+            _magnetTimer -= Time.deltaTime;
+            if (_magnetTimer <= 0f) 
+            {
+                IsMagnetActive = false;
+                if (_vfxMagnet != null) _vfxMagnet.SetActive(false);
+            }
+        }
+        if (IsGiantActive)
+        {
+            _giantTimer -= Time.deltaTime;
+            if (_giantTimer <= 0f)
+            {
+                IsGiantActive = false;
+                transform.localScale = _normalScale; // 크기 원상 복구
+            }
+        }
+
         bool pressed = false;
-        
+
         if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
             pressed = true;
 
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             var ui = UnityEngine.Object.FindFirstObjectByType<GamePlayUIController>();
-            if (ui != null && ui.IsPointerOverPauseButton(Mouse.current.position.ReadValue()))
-            {
-                // Ignore
-            }
-            else
-            {
-                pressed = true;
-            }
+            bool overUI = ui != null && ui.IsPointerOverPauseButton(Mouse.current.position.ReadValue());
+            if (!overUI) pressed = true;
         }
 
-        // 터치 스크린 지원
         if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
         {
             var ui = UnityEngine.Object.FindFirstObjectByType<GamePlayUIController>();
-            if (ui != null && ui.IsPointerOverPauseButton(Touchscreen.current.primaryTouch.position.ReadValue()))
-            {
-                // Ignore
-            }
-            else
-            {
-                pressed = true;
-            }
+            bool overUI = ui != null && ui.IsPointerOverPauseButton(Touchscreen.current.primaryTouch.position.ReadValue());
+            if (!overUI) pressed = true;
         }
 
-        if (pressed)
+        if (pressed && _grounded)
         {
-            Debug.Log("[Player] Input detected! grounded=" + _grounded);
-            if (_grounded)
-            {
-                _dir     *= -1;
-                _vy       = 0f;
-                _grounded = false;
-                Debug.Log("[Player] Gravity flipped to dir=" + _dir);
-
-                // 중력 반전 소리 재생
-                if (_audioSource != null && gravityFlipSound != null)
-                {
-                    _audioSource.PlayOneShot(gravityFlipSound);
-                }
-            }
+            _dir     *= -1;
+            _vy       = 0f;
+            _grounded = false;
+            if (_audioSource != null && gravityFlipSound != null)
+                _audioSource.PlayOneShot(gravityFlipSound);
         }
+
+        // ── 회전 (이동 방향에 따라) ──
+        // _dir == -1 : 아래로 → 시계방향(음수 z)
+        // _dir == +1 : 위로  → 반시계방향(양수 z)
+        float rotDir = (_dir == 1) ? 1f : -1f;
+        transform.Rotate(0f, 0f, rotDir * rotateSpeed * Time.deltaTime);
     }
 
     void FixedUpdate()
     {
-        if (Time.timeScale == 0f) return;
+        if (_isDead || Time.timeScale == 0f) return;
 
-        _vy += _dir * gravityStrength * Time.fixedDeltaTime;
-        _vy  = Mathf.Clamp(_vy, -maxSpeed, maxSpeed);
+        float speedMult = GameSpeedProvider.CurrentMultiplier;
+        _vy += _dir * (gravityStrength * speedMult) * Time.fixedDeltaTime;
+        _vy  = Mathf.Clamp(_vy, -(maxSpeed * speedMult), (maxSpeed * speedMult));
 
         var p = transform.position;
         p.y += _vy * Time.fixedDeltaTime;
 
-        if (p.y <= -boundaryY)
+        // ── 바닥 경계 ──
+        float floorY = -boundaryY + floorSnapOffset;
+        float ceilY  =  boundaryY + ceilSnapOffset;
+
+        if (p.y <= floorY)
         {
-            p.y      = -boundaryY;
-            _vy      = 0f;
+            p.y       = floorY;
+            _vy       = 0f;
             _grounded = (_dir == -1);
         }
-        else if (p.y >= boundaryY)
+        else if (p.y >= ceilY)
         {
-            p.y      = boundaryY;
-            _vy      = 0f;
+            p.y       = ceilY;
+            _vy       = 0f;
             _grounded = (_dir == 1);
         }
         else
