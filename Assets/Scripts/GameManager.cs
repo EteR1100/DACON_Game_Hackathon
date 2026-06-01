@@ -188,5 +188,4 @@ private void SaveFinalStats()
     PlayerPrefs.SetInt("Coins", _coin);
     PlayerPrefs.Save();
 }
-    }
 }
