@@ -6,33 +6,6 @@
     <ui:Style src="project://database/Assets/UI/CyberMainMenuStyle.uss" />
 
     <ui:VisualElement class="container">
-        <ui:VisualElement class="bg-grid" />
-        <ui:VisualElement class="grid-lines">
-            <ui:VisualElement class="grid-line-v v01" />
-            <ui:VisualElement class="grid-line-v v02" />
-            <ui:VisualElement class="grid-line-v v03" />
-            <ui:VisualElement class="grid-line-v v04" />
-            <ui:VisualElement class="grid-line-v v05" />
-            <ui:VisualElement class="grid-line-v v06" />
-            <ui:VisualElement class="grid-line-v v07" />
-            <ui:VisualElement class="grid-line-v v08" />
-            <ui:VisualElement class="grid-line-v v09" />
-            <ui:VisualElement class="grid-line-v v10" />
-            <ui:VisualElement class="grid-line-v v11" />
-            <ui:VisualElement class="grid-line-v v12" />
-            <ui:VisualElement class="grid-line-v v13" />
-            <ui:VisualElement class="grid-line-v v14" />
-            <ui:VisualElement class="grid-line-v v15" />
-            <ui:VisualElement class="grid-line-h h01" />
-            <ui:VisualElement class="grid-line-h h02" />
-            <ui:VisualElement class="grid-line-h h03" />
-            <ui:VisualElement class="grid-line-h h04" />
-            <ui:VisualElement class="grid-line-h h05" />
-            <ui:VisualElement class="grid-line-h h06" />
-            <ui:VisualElement class="grid-line-h h07" />
-            <ui:VisualElement class="grid-line-h h08" />
-            <ui:VisualElement class="grid-line-h h09" />
-        </ui:VisualElement>
         <ui:VisualElement class="bg-vignette" />
         <ui:VisualElement class="bg-scanlines" />
 
@@ -43,10 +16,6 @@
                     <ui:Label text="UNKNOWN" class="hud-value" name="LblNickname" />
                 </ui:VisualElement>
                 <ui:VisualElement class="hud-box">
-                    <ui:Label text="SCORE" class="hud-label" />
-                    <ui:Label text="0" class="hud-value" />
-                </ui:VisualElement>
-                <ui:VisualElement class="hud-box">
                     <ui:Label text="BEST" class="hud-label" />
                     <ui:Label text="0" class="hud-value" />
                 </ui:VisualElement>
@@ -55,7 +24,7 @@
             <ui:VisualElement class="hud-group">
                 <ui:VisualElement class="hud-box hud-accent">
                     <ui:Label text="DATA PACKETS" class="hud-label-accent" />
-                    <ui:Label text="0" class="hud-value-accent" />
+                    <ui:Label text="0" class="hud-value-accent" name="LblDataPackets" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

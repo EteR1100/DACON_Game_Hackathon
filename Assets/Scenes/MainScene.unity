@@ -188,8 +188,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dbc3cb737c3949b983bdc15eb946a51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuController
-  buttonClickSound: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
-  backgroundMusic: {fileID: 8300000, guid: 4acefbc4fc7666246861359ba6fb3e63, type: 3}
 --- !u!1 &1555855528
 GameObject:
   m_ObjectHideFlags: 0

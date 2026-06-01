@@ -12,6 +12,7 @@ public class MainMenuController : MonoBehaviour
     private Button _btnConfirmNickname;
     private Label _lblNickname;
     private Label _nicknameCounter;
+    private Label _lblDataPackets;
     
     private Button _btnStart;
     private Button _btnShop;
@@ -36,6 +37,7 @@ public class MainMenuController : MonoBehaviour
         _btnConfirmNickname = root.Q<Button>("BtnConfirmNickname");
         _lblNickname = root.Q<Label>("LblNickname");
         _nicknameCounter = root.Q<Label>("NicknameCounter");
+        _lblDataPackets = root.Q<Label>("LblDataPackets");
         
         _btnStart = root.Q<Button>("BtnStart");
         _btnShop = root.Q<Button>("BtnShop");
@@ -108,6 +110,31 @@ public class MainMenuController : MonoBehaviour
             // Hide popup, update label
             _nicknamePopup.style.display = DisplayStyle.None;
             _lblNickname.text = savedNickname;
+        }
+
+        UpdateDataPacketsDisplay();
+
+        // Register Shop Close callback
+        if (ShopManager.Instance != null)
+        {
+            ShopManager.Instance.OnShopClosed += UpdateDataPacketsDisplay;
+        }
+    }
+
+    private void UpdateDataPacketsDisplay()
+    {
+        if (_lblDataPackets != null)
+        {
+            int coins = PlayerPrefs.GetInt("Coins", 1250);
+            _lblDataPackets.text = coins.ToString("N0");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (ShopManager.Instance != null)
+        {
+            ShopManager.Instance.OnShopClosed -= UpdateDataPacketsDisplay;
         }
     }
 

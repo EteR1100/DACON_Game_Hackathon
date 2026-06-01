@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private bool  _grounded  = true;
     private bool  _wasPaused = false;
 
+    private Renderer _renderer;
+
     void Start()
     {
         // Rigidbody2D 완전 비활성화
@@ -44,6 +46,26 @@ public class PlayerController : MonoBehaviour
         // 볼륨 설정 적용
         float savedSFX = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
         _audioSource.volume = savedSFX;
+
+        // --- 스킨 적용 ---
+        _renderer = GetComponent<Renderer>();
+        if (_renderer == null) _renderer = GetComponentInChildren<Renderer>();
+        
+        if (_renderer != null)
+        {
+            string hexColor = PlayerPrefs.GetString("EquippedSkinColor", "#00F2FF");
+            if (ColorUtility.TryParseHtmlString(hexColor, out Color skinColor))
+            {
+                // MaterialPropertyBlock을 사용하면 인스턴스 생성을 피할 수 있지만, 
+                // 여기서는 간단하게 material.color를 수정하거나 _EmissionColor를 수정합니다.
+                _renderer.material.color = skinColor;
+                if (_renderer.material.HasProperty("_EmissionColor"))
+                {
+                    _renderer.material.SetColor("_EmissionColor", skinColor * 2f); // 살짝 발광 효과
+                    _renderer.material.EnableKeyword("_EMISSION");
+                }
+            }
+        }
 
         // 아래 난간에서 시작
         var p = transform.position;

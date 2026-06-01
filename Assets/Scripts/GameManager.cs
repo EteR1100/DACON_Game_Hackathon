@@ -50,6 +50,10 @@ public class GameManager : MonoBehaviour
         CurrentSpeedMultiplier = initialSpeedMultiplier;
         GameSpeedProvider.CurrentMultiplier = CurrentSpeedMultiplier;
         Time.timeScale = 1f;
+
+        // Load coins from PlayerPrefs
+        _coin = PlayerPrefs.GetInt("Coins", 1250);
+        if (_ui != null) _ui.SetCoin(_coin);
     }
 
     void Update()
@@ -80,6 +84,11 @@ public class GameManager : MonoBehaviour
     {
         _coin += amount;
         _ui?.SetCoin(_coin);
+        
+        // 실시간으로 저장하거나 게임 종료시에 한꺼번에 저장할 수 있습니다.
+        // 여기서는 실시간으로 저장하여 비정상 종료 시에도 코인을 유지합니다.
+        PlayerPrefs.SetInt("Coins", _coin);
+        PlayerPrefs.Save();
     }
 
     public void AddFever(float amount)
@@ -97,12 +106,14 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        SaveFinalStats();
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void GoToMainMenu()
     {
+        SaveFinalStats();
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainScene");
     }
@@ -111,7 +122,25 @@ public class GameManager : MonoBehaviour
     {
         if (_isGameOver) return;
         _isGameOver = true;
-        // 추후 GameOver씬 연동
-        Debug.Log("Game Over! Score: " + Mathf.FloorToInt(_score));
+        
+        SaveFinalStats();
+        
+        // GameOver 씬으로 이동 (SceneLoader/GAMEOVER___RANK가 있는 씬)
+        SceneManager.LoadScene("GameOverScene");
+    }
+
+    private void SaveFinalStats()
+    {
+        int finalScore = Mathf.FloorToInt(_score);
+        PlayerPrefs.SetInt("LastScore", finalScore);
+        
+        int best = PlayerPrefs.GetInt("BestScore", 0);
+        if (finalScore > best)
+        {
+            PlayerPrefs.SetInt("BestScore", finalScore);
+        }
+        
+        PlayerPrefs.SetInt("Coins", _coin);
+        PlayerPrefs.Save();
     }
 }

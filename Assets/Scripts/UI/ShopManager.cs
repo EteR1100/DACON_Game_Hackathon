@@ -15,8 +15,11 @@ public class ShopManager : MonoBehaviour
 
     private bool _isOpen;
 
+    public System.Action OnShopClosed;
+
     private class ShopItem
     {
+        public string ID;
         public string Name;
         public int Price;
         public Color Color;
@@ -56,19 +59,30 @@ public class ShopManager : MonoBehaviour
             _btnClose.clicked += CloseShop;
         }
 
-        InitializeMockItems();
+        InitializeItems();
         RefreshUI();
     }
 
-    private void InitializeMockItems()
+    private void InitializeItems()
     {
         _items.Clear();
-        _items.Add(new ShopItem { Name = "Default Core", Price = 0, Color = new Color(0, 0.95f, 1), IsPurchased = true, IsEquipped = true });
-        _items.Add(new ShopItem { Name = "Crimson Core", Price = 500, Color = new Color(1, 0.2f, 0), IsPurchased = false, IsEquipped = false });
-        _items.Add(new ShopItem { Name = "Solar Core", Price = 1000, Color = new Color(1, 0.9f, 0), IsPurchased = false, IsEquipped = false });
-        _items.Add(new ShopItem { Name = "Frost Core", Price = 1500, Color = new Color(0, 0.5f, 1), IsPurchased = false, IsEquipped = false });
-        _items.Add(new ShopItem { Name = "Neon Pink", Price = 2000, Color = new Color(1, 0, 0.5f), IsPurchased = false, IsEquipped = false });
-        _items.Add(new ShopItem { Name = "Violet Core", Price = 3000, Color = new Color(0.5f, 0, 1), IsPurchased = false, IsEquipped = false });
+        // ID must be unique
+        _items.Add(new ShopItem { ID = "default", Name = "Default Core", Price = 0, Color = new Color(0, 0.95f, 1) });
+        _items.Add(new ShopItem { ID = "crimson", Name = "Crimson Core", Price = 500, Color = new Color(1, 0.2f, 0) });
+        _items.Add(new ShopItem { ID = "solar", Name = "Solar Core", Price = 1000, Color = new Color(1, 0.9f, 0) });
+        _items.Add(new ShopItem { ID = "frost", Name = "Frost Core", Price = 1500, Color = new Color(0, 0.5f, 1) });
+        _items.Add(new ShopItem { ID = "pink", Name = "Neon Pink", Price = 2000, Color = new Color(1, 0, 0.5f) });
+        _items.Add(new ShopItem { ID = "violet", Name = "Violet Core", Price = 3000, Color = new Color(0.5f, 0, 1) });
+
+        string equippedID = PlayerPrefs.GetString("EquippedSkin", "default");
+
+        foreach (var item in _items)
+        {
+            if (item.Price == 0) item.IsPurchased = true;
+            else item.IsPurchased = PlayerPrefs.GetInt("Purchased_" + item.ID, 0) == 1;
+
+            item.IsEquipped = (item.ID == equippedID);
+        }
     }
 
     public void OpenShop()
@@ -104,6 +118,7 @@ public class ShopManager : MonoBehaviour
             if (!_isOpen)
             {
                 _shopRoot.style.display = DisplayStyle.None;
+                OnShopClosed?.Invoke();
             }
         }).StartingIn(500);
     }
@@ -193,6 +208,8 @@ public class ShopManager : MonoBehaviour
         {
             currentCoins -= item.Price;
             PlayerPrefs.SetInt("Coins", currentCoins);
+            
+            PlayerPrefs.SetInt("Purchased_" + item.ID, 1);
             PlayerPrefs.Save();
 
             item.IsPurchased = true;
@@ -214,6 +231,11 @@ public class ShopManager : MonoBehaviour
         }
 
         item.IsEquipped = true;
+        
+        PlayerPrefs.SetString("EquippedSkin", item.ID);
+        PlayerPrefs.SetString("EquippedSkinColor", "#" + ColorUtility.ToHtmlStringRGB(item.Color));
+        PlayerPrefs.Save();
+
         Debug.Log($"Equipped {item.Name}!");
         RefreshUI();
     }
