@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         // 누적 데이터 패킷 불러오기
-        _coin = PlayerPrefs.GetInt("DataPacket", 0);
+        _coin = PlayerPrefs.GetInt("DataPacket", PlayerPrefs.GetInt("Coins", 0)); // 호환성 유지
         _ui?.SetCoin(_coin);
     }
 
@@ -128,6 +128,7 @@ public class GameManager : MonoBehaviour
         _coin += amount;
         _ui?.SetCoin(_coin);
         PlayerPrefs.SetInt("DataPacket", _coin);
+        PlayerPrefs.SetInt("Coins", _coin);
         PlayerPrefs.Save();
     }
 
@@ -147,12 +148,14 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        SaveFinalStats();
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void GoToMainMenu()
     {
+        SaveFinalStats();
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainScene");
     }
@@ -161,10 +164,29 @@ public class GameManager : MonoBehaviour
     {
         if (_isGameOver) return;
         _isGameOver = true;
-        // 최고 점수 저장
-        int finalScore = Mathf.FloorToInt(_score);
-        int best = PlayerPrefs.GetInt("BestScore", 0);
-        if (finalScore > best) PlayerPrefs.SetInt("BestScore", finalScore);
-        Debug.Log("Game Over! Score: " + finalScore);
+// 최고 점수 및 데이터 저장 함수 호출
+    SaveFinalStats();
+    
+    // 게임오버 로그 출력
+    Debug.Log("Game Over! Score: " + Mathf.FloorToInt(_score));
+
+    // GameOver 씬으로 이동 (SceneLoader/GAMEOVER___RANK가 있는 씬)
+    SceneManager.LoadScene("GameOverScene");
+}
+
+private void SaveFinalStats()
+{
+    int finalScore = Mathf.FloorToInt(_score);
+    PlayerPrefs.SetInt("LastScore", finalScore);
+
+    int best = PlayerPrefs.GetInt("BestScore", 0);
+    if (finalScore > best)
+    {
+        PlayerPrefs.SetInt("BestScore", finalScore);
+    }
+
+    PlayerPrefs.SetInt("Coins", _coin);
+    PlayerPrefs.Save();
+}
     }
 }

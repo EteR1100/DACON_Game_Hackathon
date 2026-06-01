@@ -4,7 +4,8 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
-    background-color: #02030a;
+    background-image: url('project://database/Assets/Textures/MAIN_BACKGROUND.png');
+    -unity-background-scale-mode: scale-and-crop;
 }
 
 .bg-grid {
