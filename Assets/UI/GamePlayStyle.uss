@@ -10,6 +10,7 @@
 
 /* ─── 루트 컨테이너 ─── */
 .gp-container {
+    -unity-font-definition: url("project://database/Assets/Fonts/EliceDigitalBaeum_Bold.ttf");
     flex-grow: 1;
     background-color: rgba(0, 0, 0, 0);
     flex-direction: column;

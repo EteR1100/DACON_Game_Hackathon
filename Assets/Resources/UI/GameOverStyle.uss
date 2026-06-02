@@ -1,4 +1,5 @@
 .gameover-container {
+    -unity-font-definition: url("project://database/Assets/Fonts/EliceDigitalBaeum_Bold.ttf");
     flex-grow: 1;
     background-color: #02030a;
     align-items: center;

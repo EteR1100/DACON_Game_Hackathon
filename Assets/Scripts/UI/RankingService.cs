@@ -24,10 +24,13 @@ public class RankingService : MonoBehaviour
 
     // 서버 주소 (로컬 테스트용)
     // 모바일 기기 테스트 시에는 localhost 대신 컴퓨터의 IP 주소를 적어야 합니다.
-    private string _baseUrl = "http://localhost:3000/ranking";
+    [SerializeField] private string localBaseUrl = "http://localhost:3000/ranking";
+    private string _baseUrl;
 
     void Awake()
     {
+        _baseUrl = ResolveBaseUrl();
+
         if (Instance == null)
         {
             Instance = this;
@@ -37,6 +40,18 @@ public class RankingService : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private string ResolveBaseUrl()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        if (!string.IsNullOrEmpty(Application.absoluteURL))
+        {
+            Uri pageUri = new Uri(Application.absoluteURL);
+            return pageUri.GetLeftPart(UriPartial.Authority) + "/ranking";
+        }
+#endif
+        return localBaseUrl;
     }
 
     // 1. 랭킹 데이터 가져오기 (GET)
