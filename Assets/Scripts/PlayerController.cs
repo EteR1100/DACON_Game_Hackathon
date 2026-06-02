@@ -49,6 +49,8 @@ public class PlayerController : MonoBehaviour
     private GameObject _vfxMagnet;
 
     private Renderer _renderer;
+    private AudioClip _shieldBreakSound;
+    private AudioClip _giantShrinkSound;
 
     void Start()
     {
@@ -65,7 +67,13 @@ public class PlayerController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         if (_audioSource == null) _audioSource = gameObject.AddComponent<AudioSource>();
         _audioSource.playOnAwake = false;
+        _audioSource.spatialBlend = 0f; // 2D 사운드 설정 (지연 방지)
+        _audioSource.priority = 0;      // 우선순위 최고 설정
         _audioSource.volume = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
+
+        // 사운드 로드
+        _shieldBreakSound = Resources.Load<AudioClip>("SFX/방어막_깨짐_2");
+        _giantShrinkSound = Resources.Load<AudioClip>("SFX/크기축소_1");
 
         // VFX 캐싱
         var childS = transform.Find("VFX_Shield");
@@ -115,6 +123,11 @@ public class PlayerController : MonoBehaviour
             HasShield = false;
             if (_vfxShield != null) _vfxShield.SetActive(false);
             if (shieldBreakPrefab != null) Instantiate(shieldBreakPrefab, transform.position, Quaternion.identity);
+            
+            // 방어막 깨짐 소리 재생
+            if (_audioSource != null && _shieldBreakSound != null)
+                _audioSource.PlayOneShot(_shieldBreakSound);
+
             return; // 방어막이 있으면 죽지 않음
         }
 
@@ -185,6 +198,10 @@ public class PlayerController : MonoBehaviour
             {
                 IsGiantActive = false;
                 transform.localScale = _normalScale; // 크기 원상 복구
+
+                // 크기 축소 소리 재생
+                if (_audioSource != null && _giantShrinkSound != null)
+                    _audioSource.PlayOneShot(_giantShrinkSound);
             }
         }
 

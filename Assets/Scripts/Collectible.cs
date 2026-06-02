@@ -19,6 +19,7 @@ public class Collectible : MonoBehaviour
     private float _destroyX = -12f;
     private Transform _playerTransform;
     private PlayerController _playerController;
+    private AudioSource _playerAudioSource;
     private bool _isMagnetized = false;
     private float _magnetSpeed = 15f;
 
@@ -29,6 +30,24 @@ public class Collectible : MonoBehaviour
         {
             _playerTransform = player.transform;
             _playerController = player.GetComponent<PlayerController>();
+            _playerAudioSource = player.GetComponent<AudioSource>();
+        }
+
+        // 사운드 미리 로드 및 데이터 로드 강제 (지연 최소화)
+        if (_packetClip == null)
+        {
+            _packetClip = Resources.Load<AudioClip>("SFX/데이터_패킷_획득_1");
+            if (_packetClip != null) _packetClip.LoadAudioData();
+        }
+        if (_shieldClip == null)
+        {
+            _shieldClip = Resources.Load<AudioClip>("SFX/방어막_1");
+            if (_shieldClip != null) _shieldClip.LoadAudioData();
+        }
+        if (_giantClip == null)
+        {
+            _giantClip = Resources.Load<AudioClip>("SFX/크기증가");
+            if (_giantClip != null) _giantClip.LoadAudioData();
         }
     }
 
@@ -69,11 +88,48 @@ public class Collectible : MonoBehaviour
         }
     }
 
+    private static AudioClip _packetClip;
+    private static AudioClip _shieldClip;
+    private static AudioClip _giantClip;
+
+    private void PlayPacketSound()
+    {
+        if (_packetClip != null && _playerAudioSource != null)
+        {
+            _playerAudioSource.pitch = 1.0f; // 기본 피치
+            _playerAudioSource.PlayOneShot(_packetClip);
+        }
+    }
+
+    private void PlayShieldSound()
+    {
+        if (_shieldClip != null && _playerAudioSource != null)
+        {
+            _playerAudioSource.pitch = 1.0f;
+            _playerAudioSource.PlayOneShot(_shieldClip);
+        }
+    }
+
+    private void PlayGiantSound()
+    {
+        if (_giantClip != null && _playerAudioSource != null)
+        {
+            // 재생 반응 속도를 높이기 위해 피치를 살짝 올림 (더 경쾌하고 빠른 느낌)
+            _playerAudioSource.pitch = 1.15f; 
+            _playerAudioSource.PlayOneShot(_giantClip);
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            // 효과 적용
+            // ── 1. 소리부터 즉각 재생 (지연 최소화) ──
+            if (type == CollectibleType.DataPacket) PlayPacketSound();
+            else if (type == CollectibleType.Shield) PlayShieldSound();
+            else if (type == CollectibleType.Giant) PlayGiantSound();
+
+            // ── 2. 효과 적용 ──
             switch (type)
             {
                 case CollectibleType.DataPacket:
@@ -93,8 +149,16 @@ public class Collectible : MonoBehaviour
                     {
                         int r = UnityEngine.Random.Range(0, 3);
                         if (r == 0) _playerController.ActivateMagnet(5f);
-                        else if (r == 1) _playerController.ActivateShield();
-                        else _playerController.ActivateGiant(5f);
+                        else if (r == 1)
+                        {
+                            _playerController.ActivateShield();
+                            PlayShieldSound();
+                        }
+                        else
+                        {
+                            _playerController.ActivateGiant(5f);
+                            PlayGiantSound();
+                        }
                     }
                     break;
             }
