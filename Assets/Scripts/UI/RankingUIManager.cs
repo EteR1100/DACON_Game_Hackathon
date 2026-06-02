@@ -2,12 +2,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using System;
+using System.Collections;
 
 public class RankingUIManager : MonoBehaviour
 {
     private Button _btnHome;
     private VisualElement _listContainer;
-    private Label _bestScoreLabel;
+    private Label _lblDataPackets;
+
+    // My Rank Sticky Bar Elements
+    private Label _myRankNumber;
+    private Label _myRankName;
+    private Label _myRankScore;
+    private Label _myRankDate;
+
+    // Tab Elements
+    private Button _tabDaily;
+    private Button _tabWeekly;
+    private Button _tabAll;
+    private string _currentPeriod = "all";
+
+    // Refresh Elements
+    private Label _lblLastUpdate;
+    private Button _btnRefresh;
+    private DateTime _lastUpdateTime;
+
+    // Error UI Elements
+    private VisualElement _errorArea;
+    private Button _btnRetry;
 
     private void Start()
     {
@@ -15,17 +38,107 @@ public class RankingUIManager : MonoBehaviour
 
         _btnHome = root.Q<Button>("BtnHome");
         _listContainer = root.Q<VisualElement>("RankingListContainer");
-        _bestScoreLabel = root.Q<Label>("BestScoreLabel");
+        _lblDataPackets = root.Q<Label>("LblDataPackets");
+
+        // My Rank Elements
+        _myRankNumber = root.Q<Label>("MyRankNumber");
+        _myRankName = root.Q<Label>("MyRankName");
+        _myRankScore = root.Q<Label>("MyRankScore");
+        _myRankDate = root.Q<Label>("MyRankDate");
+
+        // Tab Elements
+        _tabDaily = root.Q<Button>("TabDaily");
+        _tabWeekly = root.Q<Button>("TabWeekly");
+        _tabAll = root.Q<Button>("TabAll");
+
+        // Refresh Elements
+        _lblLastUpdate = root.Q<Label>("LblLastUpdate");
+        _btnRefresh = root.Q<Button>("BtnRefresh");
+
+        // Error UI
+        _errorArea = root.Q<VisualElement>("ErrorArea");
+        _btnRetry = root.Q<Button>("BtnRetry");
 
         if (_btnHome != null)
         {
             _btnHome.clicked += OnBackClicked;
         }
 
-        LoadRankings();
+        if (_tabDaily != null) _tabDaily.clicked += () => SwitchTab("daily");
+        if (_tabWeekly != null) _tabWeekly.clicked += () => SwitchTab("weekly");
+        if (_tabAll != null) _tabAll.clicked += () => SwitchTab("all");
+
+        if (_btnRefresh != null)
+        {
+            _btnRefresh.clicked += () => LoadRankings(_currentPeriod);
+        }
+
+        if (_btnRetry != null)
+        {
+            _btnRetry.clicked += () => LoadRankings(_currentPeriod);
+        }
+
+        // Initialize My Rank with local data first
+        UpdateMyRankLocal();
+
+        // Display current coins
+        if (_lblDataPackets != null)
+        {
+            int coins = PlayerPrefs.GetInt("Coins", 10000);
+            _lblDataPackets.text = coins.ToString("N0");
+        }
+
+        LoadRankings(_currentPeriod);
+        StartCoroutine(UpdateRefreshTimeRoutine());
     }
 
-    private void LoadRankings()
+    private IEnumerator UpdateRefreshTimeRoutine()
+    {
+        while (true)
+        {
+            UpdateRefreshTimeText();
+            yield return new WaitForSeconds(60f); // Update every minute
+        }
+    }
+
+    private void UpdateRefreshTimeText()
+    {
+        if (_lblLastUpdate == null || _lastUpdateTime == DateTime.MinValue) return;
+
+        TimeSpan diff = DateTime.Now - _lastUpdateTime;
+        if (diff.TotalSeconds < 60)
+        {
+            _lblLastUpdate.text = "LAST UPDATED: JUST NOW";
+        }
+        else
+        {
+            _lblLastUpdate.text = $"LAST UPDATED: {Mathf.FloorToInt((float)diff.TotalMinutes)} MIN AGO";
+        }
+    }
+
+    private void SwitchTab(string period)
+    {
+        if (_currentPeriod == period) return;
+
+        _currentPeriod = period;
+        
+        // Update Tab Visuals
+        _tabDaily?.EnableInClassList("tab-active", _currentPeriod == "daily");
+        _tabWeekly?.EnableInClassList("tab-active", _currentPeriod == "weekly");
+        _tabAll?.EnableInClassList("tab-active", _currentPeriod == "all");
+
+        LoadRankings(_currentPeriod);
+    }
+
+    private void UpdateMyRankLocal()
+    {
+        if (_myRankName != null) _myRankName.text = PlayerPrefs.GetString("Nickname", "USER");
+        if (_myRankScore != null) _myRankScore.text = PlayerPrefs.GetInt("BestScore", 0).ToString("N0");
+        if (_myRankNumber != null) _myRankNumber.text = "#--";
+        if (_myRankDate != null) _myRankDate.text = "LAST PLAY: ----";
+    }
+
+    private void LoadRankings(string period)
     {
         if (RankingService.Instance == null)
         {
@@ -33,10 +146,77 @@ public class RankingUIManager : MonoBehaviour
             return;
         }
 
+        // Show loading state on retry button if error area is visible
+        if (_errorArea != null && _errorArea.style.display == DisplayStyle.Flex)
+        {
+            if (_btnRetry != null)
+            {
+                _btnRetry.text = "ESTABLISHING CONNECTION...";
+                _btnRetry.SetEnabled(false);
+            }
+        }
+
         RankingService.Instance.GetRankings(
-            onSuccess: UpdateRankingUI,
-            onError: error => Debug.LogError("Ranking load failed: " + error)
+            period,
+            onSuccess: rankings => {
+                _lastUpdateTime = DateTime.Now;
+                UpdateRefreshTimeText();
+                UpdateRankingUI(rankings);
+                UpdateMyRankFromServer(rankings);
+                if (_errorArea != null) _errorArea.style.display = DisplayStyle.None;
+                
+                // Reset button state
+                if (_btnRetry != null)
+                {
+                    _btnRetry.text = "RE-ESTABLISH CONNECTION";
+                    _btnRetry.SetEnabled(true);
+                }
+            },
+            onError: error => {
+                Debug.LogError("Ranking load failed: " + error);
+                if (_errorArea != null) _errorArea.style.display = DisplayStyle.Flex;
+                if (_listContainer != null) _listContainer.Clear();
+
+                // Reset button state on failure so user can try again
+                if (_btnRetry != null)
+                {
+                    _btnRetry.text = "RE-ESTABLISH CONNECTION";
+                    _btnRetry.SetEnabled(true);
+                }
+            }
         );
+    }
+
+    private void UpdateMyRankFromServer(List<RankData> rankings)
+    {
+        string myName = PlayerPrefs.GetString("Nickname", "");
+        if (string.IsNullOrEmpty(myName)) return;
+
+        int myRank = -1;
+        RankData myData = null;
+
+        for (int i = 0; i < rankings.Count; i++)
+        {
+            if (rankings[i].name == myName)
+            {
+                myRank = i + 1;
+                myData = rankings[i];
+                break;
+            }
+        }
+
+        if (myRank != -1 && myData != null)
+        {
+            if (_myRankNumber != null) _myRankNumber.text = "#" + myRank;
+            if (_myRankName != null) _myRankName.text = myData.name;
+            if (_myRankScore != null) _myRankScore.text = myData.score.ToString("N0");
+            if (_myRankDate != null) _myRankDate.text = "RECORDED: " + myData.date;
+        }
+        else
+        {
+            // If not in top rankings
+            if (_myRankNumber != null) _myRankNumber.text = "#OUT";
+        }
     }
 
     private void UpdateRankingUI(List<RankData> rankings)
@@ -48,15 +228,19 @@ public class RankingUIManager : MonoBehaviour
 
         _listContainer.Clear();
 
+        if (rankings.Count == 0)
+        {
+            Label emptyLabel = new Label("NO DATA FOUND FOR THIS PERIOD");
+            emptyLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
+            emptyLabel.style.color = new Color(1, 1, 1, 0.5f);
+            emptyLabel.style.marginTop = 50;
+            _listContainer.Add(emptyLabel);
+            return;
+        }
+
         for (int i = 0; i < rankings.Count; i++)
         {
             _listContainer.Add(CreateRankCard(rankings[i], i + 1));
-        }
-
-        if (_bestScoreLabel != null)
-        {
-            int best = PlayerPrefs.GetInt("BestScore", 0);
-            _bestScoreLabel.text = best.ToString("N0");
         }
     }
 

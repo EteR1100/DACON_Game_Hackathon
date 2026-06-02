@@ -81,5 +81,18 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
+        <!-- ====== CONFIRM EXIT OVERLAY (hidden by default) ====== -->
+        <ui:VisualElement class="gp-overlay" name="ConfirmExitOverlay">
+            <ui:VisualElement class="gp-overlay-box gp-confirm-box">
+                <ui:Label text="// WARNING: SYSTEM EXIT //" class="gp-overlay-title gp-error-text" />
+                <ui:Label text="지금까지의 점수만 집계되고 게임은 처음부터 다시 시작됩니다.&#10;정말로 메인화면으로 돌아가시겠습니까?" class="gp-confirm-desc" />
+                
+                <ui:VisualElement class="gp-confirm-btn-row">
+                    <ui:Button text="[ 메인화면으로 ]" class="gp-overlay-btn gp-btn-main gp-confirm-btn" name="BtnConfirmExit" />
+                    <ui:Button text="[ 취소 ]" class="gp-overlay-btn gp-btn-resume gp-confirm-btn" name="BtnCancelExit" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
     </ui:VisualElement>
 </ui:UXML>

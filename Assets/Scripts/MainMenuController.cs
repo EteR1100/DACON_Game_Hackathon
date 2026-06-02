@@ -11,6 +11,7 @@ public class MainMenuController : MonoBehaviour
     private TextField _inputNickname;
     private Button _btnConfirmNickname;
     private Label _lblNickname;
+    private Label _lblBestScore;
     private Label _nicknameCounter;
     private Label _lblDataPackets;
     
@@ -36,6 +37,7 @@ public class MainMenuController : MonoBehaviour
         _inputNickname = root.Q<TextField>("InputNickname");
         _btnConfirmNickname = root.Q<Button>("BtnConfirmNickname");
         _lblNickname = root.Q<Label>("LblNickname");
+        _lblBestScore = root.Q<Label>("LblBestScore");
         _nicknameCounter = root.Q<Label>("NicknameCounter");
         _lblDataPackets = root.Q<Label>("LblDataPackets");
         
@@ -110,6 +112,13 @@ public class MainMenuController : MonoBehaviour
             // Hide popup, update label
             _nicknamePopup.style.display = DisplayStyle.None;
             _lblNickname.text = savedNickname;
+        }
+
+        // Display Best Score
+        if (_lblBestScore != null)
+        {
+            int best = PlayerPrefs.GetInt("BestScore", 0);
+            _lblBestScore.text = best.ToString("N0");
         }
 
         UpdateDataPacketsDisplay();

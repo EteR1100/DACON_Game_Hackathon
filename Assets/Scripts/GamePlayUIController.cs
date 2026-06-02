@@ -26,10 +26,15 @@ public class GamePlayUIController : MonoBehaviour
     private Button _btnResume;
     private Button _btnRestart;
     private Button _btnMainMenu;
+    
+    // 종료 확인 팝업 버튼
+    private Button _btnConfirmExit;
+    private Button _btnCancelExit;
 
     // 오버레이
     private VisualElement _pauseOverlay;
     private VisualElement _feverFlash;
+    private VisualElement _confirmExitOverlay;
 
     // ── 현재 값 (외부 게임 로직에서 프로퍼티로 업데이트) ──
     private int   _score    = 0;
@@ -112,17 +117,25 @@ public class GamePlayUIController : MonoBehaviour
         // 오버레이
         _pauseOverlay = root.Q<VisualElement>("PauseOverlay");
         _feverFlash   = root.Q<VisualElement>("FeverFlash");
+        _confirmExitOverlay = root.Q<VisualElement>("ConfirmExitOverlay");
 
         // 버튼
         _btnPause    = root.Q<Button>("BtnPause");
         _btnResume   = root.Q<Button>("BtnResume");
         _btnRestart  = root.Q<Button>("BtnRestart");
         _btnMainMenu = root.Q<Button>("BtnMainMenu");
+        
+        // 확인 팝업 버튼
+        _btnConfirmExit = root.Q<Button>("BtnConfirmExit");
+        _btnCancelExit  = root.Q<Button>("BtnCancelExit");
 
         if (_btnPause    != null) _btnPause.clicked    += TogglePause;
         if (_btnResume   != null) _btnResume.clicked   += TogglePause;
         if (_btnRestart  != null) _btnRestart.clicked  += RestartGame;
-        if (_btnMainMenu != null) _btnMainMenu.clicked += GoToMainMenu;
+        if (_btnMainMenu != null) _btnMainMenu.clicked += ShowExitConfirmation;
+        
+        if (_btnConfirmExit != null) _btnConfirmExit.clicked += ConfirmGoToMainMenu;
+        if (_btnCancelExit  != null) _btnCancelExit.clicked  += HideExitConfirmation;
 
         // 저장된 최고 점수 표시
         if (_lblBest != null)
@@ -131,6 +144,7 @@ public class GamePlayUIController : MonoBehaviour
         // 초기 상태
         if (_pauseOverlay != null) _pauseOverlay.style.display = DisplayStyle.None;
         if (_feverFlash   != null) _feverFlash.style.display   = DisplayStyle.None;
+        if (_confirmExitOverlay != null) _confirmExitOverlay.style.display = DisplayStyle.None;
     }
 
     void Update()
@@ -138,12 +152,22 @@ public class GamePlayUIController : MonoBehaviour
         if (UnityEngine.InputSystem.Keyboard.current != null && 
             UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            TogglePause();
+            if (_confirmExitOverlay != null && _confirmExitOverlay.style.display == DisplayStyle.Flex)
+            {
+                HideExitConfirmation();
+            }
+            else
+            {
+                TogglePause();
+            }
         }
     }
 
     public void TogglePause()
     {
+        // 종료 확인창이 떠있을 때는 일시정지 해제 불가 (우선순위)
+        if (_confirmExitOverlay != null && _confirmExitOverlay.style.display == DisplayStyle.Flex) return;
+
         _isPaused = !_isPaused;
         if (GameManager.Instance != null)
             GameManager.Instance.SetPaused(_isPaused);
@@ -168,6 +192,9 @@ public class GamePlayUIController : MonoBehaviour
 
         if (_pauseOverlay != null && _pauseOverlay.style.display == DisplayStyle.Flex)
             return true;
+            
+        if (_confirmExitOverlay != null && _confirmExitOverlay.style.display == DisplayStyle.Flex)
+            return true;
 
         return false;
     }
@@ -184,8 +211,40 @@ public class GamePlayUIController : MonoBehaviour
         }
     }
 
-    private void GoToMainMenu()
+    private void ShowExitConfirmation()
     {
+        if (_confirmExitOverlay != null)
+        {
+            _confirmExitOverlay.style.display = DisplayStyle.Flex;
+            // 일시정지창은 잠시 숨김
+            if (_pauseOverlay != null) _pauseOverlay.style.display = DisplayStyle.None;
+        }
+    }
+
+    private void HideExitConfirmation()
+    {
+        if (_confirmExitOverlay != null)
+        {
+            _confirmExitOverlay.style.display = DisplayStyle.None;
+            // 다시 일시정지창 보여줌
+            if (_pauseOverlay != null) _pauseOverlay.style.display = DisplayStyle.Flex;
+        }
+    }
+
+    private void ConfirmGoToMainMenu()
+    {
+        // 1. 현재 데이터 저장 (점수, 코인)
+        PlayerPrefs.SetInt("LastScore", _score);
+        
+        int best = PlayerPrefs.GetInt("BestScore", 0);
+        if (_score > best) PlayerPrefs.SetInt("BestScore", _score);
+        
+        // 코인은 이미 획득할 때마다 PlayerPrefs에 저장되는 경우가 많지만, 안전을 위해 다시 저장
+        int currentTotalCoins = PlayerPrefs.GetInt("Coins", 10000);
+        // GameManager.cs에서 이미 AddCoin 시 저장하므로, 여기서는 최종 동기화만 수행
+        PlayerPrefs.Save();
+
+        // 2. 메인 화면으로 이동
         if (GameManager.Instance != null)
             GameManager.Instance.GoToMainMenu();
         else
@@ -193,5 +252,11 @@ public class GamePlayUIController : MonoBehaviour
             Time.timeScale = 1f;
             SceneManager.LoadScene("MainScene");
         }
+    }
+
+    private void GoToMainMenu()
+    {
+        // 이제 이 메서드는 직접 호출되지 않고 ShowExitConfirmation을 통해 단계적으로 진행됩니다.
+        ShowExitConfirmation();
     }
 }

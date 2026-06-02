@@ -15,7 +15,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement class="hud-box">
                     <ui:Label text="BEST" class="hud-label" />
-                    <ui:Label text="0" class="hud-value" />
+                    <ui:Label text="0" class="hud-value" name="LblBestScore" />
                 </ui:VisualElement>
             </ui:VisualElement>
 

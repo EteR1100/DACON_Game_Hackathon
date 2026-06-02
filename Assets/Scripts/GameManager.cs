@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        _ui = FindObjectOfType<GamePlayUIController>();
+        _ui = FindFirstObjectByType<GamePlayUIController>();
         CurrentSpeedMultiplier = initialSpeedMultiplier;
         GameSpeedProvider.CurrentMultiplier = CurrentSpeedMultiplier;
         Time.timeScale = 1f;

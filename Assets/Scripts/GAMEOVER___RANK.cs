@@ -41,6 +41,7 @@ public class SceneLoader : MonoBehaviour
         if (btnMain != null) btnMain.clicked += GoToMain;
 
         // Display Scores & Coins
+        var lblMainScore = root.Q<UnityEngine.UIElements.Label>("MainScoreLabel");
         var lblCurrent = root.Q<UnityEngine.UIElements.Label>("CurrentScoreLabel");
         var lblBest = root.Q<UnityEngine.UIElements.Label>("BestScoreLabel");
         var lblCoin = root.Q<UnityEngine.UIElements.Label>("CoinLabel");
@@ -49,6 +50,7 @@ public class SceneLoader : MonoBehaviour
         int bestScore = PlayerPrefs.GetInt("BestScore", 0);
         int coins = PlayerPrefs.GetInt("Coins", 0);
 
+        if (lblMainScore != null) lblMainScore.text = "SCORE: " + lastScore.ToString("N0");
         if (lblCurrent != null) lblCurrent.text = lastScore.ToString("N0");
         if (lblBest != null) lblBest.text = bestScore.ToString("N0");
         if (lblCoin != null) lblCoin.text = coins.ToString("N0");

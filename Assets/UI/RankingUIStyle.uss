@@ -39,6 +39,68 @@
     padding: 4px 14px;
 }
 
+.ranking-tabs {
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.tab-btn {
+    height: 40px;
+    width: 140px;
+    background-color: rgba(0, 128, 255, 0.08);
+    border-width: 2px;
+    border-color: rgba(0, 128, 255, 0.4);
+    color: #0080ff;
+    font-size: 15px;
+    -unity-font-style: bold;
+    margin: 0 5px;
+    transition: background-color 0.2s;
+}
+
+.tab-btn:hover {
+    background-color: rgba(0, 255, 255, 0.12);
+}
+
+.tab-active {
+    background-color: rgba(0, 128, 255, 0.3);
+    border-color: #00ffff;
+    color: #ffffff;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(0, 255, 255, 0.5);
+}
+
+.refresh-area {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.refresh-text {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+    margin-right: 14px;
+}
+
+.btn-refresh-cyber {
+    height: 32px;
+    padding: 0 16px;
+    background-color: rgba(0, 255, 255, 0.1);
+    border-width: 1px;
+    border-color: #00ffff;
+}
+
+.btn-refresh-cyber:hover {
+    background-color: rgba(0, 255, 255, 0.2);
+}
+
+.btn-refresh-text {
+    color: #00ffff;
+    font-size: 12px;
+    -unity-font-style: bold;
+}
+
 .btn-home-cyber {
     height: 52px;
     min-width: 132px;
@@ -160,8 +222,8 @@
 }
 
 .rank-date-text {
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
 }
 
 .rank-score-group {
@@ -170,8 +232,9 @@
 }
 
 .rank-score-caption {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 13px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 15px;
+    -unity-font-style: bold;
     margin-bottom: 4px;
 }
 
@@ -200,4 +263,82 @@
 
 .rank-tone-blue {
     color: #0080ff;
+}
+
+/* Error UI Styles */
+.error-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(2, 3, 10, 0.95);
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 40px;
+}
+
+.error-title {
+    color: #ff006e;
+    font-size: 28px;
+    -unity-font-style: bold;
+    margin-bottom: 16px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(255, 0, 110, 0.5);
+}
+
+.error-desc {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+    -unity-text-align: middle-center;
+    margin-bottom: 32px;
+}
+
+.btn-retry-cyber {
+    height: 54px;
+    padding: 0 32px;
+    background-color: rgba(255, 0, 110, 0.1);
+    border-width: 2px;
+    border-color: #ff006e;
+    color: #ff006e;
+    font-size: 16px;
+    -unity-font-style: bold;
+}
+
+.btn-retry-cyber:hover {
+    background-color: rgba(255, 0, 110, 0.2);
+    border-color: #ff5ba3;
+}
+
+/* My Rank Sticky Bar Styles */
+.my-rank-sticky {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    translate: -50% 0;
+    width: 860px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100px;
+    background-color: rgba(4, 7, 18, 0.98);
+    border-width: 3px;
+    border-color: #ff006e;
+    padding: 16px 28px;
+    border-radius: 4px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgba(255, 0, 110, 0.3);
+}
+
+.my-rank-accent {
+    color: #ff006e;
+    -unity-text-outline-color: rgba(255, 0, 110, 0.6);
+}
+
+.my-rank-avatar {
+    border-color: #ff006e;
+    background-color: rgba(255, 0, 110, 0.12);
 }

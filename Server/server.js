@@ -65,8 +65,21 @@ let rankings = loadRankings();
 
 // 1. 랭킹 데이터 가져오기 (GET)
 app.get('/ranking', (req, res) => {
-    console.log("Ranking data requested.");
-    const sortedRankings = rankings.sort((a, b) => b.score - a.score).slice(0, 10);
+    const period = req.query.period || 'all';
+    console.log(`Ranking data requested. Period: ${period}`);
+    
+    let filteredRankings = [...rankings];
+    const now = new Date();
+    
+    if (period === 'daily') {
+        const todayStr = now.toISOString().split('T')[0];
+        filteredRankings = rankings.filter(r => r.date === todayStr);
+    } else if (period === 'weekly') {
+        const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        filteredRankings = rankings.filter(r => new Date(r.date) >= oneWeekAgo);
+    }
+
+    const sortedRankings = filteredRankings.sort((a, b) => b.score - a.score).slice(0, 10);
     res.json(sortedRankings);
 });
 

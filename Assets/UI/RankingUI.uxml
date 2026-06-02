@@ -13,14 +13,6 @@
 
         <ui:VisualElement class="top-hud">
             <ui:VisualElement class="hud-left">
-                <ui:VisualElement class="hud-box mini-hud">
-                    <ui:Label text="SCORE" class="hud-label" />
-                    <ui:Label text="0" class="hud-value" />
-                </ui:VisualElement>
-                <ui:VisualElement class="hud-box mini-hud">
-                    <ui:Label text="BEST" class="hud-label" />
-                    <ui:Label name="BestScoreLabel" text="0" class="hud-value" />
-                </ui:VisualElement>
             </ui:VisualElement>
 
             <ui:VisualElement class="hud-center">
@@ -33,32 +25,54 @@
                     <ui:Label text="HOME" class="btn-home-text" />
                 </ui:Button>
                 <ui:VisualElement class="hud-box hud-accent mini-hud">
-                    <ui:Label text="COINS" class="hud-label-accent" />
-                    <ui:Label text="0" class="hud-value-accent" />
+                    <ui:Label text="DATA PACKETS" class="hud-label-accent" />
+                    <ui:Label text="0" class="hud-value-accent" name="LblDataPackets" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
 
+        <ui:VisualElement class="ranking-tabs">
+            <ui:Button name="TabDaily" class="tab-btn" text="DAILY" />
+            <ui:Button name="TabWeekly" class="tab-btn" text="WEEKLY" />
+            <ui:Button name="TabAll" class="tab-btn tab-active" text="ALL-TIME" />
+        </ui:VisualElement>
+
+        <ui:VisualElement class="refresh-area">
+            <ui:Label text="LAST UPDATED: JUST NOW" name="LblLastUpdate" class="refresh-text" />
+            <ui:Button name="BtnRefresh" class="btn-refresh-cyber">
+                <ui:Label text="REFRESH" class="btn-refresh-text" />
+            </ui:Button>
+        </ui:VisualElement>
+
         <ui:VisualElement class="ranking-list-area">
+            <!-- Error Message Area (Hidden by default) -->
+            <ui:VisualElement name="ErrorArea" class="error-overlay" style="display: none;">
+                <ui:Label text="&gt; CONNECTION_FAILURE" class="error-title" />
+                <ui:Label text="UNABLE TO ESTABLISH CONNECTION WITH THE SERVER." class="error-desc" />
+                <ui:Button name="BtnRetry" class="btn-retry-cyber" text="RE-ESTABLISH CONNECTION" />
+            </ui:VisualElement>
+
             <ui:ScrollView class="ranking-scroll">
                 <ui:VisualElement name="RankingListContainer" class="list-container">
-                    <ui:VisualElement class="rank-card card-gold">
-                        <ui:VisualElement class="rank-left-group">
-                            <ui:Label text="#1" class="rank-number rank-tone-gold" />
-                            <ui:VisualElement class="rank-avatar avatar-rainbow" />
-                            <ui:VisualElement class="rank-info">
-                                <ui:Label text="CyberNinja" class="rank-name-text rank-tone-gold" />
-                                <ui:Label text="2026-05-30 10:45" class="rank-date-text" />
-                            </ui:VisualElement>
-                        </ui:VisualElement>
-                        <ui:VisualElement class="rank-score-group">
-                            <ui:Label text="RUN SCORE" class="rank-score-caption" />
-                            <ui:Label text="15,420" class="rank-score-text rank-tone-gold" />
-                            <ui:Label text="DATA +580" class="rank-coin-text" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
+                    <!-- Dynamic ranking items here -->
                 </ui:VisualElement>
             </ui:ScrollView>
+
+            <!-- Sticky My Rank Bar -->
+            <ui:VisualElement name="MyRankContainer" class="my-rank-sticky">
+                <ui:VisualElement class="rank-left-group">
+                    <ui:Label text="#--" name="MyRankNumber" class="rank-number my-rank-accent" />
+                    <ui:VisualElement class="rank-avatar my-rank-avatar" />
+                    <ui:VisualElement class="rank-info">
+                        <ui:Label text="USER" name="MyRankName" class="rank-name-text my-rank-accent" />
+                        <ui:Label text="LAST PLAY: ----" name="MyRankDate" class="rank-date-text" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="rank-score-group">
+                    <ui:Label text="MY BEST" class="rank-score-caption" />
+                    <ui:Label text="0" name="MyRankScore" class="rank-score-text my-rank-accent" />
+                </ui:VisualElement>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -296,3 +296,32 @@
 .gp-btn-restart:hover {
     background-color: rgba(204, 255, 0, 0.3);
 }
+
+/* ─── 확인 팝업 추가 스타일 ─── */
+.gp-confirm-box {
+    min-width: 600px;
+    border-color: #ff003c;
+}
+
+.gp-error-text {
+    color: #ff003c;
+    -unity-text-outline-color: rgba(255, 0, 60, 0.5);
+}
+
+.gp-confirm-desc {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 18px;
+    margin-bottom: 40px;
+    -unity-text-align: middle-center;
+    line-height: 28px;
+}
+
+.gp-confirm-btn-row {
+    flex-direction: row;
+    justify-content: center;
+}
+
+.gp-confirm-btn {
+    width: 240px;
+    margin: 0 10px;
+}

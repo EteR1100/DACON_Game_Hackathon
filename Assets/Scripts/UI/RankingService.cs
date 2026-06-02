@@ -40,14 +40,15 @@ public class RankingService : MonoBehaviour
     }
 
     // 1. 랭킹 데이터 가져오기 (GET)
-    public void GetRankings(Action<List<RankData>> onSuccess, Action<string> onError)
+    public void GetRankings(string period, Action<List<RankData>> onSuccess, Action<string> onError)
     {
-        StartCoroutine(GetRankingsRoutine(onSuccess, onError));
+        StartCoroutine(GetRankingsRoutine(period, onSuccess, onError));
     }
 
-    private IEnumerator GetRankingsRoutine(Action<List<RankData>> onSuccess, Action<string> onError)
+    private IEnumerator GetRankingsRoutine(string period, Action<List<RankData>> onSuccess, Action<string> onError)
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(_baseUrl))
+        string url = _baseUrl + "?period=" + period;
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             yield return webRequest.SendWebRequest();
 

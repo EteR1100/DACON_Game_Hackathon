@@ -25,7 +25,7 @@
 
         <ui:VisualElement class="coin-hud">
             <ui:VisualElement class="hud-box hud-coin">
-                <ui:Label text="COINS" class="hud-label" />
+                <ui:Label text="DATA PACKETS" class="hud-label" />
                 <ui:Label name="CoinLabel" text="0" class="hud-value hud-value-coin" />
             </ui:VisualElement>
         </ui:VisualElement>
@@ -33,6 +33,7 @@
         <ui:VisualElement class="gameover-title-area">
             <ui:Label text="GAME OVER" class="gameover-title-text" />
             <ui:Label text="/// SYSTEM FAILURE ///" class="gameover-subtitle-text" />
+            <ui:Label name="MainScoreLabel" text="SCORE: 0" class="gameover-main-score" />
         </ui:VisualElement>
 
         <ui:VisualElement class="gameover-button-group">
