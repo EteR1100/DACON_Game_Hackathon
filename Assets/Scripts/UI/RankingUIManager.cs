@@ -88,8 +88,30 @@ public class RankingUIManager : MonoBehaviour
             _lblDataPackets.text = coins.ToString("N0");
         }
 
-        LoadRankings(_currentPeriod);
+        SyncLocalBestScoreThenLoadRankings();
         StartCoroutine(UpdateRefreshTimeRoutine());
+    }
+
+    private void SyncLocalBestScoreThenLoadRankings()
+    {
+        int bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        string nickname = PlayerPrefs.GetString("Nickname", "").Trim();
+
+        if (bestScore <= 0 || string.IsNullOrEmpty(nickname) || RankingService.Instance == null)
+        {
+            LoadRankings(_currentPeriod);
+            return;
+        }
+
+        RankingService.Instance.PostScore(
+            nickname,
+            bestScore,
+            onSuccess: () => LoadRankings(_currentPeriod),
+            onError: error => {
+                Debug.LogError("Local best score sync failed: " + error);
+                LoadRankings(_currentPeriod);
+            }
+        );
     }
 
     private IEnumerator UpdateRefreshTimeRoutine()
@@ -135,7 +157,11 @@ public class RankingUIManager : MonoBehaviour
         if (_myRankName != null) _myRankName.text = PlayerPrefs.GetString("Nickname", "USER");
         if (_myRankScore != null) _myRankScore.text = PlayerPrefs.GetInt("BestScore", 0).ToString("N0");
         if (_myRankNumber != null) _myRankNumber.text = "#--";
-        if (_myRankDate != null) _myRankDate.text = "LAST PLAY: ----";
+        if (_myRankDate != null)
+        {
+            string lastPlayDate = PlayerPrefs.GetString("LastPlayDate", "");
+            _myRankDate.text = string.IsNullOrEmpty(lastPlayDate) ? "LAST PLAY: ----" : "LAST PLAY: " + lastPlayDate;
+        }
     }
 
     private void LoadRankings(string period)
@@ -215,7 +241,12 @@ public class RankingUIManager : MonoBehaviour
         else
         {
             // If not in top rankings
-            if (_myRankNumber != null) _myRankNumber.text = "#OUT";
+            if (_myRankNumber != null) _myRankNumber.text = "#--";
+            if (_myRankDate != null)
+            {
+                string lastPlayDate = PlayerPrefs.GetString("LastPlayDate", "");
+                _myRankDate.text = string.IsNullOrEmpty(lastPlayDate) ? "LAST PLAY: ----" : "LAST PLAY: " + lastPlayDate;
+            }
         }
     }
 

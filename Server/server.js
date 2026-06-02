@@ -44,11 +44,7 @@ function loadRankings() {
         console.error("Error loading rankings:", err);
     }
     // 파일이 없거나 에러 시 기본값 반환
-    return [
-        { name: "PRO_GAMER", score: 15420, date: "2026-05-25" },
-        { name: "GRAVITY_MASTER", score: 12850, date: "2026-05-25" },
-        { name: "FLIP_KING", score: 10230, date: "2026-05-24" }
-    ];
+    return [];
 }
 
 // 데이터 저장 함수
@@ -63,6 +59,10 @@ function saveRankings(data) {
 // 초기 로드
 let rankings = loadRankings();
 
+function getKstDateString(date = new Date()) {
+    return new Date(date.getTime() + 9 * 60 * 60 * 1000).toISOString().split('T')[0];
+}
+
 // 1. 랭킹 데이터 가져오기 (GET)
 app.get('/ranking', (req, res) => {
     const period = req.query.period || 'all';
@@ -72,7 +72,7 @@ app.get('/ranking', (req, res) => {
     const now = new Date();
     
     if (period === 'daily') {
-        const todayStr = now.toISOString().split('T')[0];
+        const todayStr = getKstDateString(now);
         filteredRankings = rankings.filter(r => r.date === todayStr);
     } else if (period === 'weekly') {
         const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -94,10 +94,17 @@ app.post('/ranking', (req, res) => {
     const newEntry = {
         name,
         score: parseInt(score),
-        date: new Date().toISOString().split('T')[0]
+        date: getKstDateString()
     };
 
-    rankings.push(newEntry);
+    const existingIndex = rankings.findIndex(r => r.name === name);
+    if (existingIndex >= 0) {
+        if (newEntry.score > parseInt(rankings[existingIndex].score)) {
+            rankings[existingIndex] = newEntry;
+        }
+    } else {
+        rankings.push(newEntry);
+    }
     saveRankings(rankings); // 파일에 저장
     console.log(`New record saved: ${name} - ${score}`);
     

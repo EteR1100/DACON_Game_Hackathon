@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 /// <summary>
 /// 게임 전체 흐름을 제어합니다.
@@ -176,6 +177,7 @@ private void SaveFinalStats()
 {
     int finalScore = Mathf.FloorToInt(_score);
     PlayerPrefs.SetInt("LastScore", finalScore);
+    PlayerPrefs.SetString("LastPlayDate", GetKstDateString());
 
     int best = PlayerPrefs.GetInt("BestScore", 0);
     if (finalScore > best)
@@ -185,5 +187,36 @@ private void SaveFinalStats()
 
     PlayerPrefs.SetInt("Coins", _coin);
     PlayerPrefs.Save();
+
+    int scoreToSubmit = Mathf.Max(finalScore, PlayerPrefs.GetInt("BestScore", 0));
+    if (scoreToSubmit > 0) SubmitBestScore(scoreToSubmit);
+}
+
+private void SubmitBestScore(int score)
+{
+    string nickname = PlayerPrefs.GetString("Nickname", "").Trim();
+    if (string.IsNullOrEmpty(nickname))
+    {
+        nickname = "USER";
+    }
+
+    RankingService rankingService = RankingService.Instance;
+    if (rankingService == null)
+    {
+        GameObject serviceObject = new GameObject("RankingService");
+        rankingService = serviceObject.AddComponent<RankingService>();
+    }
+
+    rankingService.PostScore(
+        nickname,
+        score,
+        onSuccess: () => Debug.Log($"Ranking score submitted: {nickname} - {score}"),
+        onError: error => Debug.LogError("Ranking score submit failed: " + error)
+    );
+}
+
+private string GetKstDateString()
+{
+    return DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd");
 }
 }
