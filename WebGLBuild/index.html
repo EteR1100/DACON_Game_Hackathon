@@ -52,12 +52,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/unity game.loader.js";
+      var loaderUrl = buildUrl + "/WebGLBuild.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/unity game.data.unityweb",
-        frameworkUrl: buildUrl + "/unity game.framework.js.unityweb",
-        codeUrl: buildUrl + "/unity game.wasm.unityweb",
+        dataUrl: buildUrl + "/WebGLBuild.data.unityweb",
+        frameworkUrl: buildUrl + "/WebGLBuild.framework.js.unityweb",
+        codeUrl: buildUrl + "/WebGLBuild.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Flip ball",
@@ -104,8 +104,8 @@
 
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
-        canvas.style.width = "95vw";
-        canvas.style.height = "95vh";
+        canvas.style.width = "1280px";
+        canvas.style.height = "720px";
       }
 
       document.querySelector("#unity-loading-bar").style.display = "block";

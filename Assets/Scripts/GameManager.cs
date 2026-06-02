@@ -156,23 +156,21 @@ public class GameManager : MonoBehaviour
     public void GoToMainMenu()
     {
         SaveFinalStats();
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainScene");
+        Time.timeScale = 0f; // 일시정지
+        _ui?.ShowGameOverOverlay();
     }
 
     public void GameOver()
     {
         if (_isGameOver) return;
         _isGameOver = true;
-// 최고 점수 및 데이터 저장 함수 호출
-    SaveFinalStats();
-    
-    // 게임오버 로그 출력
-    Debug.Log("Game Over! Score: " + Mathf.FloorToInt(_score));
+        
+        SaveFinalStats();
+        Debug.Log("Game Over! Score: " + Mathf.FloorToInt(_score));
 
-    // GameOver 씬으로 이동 (SceneLoader/GAMEOVER___RANK가 있는 씬)
-    SceneManager.LoadScene("GameOverScene");
-}
+        Time.timeScale = 0f; // 게임 멈춤
+        _ui?.ShowGameOverOverlay();
+    }
 
 private void SaveFinalStats()
 {

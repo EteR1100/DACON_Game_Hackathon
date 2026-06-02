@@ -239,19 +239,189 @@ public class GamePlayUIController : MonoBehaviour
         int best = PlayerPrefs.GetInt("BestScore", 0);
         if (_score > best) PlayerPrefs.SetInt("BestScore", _score);
         
-        // 코인은 이미 획득할 때마다 PlayerPrefs에 저장되는 경우가 많지만, 안전을 위해 다시 저장
-        int currentTotalCoins = PlayerPrefs.GetInt("Coins", 10000);
-        // GameManager.cs에서 이미 AddCoin 시 저장하므로, 여기서는 최종 동기화만 수행
         PlayerPrefs.Save();
 
-        // 2. 메인 화면으로 이동
-        if (GameManager.Instance != null)
-            GameManager.Instance.GoToMainMenu();
-        else
+        // 2. 결과창(오버레이) 보여주기
+        ShowGameOverOverlay();
+    }
+
+    [Header("Game Over Settings")]
+    [SerializeField] private VisualTreeAsset gameOverUXML;
+    private VisualElement _gameOverOverlay;
+
+    // ... (rest of existing fields)
+
+    // ───── 외부 게임 로직이 호출하는 공개 메서드 ─────
+
+    public void ShowGameOverOverlay()
+    {
+        // 1. UXML 및 USS 로드
+        if (gameOverUXML == null)
         {
+            gameOverUXML = Resources.Load<VisualTreeAsset>("UI/GameOverUI");
+        }
+
+        if (gameOverUXML == null)
+        {
+            Debug.LogError("GamePlayUIController: GameOverUXML could not be loaded!");
+            return;
+        }
+
+        var root = _uiDocument.rootVisualElement;
+
+        // 2. 오버레이 생성 및 전체 화면 설정
+        _gameOverOverlay = gameOverUXML.Instantiate();
+        _gameOverOverlay.style.position = Position.Absolute;
+        _gameOverOverlay.style.left = 0;
+        _gameOverOverlay.style.top = 0;
+        _gameOverOverlay.style.right = 0;
+        _gameOverOverlay.style.bottom = 0;
+        
+        // 클릭 이벤트가 뒤로 새나가지 않도록 설정
+        _gameOverOverlay.pickingMode = PickingMode.Position;
+        
+        root.Add(_gameOverOverlay);
+
+        // 3. 버튼 바인딩 및 기존 UI 숨김
+        if (_pauseOverlay != null) _pauseOverlay.style.display = DisplayStyle.None;
+        if (_confirmExitOverlay != null) _confirmExitOverlay.style.display = DisplayStyle.None;
+        
+        // HUD 요소들 숨김 (루트 하위의 모든 요소 중 게임오버가 아닌 것들)
+        foreach (var child in root.Children())
+        {
+            if (child != _gameOverOverlay)
+                child.style.display = DisplayStyle.None;
+        }
+
+        // 버튼 바인딩
+        var btnRestart = _gameOverOverlay.Q<Button>("RESTART_button");
+        var btnRank = _gameOverOverlay.Q<Button>("RANK_button");
+        var btnMain = _gameOverOverlay.Q<Button>("MAIN_button");
+
+        if (btnRestart != null) btnRestart.clicked += RestartGame;
+        if (btnRank != null) btnRank.clicked += () => SceneManager.LoadScene("Ranking Scene");
+        if (btnMain != null) btnMain.clicked += () => {
             Time.timeScale = 1f;
             SceneManager.LoadScene("MainScene");
+        };
+
+        // 데이터 표시 및 애니메이션 시작
+        SetupGameOverAnimations(_gameOverOverlay);
+    }
+
+    private void SetupGameOverAnimations(VisualElement root)
+    {
+        var container = root.Q<VisualElement>(className: "gameover-container");
+        var scoreHud = root.Q<VisualElement>(className: "score-hud");
+        var coinHud = root.Q<VisualElement>(className: "coin-hud");
+        var titleArea = root.Q<VisualElement>(className: "gameover-title-area");
+        var btnGroup = root.Q<VisualElement>(className: "gameover-button-group");
+
+        var lblMainScore = root.Q<Label>("MainScoreLabel");
+        var lblCurrent = root.Q<Label>("CurrentScoreLabel");
+        var lblBest = root.Q<Label>("BestScoreLabel");
+        var lblCoin = root.Q<Label>("CoinLabel");
+
+        int lastScore = PlayerPrefs.GetInt("LastScore", 0);
+        int bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        int coins = PlayerPrefs.GetInt("Coins", 0);
+
+        // 초기 상태
+        if (container != null) container.style.backgroundColor = new Color(0, 0, 0, 0);
+        if (scoreHud != null) scoreHud.style.opacity = 0;
+        if (coinHud != null) coinHud.style.opacity = 0;
+        if (titleArea != null) titleArea.style.opacity = 0;
+        if (btnGroup != null) btnGroup.style.opacity = 0;
+
+        StartCoroutine(AnimateGameoverSequence(container, scoreHud, coinHud, titleArea, btnGroup, lastScore, bestScore, coins, lblMainScore, lblCurrent, lblBest, lblCoin));
+    }
+
+    private System.Collections.IEnumerator AnimateGameoverSequence(
+        VisualElement container, VisualElement scoreHud, VisualElement coinHud, 
+        VisualElement titleArea, VisualElement btnGroup,
+        int lastScore, int bestScore, int coins,
+        Label lblMainScore, Label lblCurrent, Label lblBest, Label lblCoin)
+    {
+        float bgDuration = 0.5f;
+        float elapsed = 0f;
+        while (elapsed < bgDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            if (container != null) 
+                container.style.backgroundColor = new Color(0, 0, 0, Mathf.Lerp(0f, 0.85f, elapsed / bgDuration));
+            yield return null;
         }
+        if (container != null) container.style.backgroundColor = new Color(0, 0, 0, 0.85f);
+
+        StartCoroutine(FadeAndSlideUp(titleArea, 0.8f, 0.1f));
+        StartCoroutine(FadeAndSlideUp(scoreHud, 0.8f, 0.3f));
+        StartCoroutine(FadeAndSlideUp(coinHud, 0.8f, 0.4f));
+
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        if (lblMainScore != null) StartCoroutine(AnimateScore(lblMainScore, lastScore, "SCORE: "));
+        if (lblCurrent != null) StartCoroutine(AnimateScore(lblCurrent, lastScore));
+        if (lblBest != null)
+        {
+            if (lastScore >= bestScore && lastScore > 0)
+                StartCoroutine(AnimateScore(lblBest, bestScore, "BEST: "));
+            else
+                lblBest.text = "BEST: " + bestScore.ToString("N0");
+        }
+        if (lblCoin != null) StartCoroutine(AnimateScore(lblCoin, coins, "", 1.0f));
+
+        yield return new WaitForSecondsRealtime(1.0f);
+
+        float btnDuration = 0.5f;
+        elapsed = 0f;
+        while (elapsed < btnDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            if (btnGroup != null) btnGroup.style.opacity = elapsed / btnDuration;
+            yield return null;
+        }
+        if (btnGroup != null) btnGroup.style.opacity = 1f;
+    }
+
+    private System.Collections.IEnumerator FadeAndSlideUp(VisualElement element, float duration, float delay)
+    {
+        if (element == null) yield break;
+        yield return new WaitForSecondsRealtime(delay);
+        float elapsed = 0f;
+        
+        // Use style.translate instead of obsolete transform.position
+        element.style.translate = new Translate(0, 50, 0);
+        element.style.opacity = 0;
+        
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            float easedT = 1f - Mathf.Pow(1f - t, 3f);
+            
+            element.style.opacity = t;
+            float yPos = Mathf.Lerp(50, 0, easedT);
+            element.style.translate = new Translate(0, yPos, 0);
+            yield return null;
+        }
+        element.style.opacity = 1;
+        element.style.translate = new Translate(0, 0, 0);
+    }
+
+    private System.Collections.IEnumerator AnimateScore(Label label, int targetValue, string prefix = "", float duration = 1.5f)
+    {
+        if (label == null) yield break;
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float progress = Mathf.Clamp01(elapsed / duration);
+            float easedProgress = 1f - Mathf.Pow(1f - progress, 3f);
+            int currentValue = Mathf.FloorToInt(targetValue * easedProgress);
+            label.text = prefix + currentValue.ToString("N0");
+            yield return null;
+        }
+        label.text = prefix + targetValue.ToString("N0");
     }
 
     private void GoToMainMenu()
