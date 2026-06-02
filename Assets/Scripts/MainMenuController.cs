@@ -114,6 +114,15 @@ public class MainMenuController : MonoBehaviour
 
         UpdateDataPacketsDisplay();
 
+        // Grant 10,000 coins only once
+        if (PlayerPrefs.GetInt("InitialCoinsGranted", 0) == 0)
+        {
+            PlayerPrefs.SetInt("Coins", 10000);
+            PlayerPrefs.SetInt("InitialCoinsGranted", 1);
+            PlayerPrefs.Save();
+            UpdateDataPacketsDisplay();
+        }
+
         // Register Shop Close callback
         if (ShopManager.Instance != null)
         {
@@ -125,7 +134,7 @@ public class MainMenuController : MonoBehaviour
     {
         if (_lblDataPackets != null)
         {
-            int coins = PlayerPrefs.GetInt("Coins", 1250);
+            int coins = PlayerPrefs.GetInt("Coins", 10000);
             _lblDataPackets.text = coins.ToString("N0");
         }
     }

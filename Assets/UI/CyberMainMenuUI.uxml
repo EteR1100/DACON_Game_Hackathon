@@ -6,8 +6,6 @@
     <ui:Style src="project://database/Assets/UI/CyberMainMenuStyle.uss" />
 
     <ui:VisualElement class="container">
-        <ui:VisualElement class="bg-vignette" />
-        <ui:VisualElement class="bg-scanlines" />
 
         <ui:VisualElement class="hud-top">
             <ui:VisualElement class="hud-group">
@@ -58,11 +56,6 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <ui:VisualElement class="corner corner-top-left" picking-mode="Ignore" />
-        <ui:VisualElement class="corner corner-top-right" picking-mode="Ignore" />
-        <ui:VisualElement class="corner corner-bottom-left" picking-mode="Ignore" />
-        <ui:VisualElement class="corner corner-bottom-right" picking-mode="Ignore" />
-
         <ui:VisualElement class="volume-panel-left" picking-mode="Ignore">
             <ui:VisualElement class="volume-row" picking-mode="Ignore">
                 <ui:Label text="BGM" class="volume-label" />
@@ -76,37 +69,7 @@
 
         <ui:VisualElement class="popup-overlay" name="NicknamePopup">
             <ui:VisualElement class="bg-grid popup-bg-grid" />
-            <ui:VisualElement class="grid-lines">
-                <ui:VisualElement class="grid-line-v v01" />
-                <ui:VisualElement class="grid-line-v v02" />
-                <ui:VisualElement class="grid-line-v v03" />
-                <ui:VisualElement class="grid-line-v v04" />
-                <ui:VisualElement class="grid-line-v v05" />
-                <ui:VisualElement class="grid-line-v v06" />
-                <ui:VisualElement class="grid-line-v v07" />
-                <ui:VisualElement class="grid-line-v v08" />
-                <ui:VisualElement class="grid-line-v v09" />
-                <ui:VisualElement class="grid-line-v v10" />
-                <ui:VisualElement class="grid-line-v v11" />
-                <ui:VisualElement class="grid-line-v v12" />
-                <ui:VisualElement class="grid-line-v v13" />
-                <ui:VisualElement class="grid-line-v v14" />
-                <ui:VisualElement class="grid-line-v v15" />
-                <ui:VisualElement class="grid-line-h h01" />
-                <ui:VisualElement class="grid-line-h h02" />
-                <ui:VisualElement class="grid-line-h h03" />
-                <ui:VisualElement class="grid-line-h h04" />
-                <ui:VisualElement class="grid-line-h h05" />
-                <ui:VisualElement class="grid-line-h h06" />
-                <ui:VisualElement class="grid-line-h h07" />
-                <ui:VisualElement class="grid-line-h h08" />
-                <ui:VisualElement class="grid-line-h h09" />
-            </ui:VisualElement>
             <ui:VisualElement class="bg-scanlines" />
-            <ui:VisualElement class="popup-corner popup-corner-left-top" />
-            <ui:VisualElement class="popup-corner popup-corner-right-top" />
-            <ui:VisualElement class="popup-corner popup-corner-left-bottom" />
-            <ui:VisualElement class="popup-corner popup-corner-right-bottom" />
 
             <ui:VisualElement class="login-stage">
                 <ui:VisualElement class="boot-log">
@@ -131,7 +94,6 @@
                     <ui:TextField name="InputNickname" class="popup-input" text="" />
                     <ui:Label text="2-12자 / 0/12" name="NicknameCounter" class="popup-counter" />
                     <ui:Button text="&gt;&gt; ACCESS SYSTEM &lt;&lt;" name="BtnConfirmNickname" class="popup-btn" />
-                    <ui:VisualElement class="popup-divider" />
                     <ui:Label text="TIP: 닉네임은 랭킹에 표시됩니다" class="popup-tip" />
                 </ui:VisualElement>
 

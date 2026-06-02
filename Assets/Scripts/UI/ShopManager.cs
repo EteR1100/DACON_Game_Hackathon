@@ -125,7 +125,7 @@ public class ShopManager : MonoBehaviour
 
     private void UpdateCoinDisplay()
     {
-        int coins = PlayerPrefs.GetInt("Coins", 1250);
+        int coins = PlayerPrefs.GetInt("Coins", 10000);
         if (_coinValue != null)
         {
             _coinValue.text = coins.ToString();
@@ -203,7 +203,7 @@ public class ShopManager : MonoBehaviour
 
     private void BuyItem(ShopItem item)
     {
-        int currentCoins = PlayerPrefs.GetInt("Coins", 1250);
+        int currentCoins = PlayerPrefs.GetInt("Coins", 10000);
         if (currentCoins >= item.Price)
         {
             currentCoins -= item.Price;

@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         // Load coins from PlayerPrefs
-        _coin = PlayerPrefs.GetInt("Coins", 1250);
+        _coin = PlayerPrefs.GetInt("Coins", 10000);
         if (_ui != null) _ui.SetCoin(_coin);
     }
 
