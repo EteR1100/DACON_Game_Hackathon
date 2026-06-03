@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     private float _feverTimer    = 0f;
 
     private GamePlayUIController _ui;
+    private ParticleSystem _feverFireVFX;
 
     // ── 외부 읽기용 프로퍼티 ──
     public float CurrentSpeedMultiplier { get; private set; }
@@ -66,6 +67,9 @@ public class GameManager : MonoBehaviour
         // 누적 데이터 패킷 불러오기
         _coin = PlayerPrefs.GetInt("DataPacket", PlayerPrefs.GetInt("Coins", 0)); // 호환성 유지
         _ui?.SetCoin(_coin);
+
+        var fireVFXObj = GameObject.Find("FeverFireVFX");
+        if (fireVFXObj != null) _feverFireVFX = fireVFXObj.GetComponent<ParticleSystem>();
     }
 
     void Update()
@@ -90,6 +94,7 @@ public class GameManager : MonoBehaviour
                 _isFeverActive = false;
                 _feverGauge    = 0f;
                 _ui?.SetFever(0f);
+                if (_feverFireVFX != null) _feverFireVFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             }
         }
         else
@@ -103,6 +108,7 @@ public class GameManager : MonoBehaviour
                 _isFeverActive = true;
                 _feverTimer    = feverDuration;
                 _ui?.SetFever(1f);
+                if (_feverFireVFX != null) _feverFireVFX.Play(true);
             }
             else
             {
@@ -169,8 +175,22 @@ public class GameManager : MonoBehaviour
         SaveFinalStats();
         Debug.Log("Game Over! Score: " + Mathf.FloorToInt(_score));
 
-        Time.timeScale = 0f; // 게임 멈춤
-        _ui?.ShowGameOverOverlay();
+        // 폭발 VFX 재생 시간 기다린 후 게임오버 씬으로 전환
+        StartCoroutine(GameOverRoutine());
+    }
+
+    private System.Collections.IEnumerator GameOverRoutine()
+    {
+        // 폭발 연출 대기
+        yield return new WaitForSecondsRealtime(0.8f);
+
+        // 게임 화면 캡처 (GameOver 씬 배경으로 사용)
+        yield return new WaitForEndOfFrame();
+        var tex = ScreenCapture.CaptureScreenshotAsTexture();
+        GameOverBackground.CapturedTexture = tex;
+
+        yield return new WaitForSecondsRealtime(0.2f);
+        SceneManager.LoadScene("GameOverScene");
     }
 
 private void SaveFinalStats()

@@ -212,18 +212,14 @@ public class SceneLoader : MonoBehaviour
                 }
             }
 
-            if (legacyCanvas != null)
-            {
-                legacyCanvas.gameObject.SetActive(false);
-                Debug.Log("SceneLoader: Legacy UGUI Canvas disabled.");
-            }
-            else
-            {
-                if (rankButton != null) rankButton.gameObject.SetActive(false);
-                if (mainButton != null) mainButton.gameObject.SetActive(false);
-                if (restartButton != null) restartButton.gameObject.SetActive(false);
-            }
-            return;
+            // UIDocument가 같은 Canvas에 있으므로 Canvas 전체를 끄면 안 됨
+        // 레거시 버튼들만 개별적으로 숨김
+        if (rankButton != null) rankButton.gameObject.SetActive(false);
+        if (mainButton != null) mainButton.gameObject.SetActive(false);
+        if (restartButton != null) restartButton.gameObject.SetActive(false);
+        
+        Debug.Log("SceneLoader: Legacy UGUI buttons hidden (Canvas preserved for UIDocument).");
+        return;
         }
 
         // Add listeners

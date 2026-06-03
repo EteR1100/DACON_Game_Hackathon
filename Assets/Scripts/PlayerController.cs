@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("=== VFX 설정 ===")]
     public GameObject shieldBreakPrefab;
+    public GameObject ballExplosionPrefab;
 
     [Header("=== 오디오 설정 ===")]
     public AudioClip gravityFlipSound;
@@ -86,19 +87,23 @@ public class PlayerController : MonoBehaviour
         _renderer = GetComponent<Renderer>();
         if (_renderer == null) _renderer = GetComponentInChildren<Renderer>();
         
+        string hexColor = PlayerPrefs.GetString("EquippedSkinColor", "#00F2FF");
+        if (!ColorUtility.TryParseHtmlString(hexColor, out Color skinColor))
+            skinColor = new Color(0f, 0.95f, 1f); // 기본 시안
+
+        // SpriteRenderer 색상 적용 (폭발 VFX 색상도 여기서 읽음)
+        var spriteRend = GetComponent<SpriteRenderer>() ?? GetComponentInChildren<SpriteRenderer>();
+        if (spriteRend != null)
+            spriteRend.color = skinColor;
+
+        // Material 색상 & 발광 적용
         if (_renderer != null)
         {
-            string hexColor = PlayerPrefs.GetString("EquippedSkinColor", "#00F2FF");
-            if (ColorUtility.TryParseHtmlString(hexColor, out Color skinColor))
+            _renderer.material.color = skinColor;
+            if (_renderer.material.HasProperty("_EmissionColor"))
             {
-                // MaterialPropertyBlock을 사용하면 인스턴스 생성을 피할 수 있지만, 
-                // 여기서는 간단하게 material.color를 수정하거나 _EmissionColor를 수정합니다.
-                _renderer.material.color = skinColor;
-                if (_renderer.material.HasProperty("_EmissionColor"))
-                {
-                    _renderer.material.SetColor("_EmissionColor", skinColor * 2f); // 살짝 발광 효과
-                    _renderer.material.EnableKeyword("_EMISSION");
-                }
+                _renderer.material.SetColor("_EmissionColor", skinColor * 2f);
+                _renderer.material.EnableKeyword("_EMISSION");
             }
         }
 
@@ -131,17 +136,61 @@ public class PlayerController : MonoBehaviour
             return; // 방어막이 있으면 죽지 않음
         }
 
+        if (_isDead) return; // 중복 호출 방지
         _isDead = true;
-        
-        // (요청에 따라 임시로 떨어지지 않게 주석 처리)
-        // var rb = GetComponent<Rigidbody2D>();
-        // if (rb != null)
-        // {
-        //     rb.bodyType = RigidbodyType2D.Dynamic;
-        //     rb.gravityScale = 3f;
-        // }
-        // GameSpeedProvider.CurrentMultiplier = 0f;
-        
+
+        // 배경 스크롤 정지
+        GameSpeedProvider.CurrentMultiplier = 0f;
+
+        // 공 색상 읽기 - SpriteRenderer에서 직접 읽어옴 (가장 정확함)
+        Color ballColor = new Color(0f, 0.95f, 1f); // 기본 시안
+        var sr = GetComponent<SpriteRenderer>() ?? GetComponentInChildren<SpriteRenderer>();
+        if (sr != null && sr.color != Color.white && sr.color.a > 0f)
+        {
+            ballColor = sr.color;
+            ballColor.a = 1f;
+        }
+        else
+        {
+            // fallback: PlayerPrefs
+            string hexColor = PlayerPrefs.GetString("EquippedSkinColor", "#00F2FF");
+            ColorUtility.TryParseHtmlString(hexColor, out ballColor);
+        }
+
+        // 폭발 VFX 생성 및 색상 적용
+        if (ballExplosionPrefab != null)
+        {
+            var vfxInstance = Instantiate(ballExplosionPrefab, transform.position, Quaternion.identity);
+            Debug.Log($"[Die] ballColor = {ballColor}");
+
+            foreach (var ps in vfxInstance.GetComponentsInChildren<ParticleSystem>(true))
+            {
+                // 파티클 멈추고 색 바꾼 뒤 다시 재생
+                ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+                var main = ps.main;
+                main.startColor = new ParticleSystem.MinMaxGradient(ballColor);
+
+                // colorOverLifetime 비활성화 (startColor가 우선되도록)
+                var colOverLife = ps.colorOverLifetime;
+                colOverLife.enabled = false;
+
+                ps.Play();
+            }
+        }
+
+        // 공 렌더러 숨기기 (폭발 연출 동안)
+        if (_renderer != null) _renderer.enabled = false;
+        var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer != null) spriteRenderer.enabled = false;
+
+        // VFX 숨기기
+        if (_vfxShield != null) _vfxShield.SetActive(false);
+        if (_vfxMagnet != null) _vfxMagnet.SetActive(false);
+
+        // GameManager에 게임오버 알림 후 씬 전환
+        if (GameManager.Instance != null) GameManager.Instance.GameOver();
+
         this.enabled = false;
     }
 
