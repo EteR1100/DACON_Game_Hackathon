@@ -1,0 +1,1092 @@
+fileFormatVersion: 2
+guid: abb1307a9f0c34b899776d57494e0078
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1403027137883924710
+    second: Item_Shield_0
+  - first:
+      213: 8666495154691951583
+    second: Item_Shield_1
+  - first:
+      213: 2696848893165699564
+    second: Item_Shield_2
+  - first:
+      213: 7441844741011392481
+    second: Item_Shield_3
+  - first:
+      213: -7678290014029767113
+    second: Item_Shield_4
+  - first:
+      213: -2791182230845425115
+    second: Item_Shield_5
+  - first:
+      213: -6376090115941918557
+    second: Item_Shield_6
+  - first:
+      213: -467601058276760510
+    second: Item_Shield_7
+  - first:
+      213: -4477964088735501263
+    second: Item_Shield_8
+  - first:
+      213: 6096991031598526269
+    second: Item_Shield_9
+  - first:
+      213: -1065743599649104941
+    second: Item_Shield_10
+  - first:
+      213: -8357734876127471938
+    second: Item_Shield_11
+  - first:
+      213: 3604500384264486054
+    second: Item_Shield_12
+  - first:
+      213: -1797008146911118614
+    second: Item_Shield_13
+  - first:
+      213: -6656452039136044320
+    second: Item_Shield_14
+  - first:
+      213: 4784095901712760853
+    second: Item_Shield_15
+  - first:
+      213: 7043260932026047477
+    second: Item_Shield_16
+  - first:
+      213: -221123063780047826
+    second: Item_Shield_17
+  - first:
+      213: -4069967077004007099
+    second: Item_Shield_18
+  - first:
+      213: -8053662596061299448
+    second: Item_Shield_19
+  - first:
+      213: -7158608039927946417
+    second: Item_Shield_20
+  - first:
+      213: 5302952930544010665
+    second: Item_Shield_21
+  - first:
+      213: -811647701259544514
+    second: Item_Shield_22
+  - first:
+      213: -773549257669950813
+    second: Item_Shield_23
+  - first:
+      213: 8039620146968154959
+    second: Item_Shield_24
+  - first:
+      213: 1882836424962088531
+    second: Item_Shield_25
+  - first:
+      213: -1966340875346631052
+    second: Item_Shield_26
+  - first:
+      213: -8516166252878374796
+    second: Item_Shield_27
+  - first:
+      213: -6198351150348609264
+    second: Item_Shield_28
+  - first:
+      213: 4633242849110212759
+    second: Item_Shield_29
+  - first:
+      213: 2552973913117103148
+    second: Item_Shield_30
+  - first:
+      213: 5254166664126456348
+    second: Item_Shield_31
+  - first:
+      213: -7107320954046009634
+    second: Item_Shield_32
+  - first:
+      213: -7264416429420085476
+    second: Item_Shield_33
+  - first:
+      213: 3797648689322994042
+    second: Item_Shield_34
+  - first:
+      213: 1899847020091695850
+    second: Item_Shield_35
+  - first:
+      213: -8424636267789415091
+    second: Item_Shield_36
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Item_Shield_0
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 680
+        width: 79
+        height: 316
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e8edc39fbd887310800000000000000
+      internalID: 1403027137883924710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_1
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 975
+        width: 100
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdbce071d63954870800000000000000
+      internalID: 8666495154691951583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 432
+        width: 57
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce10c02a7c12d6520800000000000000
+      internalID: 2696848893165699564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_3
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 542
+        width: 53
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e7c7950d5eb64760800000000000000
+      internalID: 7441844741011392481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_4
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 525
+        width: 6
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73e935fd9eb317590800000000000000
+      internalID: -7678290014029767113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_5
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 59
+        width: 631
+        height: 786
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52a7313ac8ab349d0800000000000000
+      internalID: -2791182230845425115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_6
+      rect:
+        serializedVersion: 2
+        x: 742
+        y: 760
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a8176f42d39387a0800000000000000
+      internalID: -6376090115941918557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_7
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 631
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24421d0a05fb289f0800000000000000
+      internalID: -467601058276760510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_8
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 567
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 134f6f5f2631bd1c0800000000000000
+      internalID: -4477964088735501263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_9
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 618
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3f2c2d3a0ddc9450800000000000000
+      internalID: 6096991031598526269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_10
+      rect:
+        serializedVersion: 2
+        x: 767
+        y: 631
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dbd449b7d7b531f0800000000000000
+      internalID: -1065743599649104941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_11
+      rect:
+        serializedVersion: 2
+        x: 776
+        y: 449
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb6578d496c530c80800000000000000
+      internalID: -8357734876127471938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_12
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 545
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6acf7d48002c50230800000000000000
+      internalID: 3604500384264486054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_13
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 520
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aea31e08c9ebf07e0800000000000000
+      internalID: -1797008146911118614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_14
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 208
+        width: 200
+        height: 598
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ea1fd643288f93a0800000000000000
+      internalID: -6656452039136044320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_15
+      rect:
+        serializedVersion: 2
+        x: 809
+        y: 451
+        width: 11
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 510cdf810e5846240800000000000000
+      internalID: 4784095901712760853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_16
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 695
+        width: 9
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fb9cc93080beb160800000000000000
+      internalID: 7043260932026047477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_17
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 589
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e248ebbbeb96eecf0800000000000000
+      internalID: -221123063780047826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_18
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 549
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54924afc1829487c0800000000000000
+      internalID: -4069967077004007099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_19
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 542
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80d7aecf984ab3090800000000000000
+      internalID: -8053662596061299448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_20
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 531
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f43e6d56ae387ac90800000000000000
+      internalID: -7158608039927946417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_21
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 498
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a541b5189fd79940800000000000000
+      internalID: 5302952930544010665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_22
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 480
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3899ab47b27cb4f0800000000000000
+      internalID: -811647701259544514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_23
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 407
+        width: 9
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a2c0507c0dc345f0800000000000000
+      internalID: -773549257669950813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_24
+      rect:
+        serializedVersion: 2
+        x: 811
+        y: 241
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f435c1d8de7729f60800000000000000
+      internalID: 8039620146968154959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_25
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 565
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35e1808b0cd212a10800000000000000
+      internalID: 1882836424962088531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_26
+      rect:
+        serializedVersion: 2
+        x: 814
+        y: 764
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47622a9546726b4e0800000000000000
+      internalID: -1966340875346631052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_27
+      rect:
+        serializedVersion: 2
+        x: 814
+        y: 536
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 478d301e9ef70d980800000000000000
+      internalID: -8516166252878374796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_28
+      rect:
+        serializedVersion: 2
+        x: 814
+        y: 256
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 019565218780bf9a0800000000000000
+      internalID: -6198351150348609264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_29
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 600
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7904553c2d59c4040800000000000000
+      internalID: 4633242849110212759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_30
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 543
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c241f2c6f3cfd6320800000000000000
+      internalID: 2552973913117103148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_31
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 221
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c12e4f54ebc8ae840800000000000000
+      internalID: 5254166664126456348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_32
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 197
+        width: 11
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edea56d9f39bd5d90800000000000000
+      internalID: -7107320954046009634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_33
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 201
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1f77e7febb9f2b90800000000000000
+      internalID: -7264416429420085476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_34
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 0
+        width: 35
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7923d4bc55f3b430800000000000000
+      internalID: 3797648689322994042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_35
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 1
+        width: 37
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae266288ccc9d5a10800000000000000
+      internalID: 1899847020091695850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Shield_36
+      rect:
+        serializedVersion: 2
+        x: 980
+        y: 10
+        width: 20
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4d0a8833fda51b80800000000000000
+      internalID: -8424636267789415091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Item_Shield_0: 1403027137883924710
+      Item_Shield_1: 8666495154691951583
+      Item_Shield_10: -1065743599649104941
+      Item_Shield_11: -8357734876127471938
+      Item_Shield_12: 3604500384264486054
+      Item_Shield_13: -1797008146911118614
+      Item_Shield_14: -6656452039136044320
+      Item_Shield_15: 4784095901712760853
+      Item_Shield_16: 7043260932026047477
+      Item_Shield_17: -221123063780047826
+      Item_Shield_18: -4069967077004007099
+      Item_Shield_19: -8053662596061299448
+      Item_Shield_2: 2696848893165699564
+      Item_Shield_20: -7158608039927946417
+      Item_Shield_21: 5302952930544010665
+      Item_Shield_22: -811647701259544514
+      Item_Shield_23: -773549257669950813
+      Item_Shield_24: 8039620146968154959
+      Item_Shield_25: 1882836424962088531
+      Item_Shield_26: -1966340875346631052
+      Item_Shield_27: -8516166252878374796
+      Item_Shield_28: -6198351150348609264
+      Item_Shield_29: 4633242849110212759
+      Item_Shield_3: 7441844741011392481
+      Item_Shield_30: 2552973913117103148
+      Item_Shield_31: 5254166664126456348
+      Item_Shield_32: -7107320954046009634
+      Item_Shield_33: -7264416429420085476
+      Item_Shield_34: 3797648689322994042
+      Item_Shield_35: 1899847020091695850
+      Item_Shield_36: -8424636267789415091
+      Item_Shield_4: -7678290014029767113
+      Item_Shield_5: -2791182230845425115
+      Item_Shield_6: -6376090115941918557
+      Item_Shield_7: -467601058276760510
+      Item_Shield_8: -4477964088735501263
+      Item_Shield_9: 6096991031598526269
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

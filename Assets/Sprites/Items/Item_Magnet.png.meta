@@ -1,0 +1,858 @@
+fileFormatVersion: 2
+guid: ca1130cda09eb48e894e85cc034f06af
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7129491885487979229
+    second: Item_Magnet_0
+  - first:
+      213: 3318983109206062872
+    second: Item_Magnet_1
+  - first:
+      213: -6683654133612282608
+    second: Item_Magnet_2
+  - first:
+      213: -4582970240918205425
+    second: Item_Magnet_3
+  - first:
+      213: 7560942752246971287
+    second: Item_Magnet_4
+  - first:
+      213: -2454376748331958586
+    second: Item_Magnet_5
+  - first:
+      213: 5013041451530116140
+    second: Item_Magnet_6
+  - first:
+      213: 5841252134636003785
+    second: Item_Magnet_7
+  - first:
+      213: 8270686602526986371
+    second: Item_Magnet_8
+  - first:
+      213: -9187054028680438135
+    second: Item_Magnet_9
+  - first:
+      213: 5924564308207393864
+    second: Item_Magnet_10
+  - first:
+      213: -4960579452341106669
+    second: Item_Magnet_11
+  - first:
+      213: 2894793302111571908
+    second: Item_Magnet_12
+  - first:
+      213: -43965605714492082
+    second: Item_Magnet_13
+  - first:
+      213: 8169961811176103455
+    second: Item_Magnet_14
+  - first:
+      213: -7292412311049263907
+    second: Item_Magnet_15
+  - first:
+      213: -542687456002478039
+    second: Item_Magnet_16
+  - first:
+      213: -5274275628093569908
+    second: Item_Magnet_17
+  - first:
+      213: 1645065043835525106
+    second: Item_Magnet_18
+  - first:
+      213: 6583891562634966182
+    second: Item_Magnet_19
+  - first:
+      213: 7685278615600189558
+    second: Item_Magnet_20
+  - first:
+      213: 389143188124884447
+    second: Item_Magnet_21
+  - first:
+      213: 6946807399686381348
+    second: Item_Magnet_22
+  - first:
+      213: 2967658030945717827
+    second: Item_Magnet_23
+  - first:
+      213: 8532309096746334490
+    second: Item_Magnet_24
+  - first:
+      213: 61371514826691518
+    second: Item_Magnet_25
+  - first:
+      213: -7309121814611205268
+    second: Item_Magnet_26
+  - first:
+      213: -4580760151474324243
+    second: Item_Magnet_27
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Item_Magnet_0
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 982
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 325857067e4fe0d90800000000000000
+      internalID: -7129491885487979229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_1
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 977
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 817bfb79d856f0e20800000000000000
+      internalID: 3318983109206062872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_2
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 973
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01df77c1af3ee33a0800000000000000
+      internalID: -6683654133612282608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_3
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 950
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0c42e5f8d40660c0800000000000000
+      internalID: -4582970240918205425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_4
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 927
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79bbeb2af5ddde860800000000000000
+      internalID: 7560942752246971287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_5
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 905
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cef1bae95d40fdd0800000000000000
+      internalID: -2454376748331958586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_6
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 896
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2cd2c2d3a6e19540800000000000000
+      internalID: 5013041451530116140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_7
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 887
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c1a8704edb401150800000000000000
+      internalID: 5841252134636003785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_8
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 883
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 380143025a167c270800000000000000
+      internalID: 8270686602526986371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_9
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 869
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98e5e283907018080800000000000000
+      internalID: -9187054028680438135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_10
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 856
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84cd8af39d7483250800000000000000
+      internalID: 5924564308207393864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_11
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 811
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3184b17354b782bb0800000000000000
+      internalID: -4960579452341106669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_12
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 765
+        width: 7
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cf4a86cb2f5c2820800000000000000
+      internalID: 2894793302111571908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 179
+        width: 954
+        height: 575
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e458d09b38dc36ff0800000000000000
+      internalID: -43965605714492082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_14
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 612
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1e98af1bf8816170800000000000000
+      internalID: 8169961811176103455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_15
+      rect:
+        serializedVersion: 2
+        x: 961
+        y: 540
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd42934d3a52cca90800000000000000
+      internalID: -7292412311049263907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_16
+      rect:
+        serializedVersion: 2
+        x: 979
+        y: 500
+        width: 21
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92079e052acf778f0800000000000000
+      internalID: -542687456002478039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_17
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 449
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c848bf3b2420ec6b0800000000000000
+      internalID: -5274275628093569908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_18
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 260
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f79a3201f174d610800000000000000
+      internalID: 1645065043835525106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_19
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 256
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a47c864e7eae5b50800000000000000
+      internalID: 6583891562634966182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_20
+      rect:
+        serializedVersion: 2
+        x: 916
+        y: 260
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67051cabe2897aa60800000000000000
+      internalID: 7685278615600189558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_21
+      rect:
+        serializedVersion: 2
+        x: 875
+        y: 247
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdd52f6faa3866500800000000000000
+      internalID: 389143188124884447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_22
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 247
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42f9c553684086060800000000000000
+      internalID: 6946807399686381348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_23
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 201
+        width: 7
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34eca5d714d3f2920800000000000000
+      internalID: 2967658030945717827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_24
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 188
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a193669dae9d86670800000000000000
+      internalID: 8532309096746334490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_25
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 174
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb3929c41190ad000800000000000000
+      internalID: 61371514826691518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_26
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 165
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c636a0c5f68c09a90800000000000000
+      internalID: -7309121814611205268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Item_Magnet_27
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 151
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: decbb1289eedd60c0800000000000000
+      internalID: -4580760151474324243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Item_Magnet_0: -7129491885487979229
+      Item_Magnet_1: 3318983109206062872
+      Item_Magnet_10: 5924564308207393864
+      Item_Magnet_11: -4960579452341106669
+      Item_Magnet_12: 2894793302111571908
+      Item_Magnet_13: -43965605714492082
+      Item_Magnet_14: 8169961811176103455
+      Item_Magnet_15: -7292412311049263907
+      Item_Magnet_16: -542687456002478039
+      Item_Magnet_17: -5274275628093569908
+      Item_Magnet_18: 1645065043835525106
+      Item_Magnet_19: 6583891562634966182
+      Item_Magnet_2: -6683654133612282608
+      Item_Magnet_20: 7685278615600189558
+      Item_Magnet_21: 389143188124884447
+      Item_Magnet_22: 6946807399686381348
+      Item_Magnet_23: 2967658030945717827
+      Item_Magnet_24: 8532309096746334490
+      Item_Magnet_25: 61371514826691518
+      Item_Magnet_26: -7309121814611205268
+      Item_Magnet_27: -4580760151474324243
+      Item_Magnet_3: -4582970240918205425
+      Item_Magnet_4: 7560942752246971287
+      Item_Magnet_5: -2454376748331958586
+      Item_Magnet_6: 5013041451530116140
+      Item_Magnet_7: 5841252134636003785
+      Item_Magnet_8: 8270686602526986371
+      Item_Magnet_9: -9187054028680438135
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
