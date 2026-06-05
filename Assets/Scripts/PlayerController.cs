@@ -91,10 +91,25 @@ public class PlayerController : MonoBehaviour
         if (!ColorUtility.TryParseHtmlString(hexColor, out Color skinColor))
             skinColor = new Color(0f, 0.95f, 1f); // 기본 시안
 
-        // SpriteRenderer 색상 적용 (폭발 VFX 색상도 여기서 읽음)
+        string spriteName = PlayerPrefs.GetString("EquippedSkinSprite", "");
+        Sprite equippedSprite = null;
+        if (!string.IsNullOrEmpty(spriteName))
+        {
+            equippedSprite = Resources.Load<Sprite>("ball_skin/" + spriteName);
+            // 추가된 스킨의 경우 크기를 50% 키움 (기존 1.0 -> 1.5)
+            transform.localScale *= 1.5f;
+        }
+
+        // SpriteRenderer 색상 및 스프라이트 적용
         var spriteRend = GetComponent<SpriteRenderer>() ?? GetComponentInChildren<SpriteRenderer>();
         if (spriteRend != null)
+        {
             spriteRend.color = skinColor;
+            if (equippedSprite != null)
+            {
+                spriteRend.sprite = equippedSprite;
+            }
+        }
 
         // Material 색상 & 발광 적용
         if (_renderer != null)

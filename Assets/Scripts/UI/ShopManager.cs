@@ -23,6 +23,7 @@ public class ShopManager : MonoBehaviour
         public string Name;
         public int Price;
         public Color Color;
+        public Sprite Sprite;
         public bool IsPurchased;
         public bool IsEquipped;
     }
@@ -73,6 +74,20 @@ public class ShopManager : MonoBehaviour
         _items.Add(new ShopItem { ID = "frost", Name = "Frost Core", Price = 1500, Color = new Color(0, 0.5f, 1) });
         _items.Add(new ShopItem { ID = "pink", Name = "Neon Pink", Price = 2000, Color = new Color(1, 0, 0.5f) });
         _items.Add(new ShopItem { ID = "violet", Name = "Violet Core", Price = 3000, Color = new Color(0.5f, 0, 1) });
+
+        // Add ball skins from Resources
+        Sprite[] ballSkins = Resources.LoadAll<Sprite>("ball_skin");
+        foreach (var sprite in ballSkins)
+        {
+            _items.Add(new ShopItem 
+            { 
+                ID = "skin_" + sprite.name, 
+                Name = sprite.name.Replace("ball_", "").Replace("_", " "), 
+                Price = 1, 
+                Sprite = sprite,
+                Color = Color.white 
+            });
+        }
 
         string equippedID = PlayerPrefs.GetString("EquippedSkin", "default");
 
@@ -158,11 +173,20 @@ public class ShopManager : MonoBehaviour
 
         VisualElement preview = new VisualElement();
         preview.AddToClassList("item-preview");
-        preview.style.backgroundColor = item.Color;
-        preview.style.borderLeftColor = item.Color;
-        preview.style.borderRightColor = item.Color;
-        preview.style.borderTopColor = item.Color;
-        preview.style.borderBottomColor = item.Color;
+        
+        if (item.Sprite != null)
+        {
+            preview.style.backgroundImage = new StyleBackground(item.Sprite);
+            preview.style.backgroundColor = Color.clear;
+        }
+        else
+        {
+            preview.style.backgroundColor = item.Color;
+            preview.style.borderLeftColor = item.Color;
+            preview.style.borderRightColor = item.Color;
+            preview.style.borderTopColor = item.Color;
+            preview.style.borderBottomColor = item.Color;
+        }
         card.Add(preview);
 
         Label name = new Label(item.Name);
@@ -233,7 +257,16 @@ public class ShopManager : MonoBehaviour
         item.IsEquipped = true;
         
         PlayerPrefs.SetString("EquippedSkin", item.ID);
-        PlayerPrefs.SetString("EquippedSkinColor", "#" + ColorUtility.ToHtmlStringRGB(item.Color));
+        if (item.Sprite != null)
+        {
+            PlayerPrefs.SetString("EquippedSkinSprite", item.Sprite.name);
+            PlayerPrefs.SetString("EquippedSkinColor", "#FFFFFF");
+        }
+        else
+        {
+            PlayerPrefs.SetString("EquippedSkinSprite", "");
+            PlayerPrefs.SetString("EquippedSkinColor", "#" + ColorUtility.ToHtmlStringRGB(item.Color));
+        }
         PlayerPrefs.Save();
 
         Debug.Log($"Equipped {item.Name}!");

@@ -133,7 +133,7 @@
 
 .shop-item-card {
     width: 23%;
-    min-height: 220px;
+    min-height: 260px;
     margin: 1%;
     background-color: rgba(4, 7, 18, 0.92);
     border-left-width: 4px;
@@ -158,9 +158,9 @@
 }
 
 .item-preview {
-    width: 96px;
-    height: 96px;
-    border-radius: 48px;
+    width: 140px;
+    height: 140px;
+    border-radius: 70px;
     margin-bottom: 15px;
     border-width: 3px;
     border-color: rgba(255, 255, 255, 0.35);
