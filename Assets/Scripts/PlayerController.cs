@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     private Renderer _renderer;
     private AudioClip _shieldBreakSound;
     private AudioClip _giantShrinkSound;
+    private AudioClip _deathSound;
 
     void Start()
     {
@@ -75,6 +76,7 @@ public class PlayerController : MonoBehaviour
         // 사운드 로드
         _shieldBreakSound = Resources.Load<AudioClip>("SFX/방어막_깨짐_2");
         _giantShrinkSound = Resources.Load<AudioClip>("SFX/크기축소_1");
+        _deathSound       = Resources.Load<AudioClip>("SFX/죽음_2");
 
         // VFX 캐싱
         var childS = transform.Find("VFX_Shield");
@@ -202,6 +204,10 @@ public class PlayerController : MonoBehaviour
         // VFX 숨기기
         if (_vfxShield != null) _vfxShield.SetActive(false);
         if (_vfxMagnet != null) _vfxMagnet.SetActive(false);
+
+        // 죽음 소리 재생
+        if (_audioSource != null && _deathSound != null)
+            _audioSource.PlayOneShot(_deathSound);
 
         // GameManager에 게임오버 알림 후 씬 전환
         if (GameManager.Instance != null) GameManager.Instance.GameOver();

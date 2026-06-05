@@ -49,6 +49,11 @@ public class Collectible : MonoBehaviour
             _giantClip = Resources.Load<AudioClip>("SFX/크기증가");
             if (_giantClip != null) _giantClip.LoadAudioData();
         }
+        if (_magnetClip == null)
+        {
+            _magnetClip = Resources.Load<AudioClip>("SFX/자석_1");
+            if (_magnetClip != null) _magnetClip.LoadAudioData();
+        }
     }
 
     void Update()
@@ -91,6 +96,7 @@ public class Collectible : MonoBehaviour
     private static AudioClip _packetClip;
     private static AudioClip _shieldClip;
     private static AudioClip _giantClip;
+    private static AudioClip _magnetClip;
 
     private void PlayPacketSound()
     {
@@ -120,6 +126,15 @@ public class Collectible : MonoBehaviour
         }
     }
 
+    private void PlayMagnetSound()
+    {
+        if (_magnetClip != null && _playerAudioSource != null)
+        {
+            _playerAudioSource.pitch = 1.0f;
+            _playerAudioSource.PlayOneShot(_magnetClip);
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -128,6 +143,7 @@ public class Collectible : MonoBehaviour
             if (type == CollectibleType.DataPacket) PlayPacketSound();
             else if (type == CollectibleType.Shield) PlayShieldSound();
             else if (type == CollectibleType.Giant) PlayGiantSound();
+            else if (type == CollectibleType.Magnet) PlayMagnetSound();
 
             // ── 2. 효과 적용 ──
             switch (type)
@@ -148,7 +164,11 @@ public class Collectible : MonoBehaviour
                     if (_playerController != null)
                     {
                         int r = UnityEngine.Random.Range(0, 3);
-                        if (r == 0) _playerController.ActivateMagnet(5f);
+                        if (r == 0)
+                        {
+                            _playerController.ActivateMagnet(5f);
+                            PlayMagnetSound();
+                        }
                         else if (r == 1)
                         {
                             _playerController.ActivateShield();
