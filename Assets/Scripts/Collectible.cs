@@ -46,7 +46,10 @@ public class Collectible : MonoBehaviour
         }
         if (_giantClip == null)
         {
-            _giantClip = Resources.Load<AudioClip>("SFX/크기증가");
+            // 더 개선된 버전일 가능성이 높은 _1 파일을 로드
+            _giantClip = Resources.Load<AudioClip>("SFX/크기증가_1");
+            if (_giantClip == null) _giantClip = Resources.Load<AudioClip>("SFX/크기증가");
+            
             if (_giantClip != null) _giantClip.LoadAudioData();
         }
         if (_magnetClip == null)
@@ -120,8 +123,8 @@ public class Collectible : MonoBehaviour
     {
         if (_giantClip != null && _playerAudioSource != null)
         {
-            // 재생 반응 속도를 높이기 위해 피치를 살짝 올림 (더 경쾌하고 빠른 느낌)
-            _playerAudioSource.pitch = 1.15f; 
+            // 피치 변경은 미세한 지연을 유발할 수 있으므로 기본값 유지
+            _playerAudioSource.pitch = 1.0f; 
             _playerAudioSource.PlayOneShot(_giantClip);
         }
     }

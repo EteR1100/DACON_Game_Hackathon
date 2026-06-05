@@ -34,6 +34,11 @@
             <ui:Label text="GAME OVER" class="gameover-title-text" />
             <ui:Label text="/// SYSTEM FAILURE ///" class="gameover-subtitle-text" />
             <ui:Label name="MainScoreLabel" text="SCORE: 0" class="gameover-main-score" />
+            
+            <ui:VisualElement name="DataPacketAcquisitionArea" style="flex-direction: row; align-items: center; margin-top: -10px; margin-bottom: 30px;">
+                <ui:Label text="DATA PACKETS: " style="color: rgba(255, 255, 255, 0.7); font-size: 24px; -unity-font-style: bold;" />
+                <ui:Label name="DataPacketAcquisitionLabel" text="0" style="color: #ff006e; font-size: 32px; -unity-font-style: bold; -unity-text-outline-width: 1px; -unity-text-outline-color: rgba(255, 0, 110, 0.5);" />
+            </ui:VisualElement>
         </ui:VisualElement>
 
         <ui:VisualElement class="gameover-button-group">

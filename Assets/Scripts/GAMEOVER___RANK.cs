@@ -56,10 +56,16 @@ public class SceneLoader : MonoBehaviour
         var lblCurrent = root.Q<UnityEngine.UIElements.Label>("CurrentScoreLabel");
         var lblBest = root.Q<UnityEngine.UIElements.Label>("BestScoreLabel");
         var lblCoin = root.Q<UnityEngine.UIElements.Label>("CoinLabel");
+        var lblPacketAcquisition = root.Q<UnityEngine.UIElements.Label>("DataPacketAcquisitionLabel");
+        var areaPacketAcquisition = root.Q<VisualElement>("DataPacketAcquisitionArea");
 
         int lastScore = PlayerPrefs.GetInt("LastScore", 0);
         int bestScore = PlayerPrefs.GetInt("BestScore", 0);
-        int coins = PlayerPrefs.GetInt("Coins", 0);
+        
+        // Data Packets calculation
+        int currentTotalPackets = PlayerPrefs.GetInt("Coins", 0); // This is the total after current run is added
+        int packetsEarnedThisRun = PlayerPrefs.GetInt("LastRunCoins", 0); // Need to store this in GameManager
+        int previousTotalPackets = currentTotalPackets - packetsEarnedThisRun;
 
         // 4. Initial State Setup (Invisible)
         if (container != null) container.style.backgroundColor = new Color(0, 0, 0, 0);
@@ -67,9 +73,10 @@ public class SceneLoader : MonoBehaviour
         if (coinHud != null) coinHud.style.opacity = 0;
         if (titleArea != null) titleArea.style.opacity = 0;
         if (btnGroup != null) btnGroup.style.opacity = 0;
+        if (areaPacketAcquisition != null) areaPacketAcquisition.style.opacity = 0;
 
         // 5. Start Sequenced Animations
-        StartCoroutine(AnimateGameoverSequence(container, scoreHud, coinHud, titleArea, btnGroup, lastScore, bestScore, coins, lblMainScore, lblCurrent, lblBest, lblCoin));
+        StartCoroutine(AnimateGameoverSequence(container, scoreHud, coinHud, titleArea, areaPacketAcquisition, btnGroup, lastScore, bestScore, previousTotalPackets, currentTotalPackets, packetsEarnedThisRun, lblMainScore, lblCurrent, lblBest, lblCoin, lblPacketAcquisition));
 
         Debug.Log($"SceneLoader: UI Toolkit Sequenced Animation started. Score: {lastScore}");
     }
@@ -79,9 +86,11 @@ public class SceneLoader : MonoBehaviour
         VisualElement scoreHud, 
         VisualElement coinHud, 
         VisualElement titleArea, 
+        VisualElement areaPacketAcquisition,
         VisualElement btnGroup,
-        int lastScore, int bestScore, int coins,
-        Label lblMainScore, Label lblCurrent, Label lblBest, Label lblCoin)
+        int lastScore, int bestScore, 
+        int previousTotalPackets, int currentTotalPackets, int packetsEarned,
+        Label lblMainScore, Label lblCurrent, Label lblBest, Label lblCoin, Label lblPacketAcquisition)
     {
         // Phase 1: Background Fade-In (Black Semi-transparent)
         float bgDuration = 0.5f;
@@ -98,6 +107,7 @@ public class SceneLoader : MonoBehaviour
 
         // Phase 2: Text & Scores Slide-Up
         StartCoroutine(FadeAndSlideUp(titleArea, 0.8f, 0.1f));
+        StartCoroutine(FadeAndSlideUp(areaPacketAcquisition, 0.8f, 0.2f));
         StartCoroutine(FadeAndSlideUp(scoreHud, 0.8f, 0.3f));
         StartCoroutine(FadeAndSlideUp(coinHud, 0.8f, 0.4f));
 
@@ -113,7 +123,10 @@ public class SceneLoader : MonoBehaviour
             else
                 lblBest.text = bestScore.ToString("N0");
         }
-        if (lblCoin != null) StartCoroutine(AnimateScore(lblCoin, coins, "", 1.0f));
+
+        // Data Packet Animations (Simultaneous count-up)
+        if (lblPacketAcquisition != null) StartCoroutine(AnimateScore(lblPacketAcquisition, packetsEarned, "+ "));
+        if (lblCoin != null) StartCoroutine(AnimateScoreBetweenValues(lblCoin, previousTotalPackets, currentTotalPackets));
 
         yield return new WaitForSecondsRealtime(1.0f);
 
@@ -170,6 +183,23 @@ public class SceneLoader : MonoBehaviour
             yield return null;
         }
         label.text = prefix + targetValue.ToString("N0");
+    }
+
+    private IEnumerator AnimateScoreBetweenValues(UnityEngine.UIElements.Label label, int startValue, int endValue, float duration = 1.5f)
+    {
+        if (label == null) yield break;
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float progress = Mathf.Clamp01(elapsed / duration);
+            float easedProgress = 1f - Mathf.Pow(1f - progress, 3f);
+            int currentValue = Mathf.FloorToInt(Mathf.Lerp(startValue, endValue, easedProgress));
+            label.text = currentValue.ToString("N0");
+            yield return null;
+        }
+        label.text = endValue.ToString("N0");
     }
 
     private void SetupLegacyUGUI(bool disableIfToolkitActive)

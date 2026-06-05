@@ -35,6 +35,8 @@ public class GamePlayUIController : MonoBehaviour
     private VisualElement _pauseOverlay;
     private VisualElement _feverFlash;
     private VisualElement _confirmExitOverlay;
+    private VisualElement _countdownOverlay;
+    private Label         _lblCountdown;
 
     // ── 현재 값 (외부 게임 로직에서 프로퍼티로 업데이트) ──
     private int   _score    = 0;
@@ -118,6 +120,8 @@ public class GamePlayUIController : MonoBehaviour
         _pauseOverlay = root.Q<VisualElement>("PauseOverlay");
         _feverFlash   = root.Q<VisualElement>("FeverFlash");
         _confirmExitOverlay = root.Q<VisualElement>("ConfirmExitOverlay");
+        _countdownOverlay   = root.Q<VisualElement>("CountdownOverlay");
+        _lblCountdown       = root.Q<Label>("CountdownLabel");
 
         // 버튼
         _btnPause    = root.Q<Button>("BtnPause");
@@ -145,6 +149,7 @@ public class GamePlayUIController : MonoBehaviour
         if (_pauseOverlay != null) _pauseOverlay.style.display = DisplayStyle.None;
         if (_feverFlash   != null) _feverFlash.style.display   = DisplayStyle.None;
         if (_confirmExitOverlay != null) _confirmExitOverlay.style.display = DisplayStyle.None;
+        if (_countdownOverlay   != null) _countdownOverlay.style.display   = DisplayStyle.None;
     }
 
     void Update()
@@ -167,15 +172,74 @@ public class GamePlayUIController : MonoBehaviour
     {
         // 종료 확인창이 떠있을 때는 일시정지 해제 불가 (우선순위)
         if (_confirmExitOverlay != null && _confirmExitOverlay.style.display == DisplayStyle.Flex) return;
+        
+        // 카운트다운 중에는 일시정지 토글 방지
+        if (_countdownOverlay != null && _countdownOverlay.style.display == DisplayStyle.Flex) return;
 
-        _isPaused = !_isPaused;
-        if (GameManager.Instance != null)
-            GameManager.Instance.SetPaused(_isPaused);
+        if (!_isPaused)
+        {
+            // Pause
+            _isPaused = true;
+            if (GameManager.Instance != null) GameManager.Instance.SetPaused(true);
+            else Time.timeScale = 0f;
+
+            if (_pauseOverlay != null) _pauseOverlay.style.display = DisplayStyle.Flex;
+        }
         else
-            Time.timeScale = _isPaused ? 0f : 1f;
+        {
+            // Resume requested - Start countdown
+            if (_pauseOverlay != null) _pauseOverlay.style.display = DisplayStyle.None;
+            StartCoroutine(StartCountdownAndResume());
+        }
+    }
 
-        if (_pauseOverlay != null)
-            _pauseOverlay.style.display = _isPaused ? DisplayStyle.Flex : DisplayStyle.None;
+    private System.Collections.IEnumerator StartCountdownAndResume()
+    {
+        if (_countdownOverlay == null || _lblCountdown == null)
+        {
+            // Fallback if UI is missing
+            ResumeImmediately();
+            yield break;
+        }
+
+        _countdownOverlay.style.display = DisplayStyle.Flex;
+
+        string[] sequence = { "3", "2", "1", "GO!" };
+        foreach (var msg in sequence)
+        {
+            _lblCountdown.text = msg;
+            
+            // Animation: Scale up and Fade out
+            float elapsed = 0f;
+            float duration = 0.8f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = elapsed / duration;
+                
+                // Scale from 1.0 to 1.5
+                float scale = Mathf.Lerp(1.0f, 1.5f, t);
+                _lblCountdown.style.scale = new StyleScale(new Vector2(scale, scale));
+                
+                // Fade from 1.0 to 0.0
+                _lblCountdown.style.opacity = 1.0f - t;
+                
+                yield return null;
+            }
+            yield return new WaitForSecondsRealtime(0.2f);
+        }
+
+        _countdownOverlay.style.display = DisplayStyle.None;
+        ResumeImmediately();
+    }
+
+    private void ResumeImmediately()
+    {
+        _isPaused = false;
+        if (GameManager.Instance != null) GameManager.Instance.SetPaused(false);
+        else Time.timeScale = 1f;
+        
+        if (_pauseOverlay != null) _pauseOverlay.style.display = DisplayStyle.None;
     }
 
     public bool IsPointerOverPauseButton(Vector2 screenPos)
@@ -233,16 +297,18 @@ public class GamePlayUIController : MonoBehaviour
 
     private void ConfirmGoToMainMenu()
     {
-        // 1. 현재 데이터 저장 (점수, 코인)
-        PlayerPrefs.SetInt("LastScore", _score);
-        
-        int best = PlayerPrefs.GetInt("BestScore", 0);
-        if (_score > best) PlayerPrefs.SetInt("BestScore", _score);
-        
-        PlayerPrefs.Save();
-
-        // 2. 결과창(오버레이) 보여주기
-        ShowGameOverOverlay();
+        // 1. GameManager를 통해 이번 판의 데이터(점수, 코인 등)를 정해진 시점에 일괄 저장
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GoToMainMenu(); // 내부에서 SaveFinalStats() 호출 및 Overlay 표시
+        }
+        else
+        {
+            // GameManager가 없는 비정상 상황 대비 (디버깅용)
+            PlayerPrefs.SetInt("LastScore", _score);
+            PlayerPrefs.Save();
+            ShowGameOverOverlay();
+        }
     }
 
     [Header("Game Over Settings")]
@@ -321,10 +387,16 @@ public class GamePlayUIController : MonoBehaviour
         var lblCurrent = root.Q<Label>("CurrentScoreLabel");
         var lblBest = root.Q<Label>("BestScoreLabel");
         var lblCoin = root.Q<Label>("CoinLabel");
+        var lblPacketAcquisition = root.Q<Label>("DataPacketAcquisitionLabel");
+        var areaPacketAcquisition = root.Q<VisualElement>("DataPacketAcquisitionArea");
 
         int lastScore = PlayerPrefs.GetInt("LastScore", 0);
         int bestScore = PlayerPrefs.GetInt("BestScore", 0);
-        int coins = PlayerPrefs.GetInt("Coins", 0);
+        
+        // Data Packets calculation
+        int currentTotalPackets = PlayerPrefs.GetInt("Coins", 0);
+        int packetsEarnedThisRun = PlayerPrefs.GetInt("LastRunCoins", 0);
+        int previousTotalPackets = currentTotalPackets - packetsEarnedThisRun;
 
         // 초기 상태
         if (container != null) container.style.backgroundColor = new Color(0, 0, 0, 0);
@@ -332,15 +404,17 @@ public class GamePlayUIController : MonoBehaviour
         if (coinHud != null) coinHud.style.opacity = 0;
         if (titleArea != null) titleArea.style.opacity = 0;
         if (btnGroup != null) btnGroup.style.opacity = 0;
+        if (areaPacketAcquisition != null) areaPacketAcquisition.style.opacity = 0;
 
-        StartCoroutine(AnimateGameoverSequence(container, scoreHud, coinHud, titleArea, btnGroup, lastScore, bestScore, coins, lblMainScore, lblCurrent, lblBest, lblCoin));
+        StartCoroutine(AnimateGameoverSequence(container, scoreHud, coinHud, titleArea, areaPacketAcquisition, btnGroup, lastScore, bestScore, previousTotalPackets, currentTotalPackets, packetsEarnedThisRun, lblMainScore, lblCurrent, lblBest, lblCoin, lblPacketAcquisition));
     }
 
     private System.Collections.IEnumerator AnimateGameoverSequence(
         VisualElement container, VisualElement scoreHud, VisualElement coinHud, 
-        VisualElement titleArea, VisualElement btnGroup,
-        int lastScore, int bestScore, int coins,
-        Label lblMainScore, Label lblCurrent, Label lblBest, Label lblCoin)
+        VisualElement titleArea, VisualElement areaPacketAcquisition, VisualElement btnGroup,
+        int lastScore, int bestScore, 
+        int previousTotalPackets, int currentTotalPackets, int packetsEarned,
+        Label lblMainScore, Label lblCurrent, Label lblBest, Label lblCoin, Label lblPacketAcquisition)
     {
         float bgDuration = 0.5f;
         float elapsed = 0f;
@@ -354,6 +428,7 @@ public class GamePlayUIController : MonoBehaviour
         if (container != null) container.style.backgroundColor = new Color(0, 0, 0, 0.85f);
 
         StartCoroutine(FadeAndSlideUp(titleArea, 0.8f, 0.1f));
+        StartCoroutine(FadeAndSlideUp(areaPacketAcquisition, 0.8f, 0.2f));
         StartCoroutine(FadeAndSlideUp(scoreHud, 0.8f, 0.3f));
         StartCoroutine(FadeAndSlideUp(coinHud, 0.8f, 0.4f));
 
@@ -368,7 +443,10 @@ public class GamePlayUIController : MonoBehaviour
             else
                 lblBest.text = bestScore.ToString("N0");
         }
-        if (lblCoin != null) StartCoroutine(AnimateScore(lblCoin, coins, "", 1.0f));
+
+        // Data Packet Animations
+        if (lblPacketAcquisition != null) StartCoroutine(AnimateScore(lblPacketAcquisition, packetsEarned, "+ "));
+        if (lblCoin != null) StartCoroutine(AnimateScoreBetweenValues(lblCoin, previousTotalPackets, currentTotalPackets));
 
         yield return new WaitForSecondsRealtime(1.0f);
 
@@ -422,6 +500,22 @@ public class GamePlayUIController : MonoBehaviour
             yield return null;
         }
         label.text = prefix + targetValue.ToString("N0");
+    }
+
+    private System.Collections.IEnumerator AnimateScoreBetweenValues(Label label, int startValue, int endValue, float duration = 1.5f)
+    {
+        if (label == null) yield break;
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float progress = Mathf.Clamp01(elapsed / duration);
+            float easedProgress = 1f - Mathf.Pow(1f - progress, 3f);
+            int currentValue = Mathf.FloorToInt(Mathf.Lerp(startValue, endValue, easedProgress));
+            label.text = currentValue.ToString("N0");
+            yield return null;
+        }
+        label.text = endValue.ToString("N0");
     }
 
     private void GoToMainMenu()

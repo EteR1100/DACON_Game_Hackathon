@@ -24,10 +24,6 @@
                 <ui:Button name="BtnHome" class="btn-home-cyber">
                     <ui:Label text="HOME" class="btn-home-text" />
                 </ui:Button>
-                <ui:VisualElement class="hud-box hud-accent mini-hud">
-                    <ui:Label text="DATA PACKETS" class="hud-label-accent" />
-                    <ui:Label text="0" class="hud-value-accent" name="LblDataPackets" />
-                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
 

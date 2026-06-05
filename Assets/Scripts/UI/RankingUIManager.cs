@@ -9,7 +9,6 @@ public class RankingUIManager : MonoBehaviour
 {
     private Button _btnHome;
     private VisualElement _listContainer;
-    private Label _lblDataPackets;
 
     // My Rank Sticky Bar Elements
     private Label _myRankNumber;
@@ -38,7 +37,6 @@ public class RankingUIManager : MonoBehaviour
 
         _btnHome = root.Q<Button>("BtnHome");
         _listContainer = root.Q<VisualElement>("RankingListContainer");
-        _lblDataPackets = root.Q<Label>("LblDataPackets");
 
         // My Rank Elements
         _myRankNumber = root.Q<Label>("MyRankNumber");
@@ -80,13 +78,6 @@ public class RankingUIManager : MonoBehaviour
 
         // Initialize My Rank with local data first
         UpdateMyRankLocal();
-
-        // Display current coins
-        if (_lblDataPackets != null)
-        {
-            int coins = PlayerPrefs.GetInt("Coins", 10000);
-            _lblDataPackets.text = coins.ToString("N0");
-        }
 
         SyncLocalBestScoreThenLoadRankings();
         StartCoroutine(UpdateRefreshTimeRoutine());

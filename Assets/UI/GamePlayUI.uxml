@@ -94,5 +94,10 @@
             </ui:VisualElement>
         </ui:VisualElement>
 
+        <!-- ====== RESUME COUNTDOWN OVERLAY (hidden by default) ====== -->
+        <ui:VisualElement class="gp-countdown-overlay" name="CountdownOverlay">
+            <ui:Label text="3" class="gp-countdown-text" name="CountdownLabel" />
+        </ui:VisualElement>
+
     </ui:VisualElement>
 </ui:UXML>

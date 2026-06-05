@@ -326,3 +326,25 @@
     width: 240px;
     margin: 0 10px;
 }
+
+/* ─── 카운트다운 오버레이 ─── */
+.gp-countdown-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.gp-countdown-text {
+    color: #00f3ff;
+    font-size: 200px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 4px;
+    -unity-text-outline-color: rgba(0, 243, 255, 0.8);
+    transition-duration: 0.2s;
+}

@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
     private GameObject _vfxMagnet;
 
     private Renderer _renderer;
+    private GhostTrail _ghostTrail;
     private AudioClip _shieldBreakSound;
     private AudioClip _giantShrinkSound;
     private AudioClip _deathSound;
@@ -88,6 +89,11 @@ public class PlayerController : MonoBehaviour
         // --- 스킨 적용 ---
         _renderer = GetComponent<Renderer>();
         if (_renderer == null) _renderer = GetComponentInChildren<Renderer>();
+        
+        // 잔상 효과 컴포넌트 추가 및 초기화
+        _ghostTrail = GetComponent<GhostTrail>();
+        if (_ghostTrail == null) _ghostTrail = gameObject.AddComponent<GhostTrail>();
+        _ghostTrail.SetActive(false); 
         
         string hexColor = PlayerPrefs.GetString("EquippedSkinColor", "#00F2FF");
         if (!ColorUtility.TryParseHtmlString(hexColor, out Color skinColor))
@@ -235,6 +241,11 @@ public class PlayerController : MonoBehaviour
         transform.localScale = _normalScale * 2f; // 2배 거대화
     }
 
+    public void SetGhostTrail(bool active)
+    {
+        if (_ghostTrail != null) _ghostTrail.SetActive(active);
+    }
+
     void Update()
     {
         if (_isDead) return;
@@ -303,11 +314,13 @@ public class PlayerController : MonoBehaviour
                 _audioSource.PlayOneShot(gravityFlipSound);
         }
 
-        // ── 회전 (이동 방향에 따라) ──
+        // ── 회전 (이동 방향 및 속도 배율에 따라) ──
         // _dir == -1 : 아래로 → 시계방향(음수 z)
         // _dir == +1 : 위로  → 반시계방향(양수 z)
         float rotDir = (_dir == 1) ? 1f : -1f;
-        transform.Rotate(0f, 0f, rotDir * rotateSpeed * Time.deltaTime);
+        // 속도 배율의 영향력을 1.5배로 높여 가속감을 더 강하게 표현
+        float currentRotateSpeed = rotateSpeed * (GameSpeedProvider.CurrentMultiplier * 1.5f);
+        transform.Rotate(0f, 0f, rotDir * currentRotateSpeed * Time.deltaTime);
     }
 
     void FixedUpdate()

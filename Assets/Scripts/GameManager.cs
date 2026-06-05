@@ -34,7 +34,8 @@ public class GameManager : MonoBehaviour
     // ── 내부 상태 ──
     private float _elapsedTime   = 0f;
     private float _score         = 0f;
-    private int   _coin          = 0;
+    private int   _totalCoinsAtStart = 0; // 시작 시점의 전체 보유량
+    private int   _runCoins          = 0; // 이번 판에서 얻은 양
     private float _feverGauge    = 0f;   // 0~1
     private bool  _isPaused      = false;
     private bool  _isGameOver    = false;
@@ -64,9 +65,12 @@ public class GameManager : MonoBehaviour
         GameSpeedProvider.CurrentMultiplier = CurrentSpeedMultiplier;
         Time.timeScale = 1f;
 
-        // 누적 데이터 패킷 불러오기
-        _coin = PlayerPrefs.GetInt("DataPacket", PlayerPrefs.GetInt("Coins", 0)); // 호환성 유지
-        _ui?.SetCoin(_coin);
+        // 전체 보유량 로드 및 이번 판 획득량 초기화
+        _totalCoinsAtStart = PlayerPrefs.GetInt("Coins", 0);
+        _runCoins = 0;
+        
+        // HUD에는 전체 보유량(시작점) 표시
+        _ui?.SetCoin(_totalCoinsAtStart);
 
         var fireVFXObj = GameObject.Find("FeverFireVFX");
         if (fireVFXObj != null) _feverFireVFX = fireVFXObj.GetComponent<ParticleSystem>();
@@ -89,12 +93,21 @@ public class GameManager : MonoBehaviour
         if (_isFeverActive)
         {
             _feverTimer -= Time.deltaTime;
+            
+            // 피버 지속시간에 비례하여 게이지를 1.0 -> 0.0으로 줄임
+            _feverGauge = Mathf.Clamp01(_feverTimer / feverDuration);
+            _ui?.SetFever(_feverGauge);
+
             if (_feverTimer <= 0f)
             {
                 _isFeverActive = false;
                 _feverGauge    = 0f;
                 _ui?.SetFever(0f);
                 if (_feverFireVFX != null) _feverFireVFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                
+                // 피버 종료 시 잔상 효과 끄기
+                var player = GameObject.Find("Player");
+                if (player != null) player.GetComponent<PlayerController>()?.SetGhostTrail(false);
             }
         }
         else
@@ -109,6 +122,10 @@ public class GameManager : MonoBehaviour
                 _feverTimer    = feverDuration;
                 _ui?.SetFever(1f);
                 if (_feverFireVFX != null) _feverFireVFX.Play(true);
+
+                // 피버 시작 시 잔상 효과 켜기
+                var player = GameObject.Find("Player");
+                if (player != null) player.GetComponent<PlayerController>()?.SetGhostTrail(true);
             }
             else
             {
@@ -132,11 +149,10 @@ public class GameManager : MonoBehaviour
 
     public void AddCoin(int amount = 1)
     {
-        _coin += amount;
-        _ui?.SetCoin(_coin);
-        PlayerPrefs.SetInt("DataPacket", _coin);
-        PlayerPrefs.SetInt("Coins", _coin);
-        PlayerPrefs.Save();
+        _runCoins += amount;
+        
+        // HUD에는 전체 보유량 + 이번 판 획득량 표시
+        _ui?.SetCoin(_totalCoinsAtStart + _runCoins);
     }
 
     public void AddFever(float amount)
@@ -205,7 +221,10 @@ private void SaveFinalStats()
         PlayerPrefs.SetInt("BestScore", finalScore);
     }
 
-    PlayerPrefs.SetInt("Coins", _coin);
+    // 이번 판 획득량 저장 및 전체 합산
+    PlayerPrefs.SetInt("LastRunCoins", _runCoins);
+    PlayerPrefs.SetInt("Coins", _totalCoinsAtStart + _runCoins);
+    PlayerPrefs.SetInt("DataPacket", _totalCoinsAtStart + _runCoins); // 구버전 호환용
     PlayerPrefs.Save();
 
     int scoreToSubmit = Mathf.Max(finalScore, PlayerPrefs.GetInt("BestScore", 0));
@@ -237,6 +256,7 @@ private void SubmitBestScore(int score)
 
 private string GetKstDateString()
 {
+    // 현재 플레이 시점의 한국 시간(KST) 날짜 반환
     return DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd");
 }
 }
