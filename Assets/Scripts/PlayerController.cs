@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
         // 사운드 로드
         _shieldBreakSound = Resources.Load<AudioClip>("SFX/방어막_깨짐_2");
         _giantShrinkSound = Resources.Load<AudioClip>("SFX/크기축소_1");
-        _deathSound       = Resources.Load<AudioClip>("SFX/죽음_2");
+        _deathSound       = Resources.Load<AudioClip>("SFX/죽음소리_5");
 
         // VFX 캐싱
         var childS = transform.Find("VFX_Shield");
