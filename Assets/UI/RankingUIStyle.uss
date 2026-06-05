@@ -6,7 +6,8 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 20px;
+    min-height: 112px;
+    margin-bottom: 18px;
 }
 
 .hud-left,
@@ -29,12 +30,15 @@
 }
 
 .ranking-title-text {
-    font-size: 60px;
-    margin-bottom: 4px;
+    position: relative;
+    height: 66px;
+    font-size: 56px;
+    margin-bottom: 6px;
     -unity-text-outline-width: 2px;
 }
 
 .ranking-subtitle-text {
+    position: relative;
     font-size: 18px;
     padding: 4px 14px;
 }
@@ -42,7 +46,7 @@
 .ranking-tabs {
     flex-direction: row;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .tab-btn {
@@ -102,6 +106,7 @@
 }
 
 .btn-home-cyber {
+    margin-top: 8px;
     height: 52px;
     min-width: 132px;
     background-color: rgba(4, 7, 18, 0.9);

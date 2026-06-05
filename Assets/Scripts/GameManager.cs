@@ -1,42 +1,42 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 
 /// <summary>
-/// 게임 전체 흐름을 제어합니다.
-/// - 시간에 따른 점수 증가 (피버 중 2배)
-/// - 시간에 따른 속도 증가
-/// - 피버 게이지 자동 충전 → 피버 모드 자동 발동
-/// - 일시정지 / 재시작
+/// 野껊슣???袁⑷퍥 ?癒?カ????뽯선??몃빍??
+/// - ??볦퍢???怨뺚뀲 ?癒?땾 筌앹빓? (??곗쒔 餓?2獄?
+/// - ??볦퍢???怨뺚뀲 ??얜즲 筌앹빓?
+/// - ??곗쒔 野껊슣?좑쭪? ?癒?짗 ?겸뫗??????곗쒔 筌뤴뫀諭??癒?짗 獄쏆뮆猷?
+/// - ?癒?땾 疫꿸퀡而???뽰뵠????덇볼 ??볥궗 (1000?癒?뼣 1??덇볼)
 /// </summary>
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [Header("=== 점수 설정 ===")]
-    [Tooltip("초당 기본 점수 증가량")]
+    [Header("=== Score Settings ===")]
+    [Tooltip("Base score gained per second.")]
     public float baseScorePerSecond = 10f;
 
-    [Header("=== 속도 설정 ===")]
-    [Tooltip("시작 속도 배율")]
+    [Header("=== Speed Settings ===")]
+    [Tooltip("Initial speed multiplier.")]
     public float initialSpeedMultiplier = 1.0f;
-    [Tooltip("최대 속도 배율")]
+    [Tooltip("Maximum speed multiplier.")]
     public float maxSpeedMultiplier = 4.0f;
-    [Tooltip("속도가 최대에 도달하는 데 걸리는 시간(초)")]
+    [Tooltip("Seconds until speed reaches its maximum.")]
     public float timeToMaxSpeed = 120f;
 
-    [Header("=== 피버 설정 ===")]
-    [Tooltip("피버 게이지가 100%까지 차는 시간(초)")]
+    [Header("=== Fever Settings ===")]
+    [Tooltip("Seconds required to fully charge fever.")]
     public float feverChargeTime = 30f;
-    [Tooltip("피버 모드 지속 시간(초)")]
+    [Tooltip("Fever duration in seconds.")]
     public float feverDuration = 5f;
 
-    // ── 내부 상태 ──
+    // ???? ??? ?怨밴묶 ????
     private float _elapsedTime   = 0f;
     private float _score         = 0f;
-    private int   _totalCoinsAtStart = 0; // 시작 시점의 전체 보유량
-    private int   _runCoins          = 0; // 이번 판에서 얻은 양
-    private float _feverGauge    = 0f;   // 0~1
+    private int   _totalCoinsAtStart = 0; 
+    private int   _runCoins          = 0; 
+    private float _feverGauge    = 0f;   
     private bool  _isPaused      = false;
     private bool  _isGameOver    = false;
     private bool  _isFeverActive = false;
@@ -45,12 +45,15 @@ public class GameManager : MonoBehaviour
     private GamePlayUIController _ui;
     private ParticleSystem _feverFireVFX;
 
-    // ── 외부 읽기용 프로퍼티 ──
+    // ???? ?紐? ??꾨┛???袁⑥쨮??노뼒 ????
     public float CurrentSpeedMultiplier { get; private set; }
     public bool  IsFeverActive => _isFeverActive;
     public int   CurrentScore  => Mathf.FloorToInt(_score);
+    
+    // ?袁⑹삺 ??뽰뵠????덇볼 (1000?癒?춳??1???怨몃뱟, 0?봔????뽰삂)
+    public int CurrentLevel => Mathf.FloorToInt(_score / 500f);
 
-    // ────────────────────────────────────────────────────────────────
+    // ????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
 
     void Awake()
     {
@@ -65,11 +68,11 @@ public class GameManager : MonoBehaviour
         GameSpeedProvider.CurrentMultiplier = CurrentSpeedMultiplier;
         Time.timeScale = 1f;
 
-        // 전체 보유량 로드 및 이번 판 획득량 초기화
+        // ?袁⑷퍥 癰귣똻???嚥≪뮆諭?獄???苡?????얜굣???λ뜃由??
         _totalCoinsAtStart = PlayerPrefs.GetInt("Coins", 0);
         _runCoins = 0;
         
-        // HUD에는 전체 보유량(시작점) 표시
+        // HUD?癒?뮉 ?袁⑷퍥 癰귣똻?????뽰삂?? ??뽯뻻
         _ui?.SetCoin(_totalCoinsAtStart);
 
         var fireVFXObj = GameObject.Find("FeverFireVFX");
@@ -82,19 +85,19 @@ public class GameManager : MonoBehaviour
 
         _elapsedTime += Time.deltaTime;
 
-        // ── 속도 증가 (선형 보간) ──
+        // ???? ??얜즲 筌앹빓? (?醫륁굨 癰귣떯而? ????
         float t = Mathf.Clamp01(_elapsedTime / timeToMaxSpeed);
         CurrentSpeedMultiplier = Mathf.Lerp(initialSpeedMultiplier, maxSpeedMultiplier, t);
         
         float actualSpeed = _isFeverActive ? CurrentSpeedMultiplier * 3.0f : CurrentSpeedMultiplier;
         GameSpeedProvider.CurrentMultiplier = actualSpeed;
 
-        // ── 피버 모드 처리 ──
+        // ???? ??곗쒔 筌뤴뫀諭?筌ｌ꼶??????
         if (_isFeverActive)
         {
             _feverTimer -= Time.deltaTime;
             
-            // 피버 지속시간에 비례하여 게이지를 1.0 -> 0.0으로 줄임
+            // ??곗쒔 筌왖??용뻻揶쏄쑴肉???쑬???뤿연 野껊슣?좑쭪???1.0 -> 0.0??곗쨮 餓κ쑴??
             _feverGauge = Mathf.Clamp01(_feverTimer / feverDuration);
             _ui?.SetFever(_feverGauge);
 
@@ -105,25 +108,30 @@ public class GameManager : MonoBehaviour
                 _ui?.SetFever(0f);
                 if (_feverFireVFX != null) _feverFireVFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 
-                // 피버 종료 시 잔상 효과 끄기
+                // ??곗쒔 ?ル굝利????遺욧맒 ??ｋ궢 ?袁㏓┛
                 var player = GameObject.Find("Player");
-                if (player != null) player.GetComponent<PlayerController>()?.SetGhostTrail(false);
+                if (player != null)
+                {
+                    var playerController = player.GetComponent<PlayerController>();
+                    playerController?.SetGhostTrail(false);
+                    playerController?.StartPostFeverInvincibility(1f);
+                }
             }
         }
         else
         {
-            // ── 피버 게이지 자동 충전 ──
+            // ???? ??곗쒔 野껊슣?좑쭪? ?癒?짗 ?겸뫗??????
             _feverGauge += Time.deltaTime / feverChargeTime;
             if (_feverGauge >= 1f)
             {
-                // 피버 발동!
+                // ??곗쒔 獄쏆뮆猷?
                 _feverGauge    = 1f;
                 _isFeverActive = true;
                 _feverTimer    = feverDuration;
                 _ui?.SetFever(1f);
                 if (_feverFireVFX != null) _feverFireVFX.Play(true);
 
-                // 피버 시작 시 잔상 효과 켜기
+                // ??곗쒔 ??뽰삂 ???遺욧맒 ??ｋ궢 ?녹뮄由?
                 var player = GameObject.Find("Player");
                 if (player != null) player.GetComponent<PlayerController>()?.SetGhostTrail(true);
             }
@@ -133,11 +141,11 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // ── 점수 증가 (속도 × 피버 보너스) ──
+        // ???? ?癒?땾 筌앹빓? (??얜즲 ????곗쒔 癰귣?瑗?? ????
         float scoreMultiplier = _isFeverActive ? 2f : 1f;
         _score += baseScorePerSecond * CurrentSpeedMultiplier * scoreMultiplier * Time.deltaTime;
 
-        // ── UI 갱신 ──
+        // ???? UI 揶쏄퉮??????
         if (_ui != null)
         {
             _ui.SetScore(Mathf.FloorToInt(_score));
@@ -145,13 +153,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ─── 공개 API ───────────────────────────────────────────────────
+    // ?????? ?⑤벀而?API ??????????????????????????????????????????????????????????????????????????????????????????????????????
 
     public void AddCoin(int amount = 1)
     {
         _runCoins += amount;
         
-        // HUD에는 전체 보유량 + 이번 판 획득량 표시
+        // HUD?癒?뮉 ?袁⑷퍥 癰귣똻???+ ??苡?????얜굣????뽯뻻
         _ui?.SetCoin(_totalCoinsAtStart + _runCoins);
     }
 
@@ -179,7 +187,7 @@ public class GameManager : MonoBehaviour
     public void GoToMainMenu()
     {
         SaveFinalStats();
-        Time.timeScale = 0f; // 일시정지
+        Time.timeScale = 0f; // ??깅뻻?類?
         _ui?.ShowGameOverOverlay();
     }
 
@@ -191,16 +199,16 @@ public class GameManager : MonoBehaviour
         SaveFinalStats();
         Debug.Log("Game Over! Score: " + Mathf.FloorToInt(_score));
 
-        // 폭발 VFX 재생 시간 기다린 후 게임오버 씬으로 전환
+        // ??而?VFX ??源???볦퍢 疫꿸퀡?롧뵳???野껊슣???살쒔 ???앮에??袁れ넎
         StartCoroutine(GameOverRoutine());
     }
 
     private System.Collections.IEnumerator GameOverRoutine()
     {
-        // 폭발 연출 대기
+        // ??而??怨쀭뀱 ??疫?
         yield return new WaitForSecondsRealtime(0.8f);
 
-        // 게임 화면 캡처 (GameOver 씬 배경으로 사용)
+        // 野껊슣???遺얇늺 筌╈돦荑?(GameOver ??獄쏄퀗瑗??곗쨮 ????
         yield return new WaitForEndOfFrame();
         var tex = ScreenCapture.CaptureScreenshotAsTexture();
         GameOverBackground.CapturedTexture = tex;
@@ -209,54 +217,54 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("GameOverScene");
     }
 
-private void SaveFinalStats()
-{
-    int finalScore = Mathf.FloorToInt(_score);
-    PlayerPrefs.SetInt("LastScore", finalScore);
-    PlayerPrefs.SetString("LastPlayDate", GetKstDateString());
-
-    int best = PlayerPrefs.GetInt("BestScore", 0);
-    if (finalScore > best)
+    private void SaveFinalStats()
     {
-        PlayerPrefs.SetInt("BestScore", finalScore);
+        int finalScore = Mathf.FloorToInt(_score);
+        PlayerPrefs.SetInt("LastScore", finalScore);
+        PlayerPrefs.SetString("LastPlayDate", GetKstDateString());
+
+        int best = PlayerPrefs.GetInt("BestScore", 0);
+        if (finalScore > best)
+        {
+            PlayerPrefs.SetInt("BestScore", finalScore);
+        }
+
+        // ??苡?????얜굣??????獄??袁⑷퍥 ??밴텦
+        PlayerPrefs.SetInt("LastRunCoins", _runCoins);
+        PlayerPrefs.SetInt("Coins", _totalCoinsAtStart + _runCoins);
+        PlayerPrefs.SetInt("DataPacket", _totalCoinsAtStart + _runCoins); // ?닌됱쒔???紐낆넎??
+        PlayerPrefs.Save();
+
+        int scoreToSubmit = Mathf.Max(finalScore, PlayerPrefs.GetInt("BestScore", 0));
+        if (scoreToSubmit > 0) SubmitBestScore(scoreToSubmit);
     }
 
-    // 이번 판 획득량 저장 및 전체 합산
-    PlayerPrefs.SetInt("LastRunCoins", _runCoins);
-    PlayerPrefs.SetInt("Coins", _totalCoinsAtStart + _runCoins);
-    PlayerPrefs.SetInt("DataPacket", _totalCoinsAtStart + _runCoins); // 구버전 호환용
-    PlayerPrefs.Save();
-
-    int scoreToSubmit = Mathf.Max(finalScore, PlayerPrefs.GetInt("BestScore", 0));
-    if (scoreToSubmit > 0) SubmitBestScore(scoreToSubmit);
-}
-
-private void SubmitBestScore(int score)
-{
-    string nickname = PlayerPrefs.GetString("Nickname", "").Trim();
-    if (string.IsNullOrEmpty(nickname))
+    private void SubmitBestScore(int score)
     {
-        nickname = "USER";
+        string nickname = PlayerPrefs.GetString("Nickname", "").Trim();
+        if (string.IsNullOrEmpty(nickname))
+        {
+            nickname = "USER";
+        }
+
+        RankingService rankingService = RankingService.Instance;
+        if (rankingService == null)
+        {
+            GameObject serviceObject = new GameObject("RankingService");
+            rankingService = serviceObject.AddComponent<RankingService>();
+        }
+
+        rankingService.PostScore(
+            nickname,
+            score,
+            onSuccess: () => Debug.Log($"Ranking score submitted: {nickname} - {score}"),
+            onError: error => Debug.LogError("Ranking score submit failed: " + error)
+        );
     }
 
-    RankingService rankingService = RankingService.Instance;
-    if (rankingService == null)
+    private string GetKstDateString()
     {
-        GameObject serviceObject = new GameObject("RankingService");
-        rankingService = serviceObject.AddComponent<RankingService>();
+        // ?袁⑹삺 ???쟿????뽰젎????볥럢 ??볦퍢(KST) ?醫롮? 獄쏆꼹??
+        return DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd");
     }
-
-    rankingService.PostScore(
-        nickname,
-        score,
-        onSuccess: () => Debug.Log($"Ranking score submitted: {nickname} - {score}"),
-        onError: error => Debug.LogError("Ranking score submit failed: " + error)
-    );
-}
-
-private string GetKstDateString()
-{
-    // 현재 플레이 시점의 한국 시간(KST) 날짜 반환
-    return DateTime.UtcNow.AddHours(9).ToString("yyyy-MM-dd");
-}
 }

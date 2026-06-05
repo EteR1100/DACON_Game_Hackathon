@@ -1,45 +1,48 @@
 using UnityEngine;
-using System.Collections.Generic;
 
-/// <summary>
-/// 가시(Spike) 스포너
-/// - 바닥/천장에 랜덤으로 가시를 생성
-/// - 항상 공이 피할 수 있는 안전한 공간을 보장
-/// - 게임 속도에 따라 생성 간격 줄어듦
-/// </summary>
 public class SpikeSpawner : MonoBehaviour
 {
-    [Header("=== 프리팹 ===")]
-    [Tooltip("가시 프리팹 (Spike.cs가 붙어 있어야 함)")]
+    public static float BarrierPauseUntil { get; private set; }
+
+    [Header("=== Prefab ===")]
+    [Tooltip("Spike prefab with Spike.cs attached.")]
     public GameObject spikePrefab;
 
-    [Header("=== 스폰 위치 ===")]
-    [Tooltip("바닥 가시가 생성될 Y 좌표")]
-    public float floorY  = -2.2f;
-    [Tooltip("천장 가시가 생성될 Y 좌표")]
-    public float ceilY   =  2.2f;
-    [Tooltip("스폰 X 좌표 (화면 오른쪽 밖)")]
-    public float spawnX  =  10f;
+    [Header("=== Spawn Position ===")]
+    public float floorY = -2.2f;
+    public float ceilY = 2.2f;
+    public float spawnX = 10f;
 
-    [Header("=== 스폰 간격 ===")]
-    [Tooltip("최초 스폰 간격(초)")]
+    [Header("=== Spawn Interval ===")]
     public float initialInterval = 2.5f;
-    [Tooltip("최소 스폰 간격(초) — 이보다 짧아지지 않음")]
-    public float minInterval     = 0.8f;
+    public float minInterval = 0.8f;
 
-    [Header("=== 난이도 ===")]
-    [Tooltip("가시가 연속으로 같은 쪽에 나올 수 있는 최대 횟수")]
+    [Header("=== Safety ===")]
     public int maxConsecutiveSameSide = 2;
 
-    private float _timer        = 0f;
-    private float _interval     = 2.5f;
-    private int   _lastSide     = -1;  // -1=없음, 0=바닥, 1=천장
-    private int   _consecutiveCnt = 0;
+    [Header("=== Level Pattern Design ===")]
+    [Tooltip("X distance between spikes inside one designed pattern.")]
+    public float patternSpacing = 1.35f;
+    [Tooltip("X distance between floor/ceiling alternating spikes.")]
+    public float alternatingPatternSpacing = 2.35f;
+    [Tooltip("Alternating floor/ceiling patterns start at this level.")]
+    public int alternatingStartLevel = 4;
+    [Tooltip("Same-side spike clusters start at this level.")]
+    public int clusterStartLevel = 6;
+    [Tooltip("Bait patterns start at this level.")]
+    public int baitStartLevel = 8;
+    [Tooltip("Pressure gate patterns start at this level.")]
+    public int gateStartLevel = 10;
+
+    private float _timer = 0f;
+    private float _interval = 2.5f;
+    private int _lastSide = -1;
+    private int _consecutiveCnt = 0;
 
     void Start()
     {
         _interval = initialInterval;
-        _timer    = _interval * 0.5f; // 처음엔 약간 늦게 시작
+        _timer = _interval * 0.5f;
     }
 
     void Update()
@@ -47,11 +50,13 @@ public class SpikeSpawner : MonoBehaviour
         if (Time.timeScale == 0f) return;
         if (spikePrefab == null) return;
 
-        // 속도에 따라 스폰 간격 줄이기
         if (GameManager.Instance != null)
         {
             float speed = GameManager.Instance.CurrentSpeedMultiplier;
-            _interval = Mathf.Max(minInterval, initialInterval / speed);
+            int level = GameManager.Instance.CurrentLevel;
+            float levelMultiplier = Mathf.Pow(0.95f, level);
+
+            _interval = Mathf.Max(minInterval, (initialInterval * levelMultiplier) / speed);
         }
 
         _timer += Time.deltaTime;
@@ -64,42 +69,152 @@ public class SpikeSpawner : MonoBehaviour
 
     void SpawnSpike()
     {
-        // ── 어느 쪽에 스폰할지 결정 ──
-        // 같은 쪽이 연속으로 너무 많이 나오면 반대쪽 강제
-        int side;
-        if (_consecutiveCnt >= maxConsecutiveSameSide)
+        int level = GameManager.Instance != null ? GameManager.Instance.CurrentLevel : 0;
+
+        if (TrySpawnDesignedPattern(level)) return;
+
+        SpawnSingleSpike();
+    }
+
+    bool TrySpawnDesignedPattern(int level)
+    {
+        if (level < alternatingStartLevel) return false;
+
+        float patternChance = Mathf.Clamp01(0.18f + level * 0.055f);
+        if (Random.value > patternChance) return false;
+
+        float roll = Random.value;
+
+        if (level >= gateStartLevel && roll < 0.15f)
         {
-            // 반대쪽 강제
-            side = (_lastSide == 0) ? 1 : 0;
-        }
-        else
-        {
-            side = Random.Range(0, 2); // 0=바닥, 1=천장
+            SpawnPressureGatePattern();
+            PauseBarriersForPattern(1.4f);
+            return true;
         }
 
-        // 연속 카운트 갱신
+        if (level >= baitStartLevel && roll < 0.35f)
+        {
+            SpawnBaitPattern();
+            PauseBarriersForPattern(1.2f);
+            return true;
+        }
+
+        if (level >= clusterStartLevel && roll < 0.55f)
+        {
+            SpawnClusterPattern(level);
+            PauseBarriersForPattern(1.1f);
+            return true;
+        }
+
+        SpawnAlternatingPattern(level);
+        PauseBarriersForPattern(1.35f);
+        return true;
+    }
+
+    void SpawnSingleSpike()
+    {
+        int side;
+        if (_consecutiveCnt >= maxConsecutiveSameSide)
+            side = (_lastSide == 0) ? 1 : 0;
+        else
+            side = Random.Range(0, 2);
+
+        RememberSide(side);
+        CreateSpikeAt(side);
+    }
+
+    void SpawnAlternatingPattern(int level)
+    {
+        int startSide = Random.Range(0, 2);
+        int count = level >= 12 ? Random.Range(3, 5) : 2;
+
+        for (int i = 0; i < count; i++)
+        {
+            int side = (startSide + i) % 2;
+            CreateSpikeAt(side, i * alternatingPatternSpacing);
+        }
+
+        ResetSideMemory();
+    }
+
+    void SpawnClusterPattern(int level)
+    {
+        int side = Random.Range(0, 2);
+        int count = level >= 12 ? Random.Range(3, 5) : Random.Range(2, 4);
+
+        for (int i = 0; i < count; i++)
+        {
+            CreateSpikeAt(side, i * patternSpacing);
+        }
+
+        RememberSide(side);
+    }
+
+    void SpawnBaitPattern()
+    {
+        int baitSide = Random.Range(0, 2);
+        int punishSide = 1 - baitSide;
+
+        CreateSpikeAt(baitSide, 0f);
+        CreateSpikeAt(punishSide, patternSpacing * 1.2f);
+        CreateSpikeAt(punishSide, patternSpacing * 2.2f);
+
+        ResetSideMemory();
+    }
+
+    void SpawnPressureGatePattern()
+    {
+        int pressureSide = Random.Range(0, 2);
+
+        CreateSpikeAt(0, 0f);
+        CreateSpikeAt(1, 0f);
+        CreateSpikeAt(pressureSide, patternSpacing * 1.35f);
+        CreateSpikeAt(pressureSide, patternSpacing * 2.35f);
+
+        ResetSideMemory();
+    }
+
+    void RememberSide(int side)
+    {
         if (side == _lastSide)
+        {
             _consecutiveCnt++;
+        }
         else
         {
             _consecutiveCnt = 1;
             _lastSide = side;
         }
+    }
 
+    void ResetSideMemory()
+    {
+        _lastSide = -1;
+        _consecutiveCnt = 0;
+    }
+
+    void CreateSpikeAt(int side)
+    {
+        CreateSpikeAt(side, 0f);
+    }
+
+    void CreateSpikeAt(int side, float xOffset)
+    {
         float y = (side == 0) ? floorY : ceilY;
-        Vector3 pos = new Vector3(spawnX, y, 0f);
-
-        // 천장 가시는 상하 반전
+        Vector3 pos = new Vector3(spawnX + xOffset, y, 0f);
         Quaternion rot = (side == 1) ? Quaternion.Euler(180f, 0f, 0f) : Quaternion.identity;
-
         Instantiate(spikePrefab, pos, rot);
     }
 
-    // 에디터 Gizmo로 스폰 위치 시각화
+    void PauseBarriersForPattern(float seconds)
+    {
+        BarrierPauseUntil = Mathf.Max(BarrierPauseUntil, Time.time + seconds);
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(new Vector3(spawnX, floorY, 0f), 0.3f);
-        Gizmos.DrawWireSphere(new Vector3(spawnX, ceilY,  0f), 0.3f);
+        Gizmos.DrawWireSphere(new Vector3(spawnX, ceilY, 0f), 0.3f);
     }
 }

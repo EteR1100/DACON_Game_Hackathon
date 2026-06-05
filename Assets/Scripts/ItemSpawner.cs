@@ -1,24 +1,24 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// 아이템 및 데이터 패킷 스포너
+/// ?袁⑹뵠??獄??怨쀬뵠?????땅 ??쎈７??
 /// </summary>
 public class ItemSpawner : MonoBehaviour
 {
-    [Header("프리팹")]
+    [Header("=== Item Prefabs ===")]
     public GameObject packetPrefab;
     public GameObject magnetPrefab;
     public GameObject shieldPrefab;
     public GameObject giantPrefab;
     public GameObject randomPrefab;
 
-    [Header("설정")]
+    [Header("=== Spawn Settings ===")]
     public float minY = -1.5f;
     public float maxY = 1.5f;
     public float spawnX = 10f;
     
-    public float initialInterval = 1.5f; // 아이템은 꽤 자주 나오게
+    public float initialInterval = 1.5f; // ?袁⑹뵠??? ???癒?폒 ??륁궎野?
     public float minInterval = 0.5f;
     
     private float _timer = 0f;
@@ -49,16 +49,28 @@ public class ItemSpawner : MonoBehaviour
 
     void SpawnItem()
     {
-        // 80% 확률로 패킷, 20% 확률로 특수 아이템(자석, 방어막, 거대화, 랜덤상자)
+        int level = GameManager.Instance != null ? GameManager.Instance.CurrentLevel : 0;
+
+        // ???? ?袁⑹뵠???類ｌぇ ?④쑴沅?????
+        // 疫꿸퀡??10% (0.1) ?癒?퐣 ??덇볼??1.5% (0.015) ??筌앹빓?, 筌ㅼ뮆? 25% (0.25)
+        float specialItemChance = Mathf.Min(0.25f, 0.1f + (level * 0.008f));
+        
         GameObject prefabToSpawn = packetPrefab;
         float r = Random.value;
-        if (r > 0.8f)
+
+        if (r < specialItemChance)
         {
+            // ?諭???袁⑹뵠???癒?퐤, 獄쎻뫗堉깍쭕? 椰꾧퀡??? ??뺣쑁?怨몄쁽) 餓???롪돌 ?醫뤾문
             float r2 = Random.value;
             if (r2 < 0.25f) prefabToSpawn = magnetPrefab;
             else if (r2 < 0.5f) prefabToSpawn = shieldPrefab;
             else if (r2 < 0.75f) prefabToSpawn = giantPrefab;
             else prefabToSpawn = randomPrefab;
+        }
+        else
+        {
+            // ???땅(疫꿸퀡?????? ??밴쉐
+            prefabToSpawn = packetPrefab;
         }
 
         if (prefabToSpawn != null)

@@ -16,15 +16,30 @@ public class Collectible : MonoBehaviour
 {
     public CollectibleType type;
     public float baseSpeed = 5f;
+
+    [Header("Floating Motion")]
+    public bool enableFloating = true;
+    public float floatAmplitude = 0.18f;
+    public float floatFrequency = 2.2f;
+    public float packetRotationSpeed = 45f;
+    public float pulseAmount = 0.06f;
+
     private float _destroyX = -12f;
     private Transform _playerTransform;
     private PlayerController _playerController;
     private AudioSource _playerAudioSource;
     private bool _isMagnetized = false;
     private float _magnetSpeed = 15f;
+    private float _baseY;
+    private float _floatSeed;
+    private Vector3 _baseScale;
 
     void Start()
     {
+        _baseY = transform.position.y;
+        _floatSeed = Random.Range(0f, Mathf.PI * 2f);
+        _baseScale = transform.localScale;
+
         var player = GameObject.Find("Player");
         if (player != null)
         {
@@ -87,7 +102,23 @@ public class Collectible : MonoBehaviour
         else
         {
             float speed = baseSpeed * GameSpeedProvider.CurrentMultiplier;
-            transform.Translate(Vector3.left * speed * Time.deltaTime);
+            Vector3 pos = transform.position;
+            pos.x -= speed * Time.deltaTime;
+
+            if (enableFloating)
+            {
+                float wave = Mathf.Sin((Time.time * floatFrequency) + _floatSeed);
+                pos.y = _baseY + wave * floatAmplitude;
+
+                float pulse = 1f + (Mathf.Sin((Time.time * floatFrequency * 1.4f) + _floatSeed) * pulseAmount);
+                transform.localScale = _baseScale * pulse;
+                if (type == CollectibleType.DataPacket)
+                {
+                    transform.Rotate(0f, 0f, packetRotationSpeed * Time.deltaTime);
+                }
+            }
+
+            transform.position = pos;
         }
 
         if (transform.position.x < _destroyX)
