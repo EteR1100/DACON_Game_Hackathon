@@ -364,9 +364,9 @@ public class GamePlayUIController : MonoBehaviour
         if (lblBest != null)
         {
             if (lastScore >= bestScore && lastScore > 0)
-                StartCoroutine(AnimateScore(lblBest, bestScore, "BEST: "));
+                StartCoroutine(AnimateScore(lblBest, bestScore, ""));
             else
-                lblBest.text = "BEST: " + bestScore.ToString("N0");
+                lblBest.text = bestScore.ToString("N0");
         }
         if (lblCoin != null) StartCoroutine(AnimateScore(lblCoin, coins, "", 1.0f));
 

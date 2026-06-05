@@ -37,9 +37,9 @@
         </ui:VisualElement>
 
         <ui:VisualElement class="gameover-button-group">
-            <ui:Button name="RESTART_button" class="gameover-btn btn-restart" text="RESTART" />
-            <ui:Button name="RANK_button" class="gameover-btn btn-rank" text="RANKING" />
-            <ui:Button name="MAIN_button" class="gameover-btn btn-main" text="MAIN MENU" />
+            <ui:Button name="RESTART_button" class="gameover-btn btn-restart" text="처음부터 시작하기" />
+            <ui:Button name="RANK_button" class="gameover-btn btn-rank" text="랭킹 화면" />
+            <ui:Button name="MAIN_button" class="gameover-btn btn-main" text="메인 메뉴" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
