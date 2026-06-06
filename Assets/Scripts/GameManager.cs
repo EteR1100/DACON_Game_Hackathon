@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
 
     [Header("=== Fever Settings ===")]
     [Tooltip("Seconds required to fully charge fever.")]
-    public float feverChargeTime = 30f;
+    public float feverChargeTime = 43f;
     [Tooltip("Fever duration in seconds.")]
     public float feverDuration = 5f;
 

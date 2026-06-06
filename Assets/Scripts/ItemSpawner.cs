@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
@@ -12,6 +12,7 @@ public class ItemSpawner : MonoBehaviour
     public GameObject shieldPrefab;
     public GameObject giantPrefab;
     public GameObject randomPrefab;
+    public GameObject feverBoostPrefab;
 
     [Header("=== Spawn Settings ===")]
     public float minY = -1.5f;
@@ -60,11 +61,11 @@ public class ItemSpawner : MonoBehaviour
 
         if (r < specialItemChance)
         {
-            // ?諭???袁⑹뵠???癒?퐤, 獄쎻뫗堉깍쭕? 椰꾧퀡??? ??뺣쑁?怨몄쁽) 餓???롪돌 ?醫뤾문
             float r2 = Random.value;
-            if (r2 < 0.25f) prefabToSpawn = magnetPrefab;
-            else if (r2 < 0.5f) prefabToSpawn = shieldPrefab;
-            else if (r2 < 0.75f) prefabToSpawn = giantPrefab;
+            if (r2 < 0.2f) prefabToSpawn = magnetPrefab;
+            else if (r2 < 0.4f) prefabToSpawn = shieldPrefab;
+            else if (r2 < 0.6f) prefabToSpawn = giantPrefab;
+            else if (r2 < 0.8f) prefabToSpawn = feverBoostPrefab;
             else prefabToSpawn = randomPrefab;
         }
         else

@@ -45,13 +45,20 @@ public class Spike : MonoBehaviour
 
                 float yDist = Mathf.Abs(transform.position.y - _player.position.y);
 
-                // 충돌 반경(약 0.3)보다 크고 nearMissDistance 이내면 아슬아슬 통과
-                if (yDist > 0.35f && yDist < nearMissDistance)
+                // Calculate dynamic safe distance based on this obstacle's actual size
+                Collider2D col = GetComponent<Collider2D>();
+                float myExtentY = col != null ? col.bounds.extents.y : 0.35f;
+                float playerExtentY = 0.05f; // Player hitbox is very small
+                float safeDist = myExtentY + playerExtentY + 0.05f; // Add tiny padding
+
+                // If the player is outside the collision range but within the near-miss range
+                if (yDist > safeDist && yDist < safeDist + nearMissDistance)
                 {
                     if (GameManager.Instance != null && !GameManager.Instance.IsFeverActive)
                     {
                         GameManager.Instance.AddFever(nearMissFeverAmount);
-                        Debug.Log($"[NearMiss] yDist={yDist:F2} → Fever +{nearMissFeverAmount}");
+                        Debug.Log($"[NearMiss] yDist={yDist:F2} (Safe: {safeDist:F2}) → Fever +{nearMissFeverAmount}");
+                        SpawnGrazeEffect((transform.position + _player.position) * 0.5f);
                     }
                 }
             }
@@ -87,5 +94,51 @@ public class Spike : MonoBehaviour
             // 일반 상태 → 즉시 사망 처리
             if (pc != null) pc.Die();
         }
+    }
+
+    private void SpawnGrazeEffect(Vector3 pos)
+    {
+        // 1. Floating Text
+        GameObject textGO = new GameObject("GrazeText");
+        textGO.transform.position = pos + Vector3.up * 0.5f;
+        
+        var tm = textGO.AddComponent<TextMesh>();
+        tm.text = "GRAZE!";
+        tm.color = new Color(0.2f, 1f, 0.2f); // Neon green
+        tm.fontSize = 40;
+        tm.characterSize = 0.05f;
+        tm.anchor = TextAnchor.MiddleCenter;
+        tm.fontStyle = FontStyle.Bold;
+        
+        var mr = textGO.GetComponent<MeshRenderer>();
+        if (mr != null) mr.sortingOrder = 50;
+
+        textGO.AddComponent<GrazeTextFX>();
+
+        // 2. Simple Spark Particles
+        GameObject sparkGO = new GameObject("GrazeSpark");
+        sparkGO.transform.position = pos;
+        var ps = sparkGO.AddComponent<ParticleSystem>();
+        
+        var main = ps.main;
+        main.startColor = new Color(0.2f, 1f, 0.2f);
+        main.startSize = 0.2f;
+        main.startSpeed = 5f;
+        main.duration = 0.5f;
+        main.loop = false;
+        main.playOnAwake = true;
+
+        var emission = ps.emission;
+        emission.SetBursts(new ParticleSystem.Burst[] { new ParticleSystem.Burst(0, 10) });
+
+        var shape = ps.shape;
+        shape.shapeType = ParticleSystemShapeType.Sphere;
+        shape.radius = 0.1f;
+
+        var psRenderer = sparkGO.GetComponent<ParticleSystemRenderer>();
+        var mat = new Material(Shader.Find("Sprites/Default"));
+        psRenderer.material = mat;
+
+        Destroy(sparkGO, 1f);
     }
 }

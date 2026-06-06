@@ -5,8 +5,10 @@ public class SpikeSpawner : MonoBehaviour
     public static float BarrierPauseUntil { get; private set; }
 
     [Header("=== Prefab ===")]
-    [Tooltip("Spike prefab with Spike.cs attached.")]
-    public GameObject spikePrefab;
+    [Tooltip("Spike prefab for the floor.")]
+    public GameObject spikeFloorPrefab;
+    [Tooltip("Spike prefab for the ceiling.")]
+    public GameObject spikeCeilPrefab;
 
     [Header("=== Spawn Position ===")]
     public float floorY = -2.2f;
@@ -48,7 +50,7 @@ public class SpikeSpawner : MonoBehaviour
     void Update()
     {
         if (Time.timeScale == 0f) return;
-        if (spikePrefab == null) return;
+        if (spikeFloorPrefab == null || spikeCeilPrefab == null) return;
 
         if (GameManager.Instance != null)
         {
@@ -202,8 +204,16 @@ public class SpikeSpawner : MonoBehaviour
     {
         float y = (side == 0) ? floorY : ceilY;
         Vector3 pos = new Vector3(spawnX + xOffset, y, 0f);
-        Quaternion rot = (side == 1) ? Quaternion.Euler(180f, 0f, 0f) : Quaternion.identity;
-        Instantiate(spikePrefab, pos, rot);
+        
+        GameObject prefabToSpawn = (side == 0) ? spikeFloorPrefab : spikeCeilPrefab;
+        // Ceiling spike already points down visually, but we can still rely on the prefab's default rotation.
+        // Usually, side == 1 meant rotating the single spike prefab 180 degrees.
+        // Now that we have dedicated ceiling prefabs, they might be drawn pointing down already!
+        // The images uploaded for ceiling (satellite, arm) are already oriented correctly.
+        // So we don't rotate them 180 degrees.
+        Quaternion rot = Quaternion.identity; 
+        
+        Instantiate(prefabToSpawn, pos, rot);
     }
 
     void PauseBarriersForPattern(float seconds)

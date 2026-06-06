@@ -6,7 +6,8 @@ public enum CollectibleType
     Magnet,
     Shield,
     Giant,
-    Random
+    Random,
+    FeverBoost
 }
 
 /// <summary>
@@ -178,6 +179,7 @@ public class Collectible : MonoBehaviour
             else if (type == CollectibleType.Shield) PlayShieldSound();
             else if (type == CollectibleType.Giant) PlayGiantSound();
             else if (type == CollectibleType.Magnet) PlayMagnetSound();
+            else if (type == CollectibleType.FeverBoost) PlayPacketSound();
 
             // ── 2. 효과 적용 ──
             switch (type)
@@ -193,6 +195,9 @@ public class Collectible : MonoBehaviour
                     break;
                 case CollectibleType.Giant:
                     if (_playerController != null) _playerController.ActivateGiant(5f);
+                    break;
+                case CollectibleType.FeverBoost:
+                    if (GameManager.Instance != null) GameManager.Instance.AddFever(0.1f);
                     break;
                 case CollectibleType.Random:
                     if (_playerController != null)
