@@ -41,6 +41,21 @@ public class Collectible : MonoBehaviour
         _floatSeed = Random.Range(0f, Mathf.PI * 2f);
         _baseScale = transform.localScale;
 
+        // 데이터 패킷 획득을 쉽게 하기 위해 시작 시점에 히트박스(Collider) 대폭 확대
+        if (type == CollectibleType.DataPacket)
+        {
+            var colliders = GetComponents<Collider2D>();
+            foreach (var c in colliders) Destroy(c);
+            
+            var circleCol = gameObject.AddComponent<CircleCollider2D>();
+            circleCol.isTrigger = true;
+            
+            // localScale.x is ~0.133.
+            float desiredWorldRadius = 0.5f; // 너무 컸던 반경을 절반 수준으로 조절 (기존 1.2 -> 0.5)
+            float localScaleX = Mathf.Max(0.01f, transform.localScale.x);
+            circleCol.radius = desiredWorldRadius / localScaleX;
+        }
+
         var player = GameObject.Find("Player");
         if (player != null)
         {

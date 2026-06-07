@@ -38,29 +38,34 @@ public class Spike : MonoBehaviour
         if (!_nearMissChecked && _player != null)
         {
             float playerX = _player.position.x;
-            // 장애물이 플레이어 위치를 지나친 직후 (오른쪽→왼쪽)
-            if (transform.position.x < playerX - 0.1f)
-            {
-                _nearMissChecked = true;
+            float xDist = transform.position.x - playerX;
 
+            // X축 기준으로 플레이어를 스쳐 지나가는 구간 (전후 0.6 범위)
+            if (Mathf.Abs(xDist) < 0.6f)
+            {
                 float yDist = Mathf.Abs(transform.position.y - _player.position.y);
 
-                // Calculate dynamic safe distance based on this obstacle's actual size
                 Collider2D col = GetComponent<Collider2D>();
                 float myExtentY = col != null ? col.bounds.extents.y : 0.35f;
-                float playerExtentY = 0.05f; // Player hitbox is very small
-                float safeDist = myExtentY + playerExtentY + 0.05f; // Add tiny padding
+                float playerExtentY = 0.05f;
+                float safeDist = myExtentY + playerExtentY + 0.05f;
 
-                // If the player is outside the collision range but within the near-miss range
+                // 해당 구간 내에서 Y축 거리가 '아슬아슬한 회피' 조건에 딱 들어맞는 순간 즉시 발동!
                 if (yDist > safeDist && yDist < safeDist + nearMissDistance)
                 {
+                    _nearMissChecked = true;
+
                     if (GameManager.Instance != null && !GameManager.Instance.IsFeverActive)
                     {
                         GameManager.Instance.AddFever(nearMissFeverAmount);
-                        Debug.Log($"[NearMiss] yDist={yDist:F2} (Safe: {safeDist:F2}) → Fever +{nearMissFeverAmount}");
                         SpawnGrazeEffect((transform.position + _player.position) * 0.5f);
                     }
                 }
+            }
+            // 플레이어를 완전히 지나쳤는데도 회피 판정이 안 났다면(거리가 멀거나 맞았거나) 체크 종료
+            else if (xDist < -0.6f)
+            {
+                _nearMissChecked = true;
             }
         }
 
@@ -98,15 +103,19 @@ public class Spike : MonoBehaviour
 
     private void SpawnGrazeEffect(Vector3 pos)
     {
+        // Fever Gauge exact color (#ff003c)
+        Color feverColor;
+        ColorUtility.TryParseHtmlString("#ff003c", out feverColor);
+
         // 1. Floating Text
         GameObject textGO = new GameObject("GrazeText");
         textGO.transform.position = pos + Vector3.up * 0.5f;
         
         var tm = textGO.AddComponent<TextMesh>();
-        tm.text = "GRAZE!";
-        tm.color = new Color(0.2f, 1f, 0.2f); // Neon green
+        tm.text = "GREAT!";
+        tm.color = feverColor;
         tm.fontSize = 40;
-        tm.characterSize = 0.05f;
+        tm.characterSize = 0.06f; // 1.2x larger (0.05 -> 0.06)
         tm.anchor = TextAnchor.MiddleCenter;
         tm.fontStyle = FontStyle.Bold;
         
@@ -120,8 +129,11 @@ public class Spike : MonoBehaviour
         sparkGO.transform.position = pos;
         var ps = sparkGO.AddComponent<ParticleSystem>();
         
+        // 에러 방지를 위해 설정 전 파티클을 멈춥니다.
+        ps.Stop();
+        
         var main = ps.main;
-        main.startColor = new Color(0.2f, 1f, 0.2f);
+        main.startColor = feverColor;
         main.startSize = 0.2f;
         main.startSpeed = 5f;
         main.duration = 0.5f;
@@ -138,6 +150,9 @@ public class Spike : MonoBehaviour
         var psRenderer = sparkGO.GetComponent<ParticleSystemRenderer>();
         var mat = new Material(Shader.Find("Sprites/Default"));
         psRenderer.material = mat;
+
+        // 설정 완료 후 재생
+        ps.Play();
 
         Destroy(sparkGO, 1f);
     }
