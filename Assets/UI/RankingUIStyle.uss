@@ -138,7 +138,7 @@
 }
 
 .list-container {
-    padding: 4px 10px 20px 4px;
+    padding: 4px 10px 140px 4px;
 }
 
 .rank-card {

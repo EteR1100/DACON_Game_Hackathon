@@ -40,9 +40,9 @@
             <ui:VisualElement class="terminal-box">
                 <ui:Label text="SYSTEM.INFO: 조작 방법 안내" class="terminal-header" />
                 <ui:VisualElement class="terminal-content">
-                    <ui:Label text="- 시스템 접근 대기 중..." class="terminal-text" />
                     <ui:Label text="- 클릭 / 스페이스 : 중력 반전" class="terminal-highlight" />
                     <ui:Label text="- 장애물을 피하고 데이터를 수집하라." class="terminal-text" />
+                    <ui:Label text="- 타이밍 맞게 장애물을 피하면 피버 게이지 획득" class="terminal-red" />
                 </ui:VisualElement>
             </ui:VisualElement>
 
