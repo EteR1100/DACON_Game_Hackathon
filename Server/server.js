@@ -82,6 +82,17 @@ app.get('/ranking', async (req, res) => {
     }
 });
 
+// [임시] 데이터베이스 초기화 엔드포인트 - 사용 후 반드시 삭제하세요!
+app.get('/reset-database-danger-zone', async (req, res) => {
+    try {
+        await pool.query('TRUNCATE TABLE rankings RESTART IDENTITY');
+        res.send('<h1>성공: 데이터베이스가 초기화되었습니다.</h1><p>모든 랭킹 데이터가 삭제되었으며, ID가 1번부터 다시 시작됩니다.</p>');
+    } catch (err) {
+        console.error('Reset failed:', err);
+        res.status(500).send('초기화 실패: ' + err.message);
+    }
+});
+
 app.post('/ranking', async (req, res) => {
     const { name, score } = req.body;
 
