@@ -50,8 +50,9 @@ public class Spike : MonoBehaviour
                 float playerExtentY = 0.05f;
                 float safeDist = myExtentY + playerExtentY + 0.05f;
 
-                // 해당 구간 내에서 Y축 거리가 '아슬아슬한 회피' 조건에 딱 들어맞는 순간 즉시 발동!
-                if (yDist > safeDist && yDist < safeDist + nearMissDistance)
+                // 해당 구간 내에서 Y축 거리가 '아슬아슬한 회피' 조건에 딱 들어맞는 순간 즉시 발동! (판정 크기 0.8배 축소)
+                float currentNearMissDist = nearMissDistance * 0.8f;
+                if (yDist > safeDist && yDist < safeDist + currentNearMissDist)
                 {
                     _nearMissChecked = true;
 
@@ -115,7 +116,7 @@ public class Spike : MonoBehaviour
         tm.text = "GREAT!";
         tm.color = feverColor;
         tm.fontSize = 40;
-        tm.characterSize = 0.06f; // 1.2x larger (0.05 -> 0.06)
+        tm.characterSize = 0.072f; // 이전 대비 추가로 1.2배 확대 (0.06 -> 0.072)
         tm.anchor = TextAnchor.MiddleCenter;
         tm.fontStyle = FontStyle.Bold;
         
