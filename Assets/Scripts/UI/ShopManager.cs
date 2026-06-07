@@ -68,12 +68,12 @@ public class ShopManager : MonoBehaviour
     {
         _items.Clear();
         // ID must be unique
-        _items.Add(new ShopItem { ID = "default", Name = "Default Core", Price = 0, Color = new Color(0, 0.95f, 1) });
-        _items.Add(new ShopItem { ID = "crimson", Name = "Crimson Core", Price = 500, Color = new Color(1, 0.2f, 0) });
-        _items.Add(new ShopItem { ID = "solar", Name = "Solar Core", Price = 1000, Color = new Color(1, 0.9f, 0) });
-        _items.Add(new ShopItem { ID = "frost", Name = "Frost Core", Price = 1500, Color = new Color(0, 0.5f, 1) });
-        _items.Add(new ShopItem { ID = "pink", Name = "Neon Pink", Price = 2000, Color = new Color(1, 0, 0.5f) });
-        _items.Add(new ShopItem { ID = "violet", Name = "Violet Core", Price = 3000, Color = new Color(0.5f, 0, 1) });
+        _items.Add(new ShopItem { ID = "default", Name = "Default Core", Price = 25, Color = new Color(0, 0.95f, 1) });
+        _items.Add(new ShopItem { ID = "crimson", Name = "Crimson Core", Price = 25, Color = new Color(1, 0.2f, 0) });
+        _items.Add(new ShopItem { ID = "solar", Name = "Solar Core", Price = 25, Color = new Color(1, 0.9f, 0) });
+        _items.Add(new ShopItem { ID = "frost", Name = "Frost Core", Price = 25, Color = new Color(0, 0.5f, 1) });
+        _items.Add(new ShopItem { ID = "pink", Name = "Neon Pink", Price = 25, Color = new Color(1, 0, 0.5f) });
+        _items.Add(new ShopItem { ID = "violet", Name = "Violet Core", Price = 25, Color = new Color(0.5f, 0, 1) });
 
         // Add ball skins from Resources
         Sprite[] ballSkins = Resources.LoadAll<Sprite>("ball_skin");
@@ -83,7 +83,7 @@ public class ShopManager : MonoBehaviour
             { 
                 ID = "skin_" + sprite.name, 
                 Name = sprite.name.Replace("ball_", "").Replace("_", " "), 
-                Price = 1, 
+                Price = 25, 
                 Sprite = sprite,
                 Color = Color.white 
             });
@@ -93,7 +93,7 @@ public class ShopManager : MonoBehaviour
 
         foreach (var item in _items)
         {
-            if (item.Price == 0) item.IsPurchased = true;
+            if (item.Price == 0 || item.ID == "default") item.IsPurchased = true;
             else item.IsPurchased = PlayerPrefs.GetInt("Purchased_" + item.ID, 0) == 1;
 
             item.IsEquipped = (item.ID == equippedID);
@@ -140,7 +140,7 @@ public class ShopManager : MonoBehaviour
 
     private void UpdateCoinDisplay()
     {
-        int coins = PlayerPrefs.GetInt("Coins", 10000);
+        int coins = PlayerPrefs.GetInt("Coins", 0);
         if (_coinValue != null)
         {
             _coinValue.text = coins.ToString();
@@ -227,7 +227,7 @@ public class ShopManager : MonoBehaviour
 
     private void BuyItem(ShopItem item)
     {
-        int currentCoins = PlayerPrefs.GetInt("Coins", 10000);
+        int currentCoins = PlayerPrefs.GetInt("Coins", 0);
         if (currentCoins >= item.Price)
         {
             currentCoins -= item.Price;
