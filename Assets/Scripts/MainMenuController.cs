@@ -58,10 +58,21 @@ public class MainMenuController : MonoBehaviour
 
         // Register callbacks
         _inputNickname.maxLength = 12;
+        // Setup confirm button
         _btnConfirmNickname.clicked += OnConfirmNicknameClicked;
         _inputNickname.RegisterCallback<KeyDownEvent>(OnNicknameInputKeyDown);
+        
+        // 닉네임 글자수 실시간 업데이트
         _inputNickname.RegisterValueChangedCallback(evt => UpdateNicknameCounter(evt.newValue));
         UpdateNicknameCounter(_inputNickname.value);
+
+        // 닉네임 클릭 시 다시 설정 가능하도록 이벤트 추가
+        _lblNickname.RegisterCallback<ClickEvent>(evt => 
+        {
+            _inputNickname.value = PlayerPrefs.GetString("Nickname", ""); 
+            UpdateNicknameCounter(_inputNickname.value);
+            _nicknamePopup.style.display = DisplayStyle.Flex;
+        });
         
         if (_btnStart != null)
         {
