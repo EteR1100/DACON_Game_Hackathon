@@ -307,7 +307,7 @@
 
 .terminal-red {
     color: #ff0000;
-    font-size: 20px;
+    font-size: 19px;
     -unity-font-style: bold;
     margin-bottom: 12px;
     -unity-text-outline-width: 1px;
